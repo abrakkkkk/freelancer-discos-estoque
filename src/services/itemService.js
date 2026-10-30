@@ -24,7 +24,7 @@ function aplicarFiltroCaixaNaQuery(query, filtroCaixa) {
 
   if (matchNumeroPuro) {
     const numero = matchNumeroPuro[1];
-    return query.in('caixa', [numero, `Caixa ${numero}`, `Caixa ${numero}B`]);
+    return query.in('caixa', [numero, `Caixa ${numero}`]);
   }
 
   return query.eq('caixa', filtroCaixa);

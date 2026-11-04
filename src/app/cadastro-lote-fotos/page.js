@@ -13,7 +13,7 @@ import { loteFotosService } from '@/services/loteFotosService';
 import { parseDiscogsItem } from '@/utils/discogsClient';
 import { normalizeCaixa } from '@/utils/stringUtils';
 import { prepararFoto } from '@/utils/imageUtils';
-import { CATEGORY_IDS } from '@/constants/config';
+import { CATEGORY_IDS, SEM_CAPA } from '@/constants/config';
 
 import AlertMessage from '@/components/AlertMessage';
 import LoteConfigCard from '@/components/LoteConfigCard';
@@ -381,7 +381,7 @@ export default function CadastroLoteFotos() {
           caixa: caixaFinal,
           observacao: observacaoFinal,
           ativo: true,
-          capa_url: item.capaUrl || null,
+          capa_url: item.capaUrl || SEM_CAPA,
         };
 
         const payloadMovimentacao = movimentacaoService.createMovementPayload(

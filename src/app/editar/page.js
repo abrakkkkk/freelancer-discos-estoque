@@ -393,7 +393,7 @@ function EditarExcluirContent() {
       : null;
     const urlCapaEscolhida = selectedCover
       ? selectedCover.cover || selectedCover.thumb
-      : itemEditando?.capa_url || null;
+      : itemEditando?.capa_url ?? null;
 
     const payloadAtualizacao = {
       titulo: form.titulo.trim(),
@@ -402,7 +402,7 @@ function EditarExcluirContent() {
       caixa: caixaNormalizada,
       ano: form.ano?.trim() || null,
       ativo: form.ativo !== false,
-      capa_url: urlCapaEscolhida || null,
+      capa_url: urlCapaEscolhida ?? null,
     };
 
     if (temArtista) {

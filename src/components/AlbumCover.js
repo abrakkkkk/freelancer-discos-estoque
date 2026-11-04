@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { PiVinylRecord, PiDisc } from 'react-icons/pi';
+import { SEM_CAPA } from '@/constants/config';
 
 export const memoryCoverCache = new Map();
 
@@ -44,6 +45,12 @@ export default function AlbumCover({ artista, titulo, ano, id, size = 80, capaUr
       setCoverUrl(capaUrl);
       setLoading(false);
       setAlbumCoverCache(scopedId || id, qKey, capaUrl);
+      return;
+    }
+
+    if (capaUrl === SEM_CAPA) {
+      setCoverUrl(null);
+      setLoading(false);
       return;
     }
 

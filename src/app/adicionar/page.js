@@ -19,7 +19,7 @@ import { useDiscogsSearch } from '@/hooks/useDiscogsSearch';
 import { itemService } from '@/services/itemService';
 import { movimentacaoService } from '@/services/movimentacaoService';
 import { useStore } from '@/contexts/StoreContext';
-import { CATEGORY_IDS, STORE_OPTIONS } from '@/constants/config';
+import { CATEGORY_IDS, STORE_OPTIONS, SEM_CAPA } from '@/constants/config';
 import { formatDiscogsQuery, normalizeCaixa } from '@/utils/stringUtils';
 
 const BarcodeScannerModal = dynamic(() => import('@/components/BarcodeScannerModal'), { ssr: false });
@@ -262,7 +262,7 @@ export default function AdicionarItem() {
       const caixaFinal = form.caixa?.trim()
         ? normalizeCaixa(form.caixa.trim(), form.loja || activeStore)
         : null;
-      const capaEscolhida = selectedCover?.cover || selectedCover?.thumb || null;
+      const capaEscolhida = selectedCover?.cover || selectedCover?.thumb || SEM_CAPA;
 
       let observacaoFinal = form.observacao?.trim() || null;
       if (activeTab === CATEGORY_IDS.DISCOS && (seloPrensagem.trim() || anoPrensagem.trim())) {
@@ -312,8 +312,9 @@ export default function AdicionarItem() {
       );
 
       // Sincronização assíncrona de capa sem bloquear interface
-      if (suportaDiscogs) {
-        const urlCapaParaCache = selectedCover?.cover || selectedCover?.thumb;
+      // Sem capa escolhida não sincroniza: o POST faria uma busca automática e gravaria capa aleatória
+      const urlCapaParaCache = selectedCover?.cover || selectedCover?.thumb;
+      if (suportaDiscogs && urlCapaParaCache) {
         const chaveBuscaCapa = `${(itemPayload.artista || '').trim()} ${(itemPayload.titulo || '').trim()}`.toLowerCase();
 
         if (urlCapaParaCache && typeof window !== 'undefined') {

@@ -16,6 +16,10 @@ export const CATEGORY_IDS = {
   VHS: 'vhs',
 };
 
+// capa_url vazia ('') marca item cadastrado sem capa: mostra o ícone e não busca no Discogs.
+// capa_url null (itens antigos) mantém a busca automática.
+export const SEM_CAPA = '';
+
 export const STORE_OPTIONS = [
   { value: 'Loja 1', label: 'Loja 1', color: '#c53030' },
   { value: 'Loja 2', label: 'Loja 2', color: '#3182ce' },

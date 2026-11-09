@@ -49,9 +49,25 @@ public/audit_screenshots/
 /vitrine
 
 # AI agents & skills
+.agent/
 .agents/
-AGENTS.md
+.gemini/
+.codex/
+.claude/
 CLAUDE.md
+Claude.md
+claude.md
+Claude outputs/
+.impeccable/
+AGENTS.md
+GEMINI.md
+DESIGN.md
+PRODUCT.md
+
+# Logs & IDE
+*.log
+.vscode/
+.idea/
 
 # Scripts, docs & loose files
 scripts/

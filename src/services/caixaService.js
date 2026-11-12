@@ -1,6 +1,6 @@
 import { supabase } from '@/lib/supabase';
 
-const CACHE_TTL_MS = 10 * 60 * 1000; // 10 minutos de retenção em cache
+const CACHE_TTL_MS = 10 * 60 * 1000;
 const STORAGE_PREFIX = 'freelancer_caixas_';
 const TOTAL_PADRAO_CAIXAS_LOJA_1 = 55;
 const TOTAL_PADRAO_CAIXAS_LOJA_2 = 20;
@@ -114,6 +114,12 @@ export const caixaService = {
     return formatAndSortCaixas([], loja);
   },
 
+  _salvarCache(chave, caixas) {
+    this._cacheEmMemoria.set(chave, { timestamp: Date.now(), data: caixas });
+    salvarNoSessionStorage(chave, caixas);
+    return caixas;
+  },
+
   /**
    * Busca caixas e localizações com estratégia de cache em 2 camadas (Memória + SessionStorage)
    * e fallback otimizado via RPC ou paginação paralela no banco
@@ -141,10 +147,7 @@ export const caixaService = {
       });
 
       if (!erroRpc && Array.isArray(dadosRpc)) {
-        const caixasFormatadas = formatAndSortCaixas(dadosRpc, loja);
-        this._cacheEmMemoria.set(chaveCache, { timestamp: Date.now(), data: caixasFormatadas });
-        salvarNoSessionStorage(chaveCache, caixasFormatadas);
-        return caixasFormatadas;
+        return this._salvarCache(chaveCache, formatAndSortCaixas(dadosRpc, loja));
       }
     } catch {
       // RPC não disponível; segue para o fallback de varredura
@@ -188,22 +191,14 @@ export const caixaService = {
     });
 
     const resultadosTabelas = await Promise.all(promessasTabelas);
-    const caixasOrdenadas = formatAndSortCaixas(resultadosTabelas.flat(), loja);
-
-    // Grava nos dois níveis de cache
-    this._cacheEmMemoria.set(chaveCache, { timestamp: Date.now(), data: caixasOrdenadas });
-    salvarNoSessionStorage(chaveCache, caixasOrdenadas);
-
-    return caixasOrdenadas;
+    return this._salvarCache(chaveCache, formatAndSortCaixas(resultadosTabelas.flat(), loja));
   },
 
   /**
    * Invalida caches de memória e sessionStorage quando ocorrem mutações de localização
    */
   invalidateCache() {
-    if (this._cacheEmMemoria) {
-      this._cacheEmMemoria.clear();
-    }
+    this._cacheEmMemoria.clear();
     if (typeof window !== 'undefined') {
       try {
         Object.keys(sessionStorage).forEach((chave) => {

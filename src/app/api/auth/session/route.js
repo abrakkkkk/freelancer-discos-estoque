@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { createSessionToken, SESSION_COOKIE, SESSION_MAX_AGE } from '@/lib/auth-session';
+import { buildSessionCookie, createSessionToken, SESSION_MAX_AGE } from '@/lib/auth-session';
 
 export async function POST(request) {
   const authorization = request.headers.get('authorization') || '';
@@ -31,10 +31,7 @@ export async function POST(request) {
   }
 
   const response = Response.json({ ok: true });
-  response.headers.append(
-    'Set-Cookie',
-    `${SESSION_COOKIE}=${createSessionToken(data.user.id)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${SESSION_MAX_AGE}${process.env.NODE_ENV === 'production' ? '; Secure' : ''}`,
-  );
+  response.headers.append('Set-Cookie', buildSessionCookie(createSessionToken(data.user.id), SESSION_MAX_AGE));
   response.headers.set('Cache-Control', 'no-store');
   return response;
 }

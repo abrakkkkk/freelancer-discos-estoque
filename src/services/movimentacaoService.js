@@ -1,5 +1,5 @@
 import { supabase } from '@/lib/supabase';
-import { createMovementPayload as buildMovementPayload } from '@/utils/movementPayload.mjs';
+import { createMovementPayload as buildMovementPayload, getMovementForeignKey } from '@/utils/movementPayload.mjs';
 
 /**
  * Retorna a data de corte em formato ISO para o período especificado
@@ -30,46 +30,8 @@ function calcularDataInicioPeriodo(filtroPeriodo) {
 }
 
 export const movimentacaoService = {
-  /**
-   * Registra uma única movimentação de entrada ou saída no histórico
-   */
-  async registerMovement(payloadMovimentacao) {
-    const { error } = await supabase.from('movimentacoes').insert(payloadMovimentacao);
-    if (error) throw error;
-  },
-
-  /**
-   * Registra múltiplas movimentações de entrada ou saída em lote
-   */
-  async registerBatchMovements(listaMovimentacoes) {
-    if (!listaMovimentacoes || listaMovimentacoes.length === 0) return;
-
-    // Divide em blocos de 50 para evitar sobrecarga no payload do PostgREST
-    const tamanhoBloco = 50;
-    for (let i = 0; i < listaMovimentacoes.length; i += tamanhoBloco) {
-      const bloco = listaMovimentacoes.slice(i, i + tamanhoBloco);
-      const { error } = await supabase.from('movimentacoes').insert(bloco);
-      if (error) throw error;
-    }
-  },
-
-  /**
-   * Registra observação inicial para um novo disco cadastrado
-   */
-  async registerInitialObservation(dadosObservacao) {
-    const { error } = await supabase.from('observacoes_disco').insert(dadosObservacao);
-    if (error) throw error;
-  },
-
   async addObservation(category, itemId, observation) {
-    const foreignKeyByCategory = {
-      discos: 'disco_id',
-      cds: 'cd_id',
-      dvds: 'dvd_id',
-      vhs: 'vhs_id',
-    };
-    const foreignKey = foreignKeyByCategory[category];
-    if (!foreignKey) throw new Error('Categoria de estoque inválida.');
+    const foreignKey = getMovementForeignKey(category);
 
     const { data, error } = await supabase.rpc('stock_write_transaction', {
       p_action: 'add_observation',

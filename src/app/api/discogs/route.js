@@ -1,15 +1,15 @@
-// Rota de busca Discogs com suporte a q, catno e barcode
+import { discogsSearchUrl, getDiscogsHeaders } from '@/lib/discogs';
+import { normalizeVariousQuery } from '@/utils/stringUtils';
+
+const CACHE_TTL_MS = 30 * 60 * 1000;
+const MAX_CACHE_SIZE = 300;
+const FETCH_TIMEOUT_MS = 12000;
+const memoryCache = new Map();
 
 function normalizeCatno(str) {
   if (!str) return '';
   return str.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
 }
-
-
-// Cache em memória simples no runtime do servidor com TTL de 30 minutos
-const CACHE_TTL_MS = 30 * 60 * 1000;
-const MAX_CACHE_SIZE = 300;
-const memoryCache = new Map();
 
 function getFromCache(key) {
   const item = memoryCache.get(key);
@@ -29,18 +29,11 @@ function setToCache(key, data) {
   memoryCache.set(key, { timestamp: Date.now(), data });
 }
 
-// Timeout de 12 segundos para acomodar picos de latência dos servidores do Discogs
-const FETCH_TIMEOUT_MS = 12000;
-
-async function fetchWithTimeout(url, options = {}) {
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
-  try {
-    const response = await fetch(url, { ...options, signal: controller.signal });
-    return response;
-  } finally {
-    clearTimeout(timeoutId);
-  }
+function fetchDiscogsSearch(params, headers) {
+  return fetch(discogsSearchUrl({ per_page: 15, ...params }), {
+    headers,
+    signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+  });
 }
 
 export async function GET(request) {
@@ -64,24 +57,14 @@ export async function GET(request) {
     });
   }
 
-  const key = process.env.DISCOGS_KEY;
-  const secret = process.env.DISCOGS_SECRET;
-
-  if (!key || !secret) {
+  const headers = getDiscogsHeaders();
+  if (!headers) {
     return Response.json({ error: 'Discogs credentials not configured' }, { status: 500 });
   }
 
-  const headers = {
-    'Authorization': `Discogs key=${key}, secret=${secret}`,
-    'User-Agent': 'FreelancerDiscos/1.0'
-  };
-
   try {
-    // 1. Busca específica por Código de Barras
     if (barcode) {
-      const cleanBarcode = barcode.replace(/[^0-9A-Za-z]/g, '');
-      const url = `https://api.discogs.com/database/search?type=release&per_page=15&barcode=${encodeURIComponent(cleanBarcode)}`;
-      const response = await fetchWithTimeout(url, { headers });
+      const response = await fetchDiscogsSearch({ barcode: barcode.replace(/[^0-9A-Za-z]/g, '') }, headers);
       if (!response.ok) {
         return Response.json({ error: 'Failed to fetch from Discogs' }, { status: response.status });
       }
@@ -94,26 +77,13 @@ export async function GET(request) {
       });
     }
 
-    // 2. Busca por Catálogo ou Termo de Busca (q)
-    const rawSearch = catnoParam || query;
-    let cleanQ = rawSearch.trim();
-
-    // Normaliza variações em português de Vários/Trilha Sonora para Various
-    const isVariousType = /\b(v[aá]rios(\s+artistas)?|trilha\s+sonora(\s+original)?)\b/i.test(cleanQ);
-    if (isVariousType) {
-      cleanQ = cleanQ.replace(/\b(v[aá]rios(\s+artistas)?|trilha\s+sonora(\s+original)?)\b/gi, 'Various').trim();
-    }
-
+    const cleanQ = normalizeVariousQuery(catnoParam || query);
     const normQuery = normalizeCatno(cleanQ);
     const isCatnoSearch = !!catnoParam || /\d/.test(cleanQ);
 
-    // 1 Única Requisição Rápida Principal:
-    // A busca por 'q' varre todos os campos (título, artista e catálogo),
-    // encontra 10x mais edições brasileiras e executa em ~250ms (sem tail latency de requests paralelos).
-    const primaryUrl = `https://api.discogs.com/database/search?type=release&per_page=15&q=${encodeURIComponent(cleanQ)}`;
     let primaryRes = null;
     try {
-      const resp = await fetchWithTimeout(primaryUrl, { headers });
+      const resp = await fetchDiscogsSearch({ q: cleanQ }, headers);
       if (resp.ok) {
         primaryRes = await resp.json();
       }
@@ -123,11 +93,9 @@ export async function GET(request) {
 
     let results = primaryRes?.results || [];
 
-    // Fallback: se 'q' retornou 0 itens e for código de catálogo, tenta busca direta por catno
     if (results.length === 0 && isCatnoSearch) {
-      const fallbackUrl = `https://api.discogs.com/database/search?type=release&per_page=15&catno=${encodeURIComponent(cleanQ)}`;
       try {
-        const fbResp = await fetchWithTimeout(fallbackUrl, { headers });
+        const fbResp = await fetchDiscogsSearch({ catno: cleanQ }, headers);
         if (fbResp.ok) {
           const fbData = await fbResp.json();
           results = fbData?.results || [];
@@ -137,12 +105,10 @@ export async function GET(request) {
       }
     }
 
-    // Ranking de relevância: prioriza edições brasileiras, catálogo exato e vinil
     function calcularScore(item) {
       let score = 0;
       const itemCatno = normalizeCatno(item.catno);
 
-      // Match exato do código de catálogo normalizado
       const isExact = !!(itemCatno && normQuery && itemCatno === normQuery);
       if (isExact) {
         score += 2000;
@@ -150,7 +116,6 @@ export async function GET(request) {
         score += 500;
       }
 
-      // Prioridade para edições brasileiras
       if (item.country === 'Brazil') {
         score += 300;
       }

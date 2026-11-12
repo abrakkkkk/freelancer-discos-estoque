@@ -217,8 +217,7 @@ export default function CoverScannerModal({ isOpen, onClose, onRecognized, onCov
     const cropW = manterQuadroCompleto ? srcW : cropSize;
     const cropH = manterQuadroCompleto ? srcH : cropSize;
 
-    // Mantém o quadro amplo inteiro, ou conserva o recorte quadrado tradicional.
-    const maxDimension = manterQuadroCompleto ? 1024 : 560;
+    const maxDimension = manterQuadroCompleto ? 1024 : 768;
     const scale = Math.min(1, maxDimension / Math.max(cropW, cropH));
     const targetWidth = Math.max(1, Math.round(cropW * scale));
     const targetHeight = Math.max(1, Math.round(cropH * scale));
@@ -232,10 +231,9 @@ export default function CoverScannerModal({ isOpen, onClose, onRecognized, onCov
     ctx.imageSmoothingQuality = 'high';
     ctx.drawImage(origem, cropX, cropY, cropW, cropH, 0, 0, targetWidth, targetHeight);
 
-    // Exporta em JPEG otimizado (0.75) para upload ultraleve e menor uso de CPU
     let base64 = '';
     try {
-      base64 = canvas.toDataURL('image/jpeg', 0.75);
+      base64 = canvas.toDataURL('image/jpeg', 0.85);
     } catch (_) {
       base64 = canvas.toDataURL('image/png');
     }

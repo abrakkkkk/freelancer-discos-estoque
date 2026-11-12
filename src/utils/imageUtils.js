@@ -99,5 +99,3 @@ export async function prepararFoto(file, maxDimension = 560, thumbDimension = 16
     if (decoded) decoded.release();
   }
 }
-
-export { isValidDataUrl };

@@ -1,5 +1,5 @@
-// Rota API Next.js para leitura assistida de codigos de catalogo fonograficos dificeis via Gemini Vision
 import { readAiImage } from '@/lib/ai-image';
+import { classifyAiError, extractGeminiText, geminiGenerateUrl, getGeminiKeys, parseModelJson } from '@/lib/gemini';
 
 const GEMINI_MODELS = [
   'gemini-3.8-flash',
@@ -7,14 +7,8 @@ const GEMINI_MODELS = [
   'gemini-3.6-flash'
 ];
 
-function getGeminiKeys() {
-  const raw = [
-    process.env.GEMINI_API_KEY,
-    process.env.GEMINI_API_KEY_SECONDARY,
-    process.env.GEMINI_API_KEY_BACKUP
-  ].filter(Boolean);
-  return [...new Set(raw.flatMap(k => k.split(',').map(s => s.trim()).filter(Boolean)))];
-}
+const GROQ_TIMEOUT_MS = 4000;
+const GEMINI_TIMEOUT_MS = 25000;
 
 export async function POST(request) {
   try {
@@ -58,7 +52,6 @@ Regras obrigatórias:
     let rawText = null;
     let lastError = null;
 
-    // 1. TENTATIVA PRIORITÁRIA: Groq Vision (qwen/qwen3.8-27b - ultra-rápido ~800ms)
     if (groqKey) {
       try {
         const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -88,7 +81,7 @@ Regras obrigatórias:
             max_tokens: 50,
             temperature: 0
           }),
-          signal: AbortSignal.timeout(4000)
+          signal: AbortSignal.timeout(GROQ_TIMEOUT_MS)
         });
 
         if (groqRes.ok) {
@@ -105,7 +98,6 @@ Regras obrigatórias:
       }
     }
 
-    // 2. FALLBACK AUTOMÁTICO: Google Gemini Vision
     if (!rawText && geminiKeys.length > 0) {
       keysLoop: for (const key of geminiKeys) {
         for (const model of GEMINI_MODELS) {
@@ -127,7 +119,7 @@ Regras obrigatórias:
                     { text: systemPrompt },
                     {
                       inlineData: {
-                        mimeType: mimeType,
+                        mimeType,
                         data: base64Data
                       }
                     }
@@ -137,29 +129,21 @@ Regras obrigatórias:
               generationConfig
             };
 
-            const timeoutMs = 25000;
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
-            const res = await fetch(url, {
+            const res = await fetch(geminiGenerateUrl(model, key), {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(payload),
-              signal: AbortSignal.timeout(timeoutMs)
+              signal: AbortSignal.timeout(GEMINI_TIMEOUT_MS)
             });
 
             const data = await res.json();
             if (res.ok) {
-              const parts = data.candidates?.[0]?.content?.parts || [];
-              rawText = parts.map(p => p.text).filter(Boolean).join('\n').trim();
+              rawText = extractGeminiText(data);
               if (rawText) break keysLoop;
             } else {
               lastError = data.error?.message || `Erro ${res.status}`;
               console.warn(`Tentativa Gemini OCR com ${model} falhou (${res.status}): ${lastError}`);
-              if (res.status === 429) {
-                break;
-              }
-              if (res.status === 404 || res.status === 503 || res.status === 400) {
-                continue;
-              } else {
+              if (![400, 404, 503].includes(res.status)) {
                 break;
               }
             }
@@ -172,13 +156,12 @@ Regras obrigatórias:
     }
 
     if (!rawText) {
-      const isQuota = typeof lastError === 'string' && (lastError.includes('quota') || lastError.includes('429') || lastError.includes('RESOURCE_EXHAUSTED') || lastError.includes('rate_limit'));
-      const isTimeout = typeof lastError === 'string' && (lastError.includes('timeout') || lastError.includes('aborted'));
+      const errorKind = classifyAiError(lastError);
 
       let friendlyError = `Não foi possível ler o código com IA: ${lastError || 'Serviço indisponível'}`;
-      if (isQuota) {
+      if (errorKind === 'quota') {
         friendlyError = 'Limite temporário de requisições da IA atingido. Aguarde alguns instantes.';
-      } else if (isTimeout) {
+      } else if (errorKind === 'timeout') {
         friendlyError = 'Tempo limite de leitura esgotado. Tente aproximar a câmera da lombada.';
       }
 
@@ -188,13 +171,8 @@ Regras obrigatórias:
       );
     }
 
-
-    let parsed = null;
-    try {
-      const jsonMatch = rawText.match(/\{[\s\S]*\}/);
-      const toParse = jsonMatch ? jsonMatch[0] : rawText.replace(/```json/g, '').replace(/```/g, '').trim();
-      parsed = JSON.parse(toParse);
-    } catch {
+    let parsed = parseModelJson(rawText);
+    if (!parsed) {
       const codigoMatch = rawText.match(/"codigo"\s*:\s*"([^"]*)"/i);
       const confiancaMatch = rawText.match(/"confianca"\s*:\s*"([^"]*)"/i);
       if (codigoMatch) {
@@ -210,7 +188,7 @@ Regras obrigatórias:
       }
     }
 
-    const codigoLimpo = (parsed?.codigo || '').trim();
+    const codigoLimpo = String(parsed?.codigo ?? '').trim();
 
     return Response.json({
       success: true,

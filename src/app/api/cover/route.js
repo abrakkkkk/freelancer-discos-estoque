@@ -1,18 +1,11 @@
 import fs from 'fs';
 import path from 'path';
+import { discogsSearchUrl, getDiscogsHeaders } from '@/lib/discogs';
+import { normalizeVariousQuery } from '@/utils/stringUtils';
 
-// Timeout para requests ao Discogs (evita travar a rota)
 const COVER_FETCH_TIMEOUT_MS = 6000;
-
-async function fetchWithTimeout(url, options = {}) {
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), COVER_FETCH_TIMEOUT_MS);
-  try {
-    return await fetch(url, { ...options, signal: controller.signal });
-  } finally {
-    clearTimeout(timeoutId);
-  }
-}
+const HIT_CACHE_CONTROL = 'public, max-age=86400, s-maxage=2592000, stale-while-revalidate=86400';
+const MISS_CACHE_CONTROL = 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=3600';
 
 const PRIMARY_CACHE_FILE = path.resolve(process.cwd(), '.cache/covers_cache.json');
 const LEGACY_CACHE_FILE = path.resolve(process.cwd(), 'src/data/covers_cache.json');
@@ -24,7 +17,7 @@ try {
   } else if (fs.existsSync(LEGACY_CACHE_FILE)) {
     initialCovers = JSON.parse(fs.readFileSync(LEGACY_CACHE_FILE, 'utf-8'));
   }
-} catch (_) {}
+} catch {}
 
 const runtimeMemoryCache = new Map(Object.entries(initialCovers || {}));
 
@@ -36,7 +29,6 @@ let saveDebounceTimer = null;
 let isSavingCache = false;
 
 function scheduleSaveCache() {
-  // Apenas grava em disco no ambiente de desenvolvimento local (fora da Vercel / serverless)
   if (process.env.NODE_ENV === 'production' || process.env.VERCEL) return;
 
   if (saveDebounceTimer) {
@@ -50,14 +42,10 @@ function scheduleSaveCache() {
     }
     isSavingCache = true;
     try {
-      const dir = path.dirname(PRIMARY_CACHE_FILE);
-      if (!fs.existsSync(dir)) {
-        await fs.promises.mkdir(dir, { recursive: true });
-      }
+      await fs.promises.mkdir(path.dirname(PRIMARY_CACHE_FILE), { recursive: true });
       const currentCacheObj = Object.fromEntries(runtimeMemoryCache);
       await fs.promises.writeFile(PRIMARY_CACHE_FILE, JSON.stringify(currentCacheObj, null, 2), 'utf-8');
-    } catch (_) {
-      // Ignora silenciosamente erros de gravação em disco
+    } catch {
     } finally {
       isSavingCache = false;
     }
@@ -74,71 +62,83 @@ function deleteFromCache(key) {
   scheduleSaveCache();
 }
 
-function normalizeSearchQuery(str) {
-  if (!str) return '';
-  return str
-    .replace(/\b(v[aá]rios(\s+artistas)?|trilha\s+sonora(\s+original)?)\b/gi, 'Various')
-    .trim();
+function resolveCacheKeys({ id, tipo, rawQ, ano }) {
+  const q = normalizeVariousQuery(rawQ);
+  const cleanAno = ano && String(ano) !== 'null' ? String(ano).trim() : '';
+  const rawId = id ? String(id) : '';
+  return {
+    q,
+    cleanAno,
+    qKey: `${q} ${cleanAno}`.trim().toLowerCase(),
+    scopedId: rawId && tipo ? `${tipo}_${rawId}` : rawId,
+    legacyId: rawId && (!tipo || tipo === 'discos') ? rawId : '',
+  };
 }
 
-async function searchDiscogsCover(rawQ, cleanAno, key, secret) {
-  const normQ = normalizeSearchQuery(rawQ);
-  const headers = {
-    'Authorization': `Discogs key=${key}, secret=${secret}`,
-    'User-Agent': 'FreelancerDiscos/1.0',
-  };
+function cacheUnderIds(keys, payload) {
+  if (keys.scopedId) setToCache(keys.scopedId, payload);
+  if (keys.legacyId) setToCache(keys.legacyId, payload);
+}
 
-  // 1. Busca padrão com ano (se houver)
-  let url = `https://api.discogs.com/database/search?type=release&per_page=5&q=${encodeURIComponent(normQ)}`;
-  if (cleanAno) url += `&year=${encodeURIComponent(cleanAno)}`;
+function cacheUnderAllKeys(keys, payload) {
+  cacheUnderIds(keys, payload);
+  if (keys.qKey) setToCache(keys.qKey, payload);
+}
 
+function hasImage(entry) {
+  return Boolean(entry && (entry.cover || entry.thumb));
+}
+
+function cachedHit(entry, tag) {
+  return Response.json(entry, { headers: { 'Cache-Control': HIT_CACHE_CONTROL, 'X-Cache': tag } });
+}
+
+function toCoverPayload(result, keys) {
+  const thumb = result?.thumb || null;
+  const cover = result?.cover_image || thumb;
+  return { cover, thumb, q: keys.qKey, ano: keys.cleanAno };
+}
+
+async function searchReleases(params, headers) {
   try {
-    const res = await fetchWithTimeout(url, { headers });
-    if (res.ok) {
-      const data = await res.json();
-      if (data.results && data.results.length > 0) {
-        const item = data.results.find(r => r.cover_image || r.thumb) || data.results[0];
-        if (item) return item;
-      }
-    }
-  } catch (_) {}
+    const res = await fetch(discogsSearchUrl({ per_page: 5, ...params }), {
+      headers,
+      signal: AbortSignal.timeout(COVER_FETCH_TIMEOUT_MS),
+    });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data.results || [];
+  } catch {
+    return [];
+  }
+}
 
-  // 2. Fallback sem ano
-  if (cleanAno) {
-    try {
-      const fallbackUrl = `https://api.discogs.com/database/search?type=release&per_page=5&q=${encodeURIComponent(normQ)}`;
-      const fallbackRes = await fetchWithTimeout(fallbackUrl, { headers });
-      if (fallbackRes.ok) {
-        const fallbackData = await fallbackRes.json();
-        if (fallbackData.results && fallbackData.results.length > 0) {
-          const item = fallbackData.results.find(r => r.cover_image || r.thumb) || fallbackData.results[0];
-          if (item) return item;
-        }
-      }
-    } catch (_) {}
+function findWithImage(results) {
+  return results.find((release) => release.cover_image || release.thumb);
+}
+
+async function searchDiscogsCover(q, ano, headers) {
+  const attempts = ano ? [{ q, year: ano }, { q }] : [{ q }];
+  for (const params of attempts) {
+    const results = await searchReleases(params, headers);
+    if (results.length > 0) return findWithImage(results) || results[0];
   }
 
-  // 3. Smart Fallback para trilhas/coletâneas: busca por título limpo sem Various e sem ruídos de novela
-  if (/^various\s+/i.test(normQ)) {
-    const titleOnly = normQ.replace(/^various\s+/i, '').trim();
-    const cleanTitle = titleOnly
+  if (/^various\s+/i.test(q)) {
+    const cleanTitle = q
+      .replace(/^various\s+/i, '')
+      .trim()
       .replace(/\s*\(.*?\)/g, '')
       .replace(/\s*-\s*(nacional|internacional|volume\s*\d+|vol\.?\s*\d+)/gi, '')
       .replace(/:.*$/, '')
       .trim();
 
-    if (cleanTitle && cleanTitle.length >= 3) {
-      try {
-        const titleUrl = `https://api.discogs.com/database/search?type=release&per_page=5&country=Brazil&q=${encodeURIComponent(cleanTitle)}`;
-        const titleRes = await fetchWithTimeout(titleUrl, { headers });
-        if (titleRes.ok) {
-          const titleData = await titleRes.json();
-          const match = titleData.results?.find(r => r.title?.toLowerCase().includes('various') && (r.cover_image || r.thumb))
-            || titleData.results?.find(r => r.cover_image || r.thumb)
-            || titleData.results?.[0];
-          if (match) return match;
-        }
-      } catch (_) {}
+    if (cleanTitle.length >= 3) {
+      const results = await searchReleases({ country: 'Brazil', q: cleanTitle }, headers);
+      const match = results.find((release) => release.title?.toLowerCase().includes('various') && (release.cover_image || release.thumb))
+        || findWithImage(results)
+        || results[0];
+      if (match) return match;
     }
   }
 
@@ -147,164 +147,88 @@ async function searchDiscogsCover(rawQ, cleanAno, key, secret) {
 
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
-  const rawQ = searchParams.get('q') || '';
   const id = searchParams.get('id') || '';
-  const tipo = searchParams.get('tipo') || searchParams.get('category') || '';
-  const ano = searchParams.get('ano') || searchParams.get('year') || '';
   const refresh = searchParams.get('refresh') === 'true';
-
-  const q = normalizeSearchQuery(rawQ);
-  const cleanAno = ano && String(ano) !== 'null' ? String(ano).trim() : '';
-  const qFull = `${q} ${cleanAno}`.trim();
-  const qKey = qFull.toLowerCase();
-  const scopedId = id ? (tipo ? `${tipo}_${id}` : String(id)) : '';
-  const rawId = id ? String(id) : '';
+  const keys = resolveCacheKeys({
+    id,
+    tipo: searchParams.get('tipo') || searchParams.get('category') || '',
+    rawQ: searchParams.get('q') || '',
+    ano: searchParams.get('ano') || searchParams.get('year') || '',
+  });
+  const { q, qKey } = keys;
 
   if (!refresh) {
-    // 1. Se tem id, verifica primeiro o cache com namespace do tipo
-    if (scopedId) {
-      const cachedByScopedId = getFromCache(scopedId);
-      if (cachedByScopedId && (cachedByScopedId.cover || cachedByScopedId.thumb)) {
-        const isSameQuery = !cachedByScopedId.q || !qKey || cachedByScopedId.q.toLowerCase() === qKey;
-        if (isSameQuery) {
-          return Response.json(cachedByScopedId, {
-            headers: {
-              'Cache-Control': 'public, max-age=86400, s-maxage=2592000, stale-while-revalidate=86400',
-              'X-Cache': 'HIT-ID',
-            },
-          });
-        }
+    const idLookups = [[keys.scopedId, 'HIT-ID'], [keys.legacyId, 'HIT-RAW-ID']];
+    for (const [key, tag] of idLookups) {
+      const cached = key ? getFromCache(key) : null;
+      if (hasImage(cached) && (!cached.q || !qKey || cached.q.toLowerCase() === qKey)) {
+        return cachedHit(cached, tag);
       }
     }
 
-    // Fallback legado para o ID cru apenas se for discos ou tipo não especificado
-    if (rawId && (!tipo || tipo === 'discos')) {
-      const cachedById = getFromCache(rawId);
-      if (cachedById && (cachedById.cover || cachedById.thumb)) {
-        const isSameQuery = !cachedById.q || !qKey || cachedById.q.toLowerCase() === qKey;
-        if (isSameQuery) {
-          return Response.json(cachedById, {
-            headers: {
-              'Cache-Control': 'public, max-age=86400, s-maxage=2592000, stale-while-revalidate=86400',
-              'X-Cache': 'HIT-RAW-ID',
-            },
-          });
-        }
-      }
-    }
-
-    // 2. Verifica se há cache com imagem válida pela query do texto (artista + título + ano)
-    if (qKey) {
-      const cachedByQ = getFromCache(qKey);
-      if (cachedByQ && (cachedByQ.cover || cachedByQ.thumb)) {
-        if (scopedId) setToCache(scopedId, { ...cachedByQ, q: qKey });
-        if (rawId && (!tipo || tipo === 'discos')) setToCache(rawId, { ...cachedByQ, q: qKey });
-        return Response.json(cachedByQ, {
-          headers: {
-            'Cache-Control': 'public, max-age=86400, s-maxage=2592000, stale-while-revalidate=86400',
-            'X-Cache': 'HIT-Q',
-          },
-        });
-      }
+    const cachedByQ = qKey ? getFromCache(qKey) : null;
+    if (hasImage(cachedByQ)) {
+      cacheUnderIds(keys, { ...cachedByQ, q: qKey });
+      return cachedHit(cachedByQ, 'HIT-Q');
     }
   }
 
   if (!q && !id) {
     return Response.json({ cover: null, thumb: null }, {
-      headers: {
-        'Cache-Control': 'public, max-age=3600, s-maxage=86400',
-      },
+      headers: { 'Cache-Control': 'public, max-age=3600, s-maxage=86400' },
     });
   }
 
-  const key = process.env.DISCOGS_KEY;
-  const secret = process.env.DISCOGS_SECRET;
-
-  if (!key || !secret) {
+  const headers = getDiscogsHeaders();
+  if (!headers) {
     return Response.json({ cover: null, thumb: null }, {
-      headers: {
-        'Cache-Control': 'no-store',
-      },
+      headers: { 'Cache-Control': 'no-store' },
     });
   }
 
   try {
-    const result = await searchDiscogsCover(q, cleanAno, key, secret);
-    const thumb = result?.thumb || null;
-    const cover = result?.cover_image || thumb || null;
-
-    const payload = { cover, thumb, q: qKey, ano: cleanAno };
-    if (cover || thumb) {
-      if (scopedId) setToCache(scopedId, payload);
-      if (rawId && (!tipo || tipo === 'discos')) setToCache(rawId, payload);
-      if (qKey) setToCache(qKey, payload);
-    }
-
-    const cacheControlHeader = (cover || thumb)
-      ? 'public, max-age=86400, s-maxage=2592000, stale-while-revalidate=86400'
-      : 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=3600';
+    const payload = toCoverPayload(await searchDiscogsCover(q, keys.cleanAno, headers), keys);
+    const found = hasImage(payload);
+    if (found) cacheUnderAllKeys(keys, payload);
 
     return Response.json(payload, {
       headers: {
-        'Cache-Control': refresh ? 'no-cache, no-store' : cacheControlHeader,
+        'Cache-Control': refresh ? 'no-cache, no-store' : (found ? HIT_CACHE_CONTROL : MISS_CACHE_CONTROL),
         'X-Cache': 'MISS',
       },
     });
   } catch (err) {
     console.error('Discogs cover fetch error:', err);
     return Response.json({ cover: null, thumb: null }, {
-      headers: {
-        'Cache-Control': 'public, max-age=300, s-maxage=600',
-      },
+      headers: { 'Cache-Control': 'public, max-age=300, s-maxage=600' },
     });
   }
 }
 
 export async function POST(request) {
   try {
-    const body = await request.json();
-    const { id, tipo = '', artista = '', titulo = '', ano = '', cover, thumb } = body;
+    const { id, tipo = '', artista = '', titulo = '', ano = '', cover, thumb } = await request.json();
+    const keys = resolveCacheKeys({ id, tipo, rawQ: `${artista || ''} ${titulo || ''}`.trim(), ano });
 
-    const cleanAno = ano && String(ano) !== 'null' ? String(ano).trim() : '';
-    const scopedId = id ? (tipo ? `${tipo}_${id}` : String(id)) : '';
-    const rawId = id ? String(id) : '';
-    const rawQ = `${artista || ''} ${titulo || ''}`.trim();
-    const q = normalizeSearchQuery(rawQ);
-    const qFull = `${q} ${cleanAno}`.trim();
-    const qKey = qFull.toLowerCase();
-
-    // Se o cliente forneceu diretamente a imagem (ex: escolheu no dropdown Discogs)
     if (cover || thumb) {
-      const payload = { cover: cover || thumb, thumb: thumb || cover, q: qKey, ano: cleanAno };
-      if (scopedId) setToCache(scopedId, payload);
-      if (rawId && (!tipo || tipo === 'discos')) setToCache(rawId, payload);
-      if (qKey) setToCache(qKey, payload);
+      const payload = { cover: cover || thumb, thumb: thumb || cover, q: keys.qKey, ano: keys.cleanAno };
+      cacheUnderAllKeys(keys, payload);
       return Response.json({ success: true, ...payload });
     }
 
-    if (!q) {
+    if (!keys.q) {
       const emptyPayload = { cover: null, thumb: null, q: '' };
-      if (scopedId) setToCache(scopedId, emptyPayload);
-      if (rawId && (!tipo || tipo === 'discos')) setToCache(rawId, emptyPayload);
+      cacheUnderIds(keys, emptyPayload);
       return Response.json({ success: true, ...emptyPayload });
     }
 
-    const key = process.env.DISCOGS_KEY;
-    const secret = process.env.DISCOGS_SECRET;
-
-    if (!key || !secret) {
+    const headers = getDiscogsHeaders();
+    if (!headers) {
       return Response.json({ error: 'Credenciais Discogs não configuradas' }, { status: 500 });
     }
 
-    const result = await searchDiscogsCover(q, cleanAno, key, secret);
-    const newThumb = result?.thumb || null;
-    const newCover = result?.cover_image || newThumb || null;
-
-    const payload = { cover: newCover, thumb: newThumb, q: qKey, ano: cleanAno };
-    if (scopedId) setToCache(scopedId, payload);
-    if (rawId && (!tipo || tipo === 'discos')) setToCache(rawId, payload);
-    if (qKey) setToCache(qKey, payload);
-
+    const payload = toCoverPayload(await searchDiscogsCover(keys.q, keys.cleanAno, headers), keys);
+    cacheUnderAllKeys(keys, payload);
     return Response.json({ success: true, ...payload });
   } catch (err) {
     console.error('Erro no POST /api/cover:', err);

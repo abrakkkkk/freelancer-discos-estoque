@@ -37,59 +37,32 @@ export async function exportarEstoqueCompleto(filtroLoja = '') {
   const formataStatus = (ativo) => ativo !== false ? 'Ativo (Em Estoque)' : 'Inativo (Saída/Vendido)';
   const formataPreco = (preco) => preco ? `R$ ${Number(preco).toFixed(2).replace('.', ',')}` : 'R$ 0,00';
 
-  const discosData = discos?.map(d => ({
-    'Localização': d.caixa || '-',
-    'Artista': d.artista || '-',
-    'Título': d.titulo || '-',
-    'Ano': d.ano || '-',
-    'Loja': d.loja || '-',
-    'Preço': formataPreco(d.preco),
-    'Status': formataStatus(d.ativo)
-  })) || [];
+  const toRow = (item, comArtista) => ({
+    'Localização': item.caixa || '-',
+    ...(comArtista && { 'Artista': item.artista || '-' }),
+    'Título': item.titulo || '-',
+    'Ano': item.ano || '-',
+    'Loja': item.loja || '-',
+    'Preço': formataPreco(item.preco),
+    'Status': formataStatus(item.ativo)
+  });
 
-  const dvdsData = dvds?.map(d => ({
-    'Localização': d.caixa || '-',
-    'Título': d.titulo || '-',
-    'Ano': d.ano || '-',
-    'Loja': d.loja || '-',
-    'Preço': formataPreco(d.preco),
-    'Status': formataStatus(d.ativo)
-  })) || [];
+  const colunasComArtista = [{wch: 15}, {wch: 35}, {wch: 45}, {wch: 10}, {wch: 15}, {wch: 12}, {wch: 25}];
+  const colunasSemArtista = [{wch: 15}, {wch: 45}, {wch: 10}, {wch: 15}, {wch: 12}, {wch: 25}];
 
-  const cdsData = cds?.map(d => ({
-    'Localização': d.caixa || '-',
-    'Artista': d.artista || '-',
-    'Título': d.titulo || '-',
-    'Ano': d.ano || '-',
-    'Loja': d.loja || '-',
-    'Preço': formataPreco(d.preco),
-    'Status': formataStatus(d.ativo)
-  })) || [];
-
-  const vhsData = vhs?.map(d => ({
-    'Localização': d.caixa || '-',
-    'Título': d.titulo || '-',
-    'Ano': d.ano || '-',
-    'Loja': d.loja || '-',
-    'Preço': formataPreco(d.preco),
-    'Status': formataStatus(d.ativo)
-  })) || [];
+  const planilhas = [
+    { nome: 'Discos de Vinil', itens: discos, comArtista: true },
+    { nome: 'DVDs', itens: dvds, comArtista: false },
+    { nome: 'CDs', itens: cds, comArtista: true },
+    { nome: 'VHS', itens: vhs, comArtista: false },
+  ];
 
   const wb = XLSX.utils.book_new();
-  const wsDiscos = XLSX.utils.json_to_sheet(discosData);
-  const wsDvds = XLSX.utils.json_to_sheet(dvdsData);
-  const wsCds = XLSX.utils.json_to_sheet(cdsData);
-  const wsVhs = XLSX.utils.json_to_sheet(vhsData);
-
-  wsDiscos['!cols'] = [{wch: 15}, {wch: 35}, {wch: 45}, {wch: 10}, {wch: 15}, {wch: 12}, {wch: 25}];
-  wsDvds['!cols'] = [{wch: 15}, {wch: 45}, {wch: 10}, {wch: 15}, {wch: 12}, {wch: 25}];
-  wsCds['!cols'] = [{wch: 15}, {wch: 35}, {wch: 45}, {wch: 10}, {wch: 15}, {wch: 12}, {wch: 25}];
-  wsVhs['!cols'] = [{wch: 15}, {wch: 45}, {wch: 10}, {wch: 15}, {wch: 12}, {wch: 25}];
-
-  XLSX.utils.book_append_sheet(wb, wsDiscos, "Discos de Vinil");
-  XLSX.utils.book_append_sheet(wb, wsDvds, "DVDs");
-  XLSX.utils.book_append_sheet(wb, wsCds, "CDs");
-  XLSX.utils.book_append_sheet(wb, wsVhs, "VHS");
+  planilhas.forEach(({ nome, itens, comArtista }) => {
+    const ws = XLSX.utils.json_to_sheet(itens.map((item) => toRow(item, comArtista)));
+    ws['!cols'] = comArtista ? colunasComArtista : colunasSemArtista;
+    XLSX.utils.book_append_sheet(wb, ws, nome);
+  });
 
   const hoje = new Date().toLocaleDateString('pt-BR').replace(/\//g, '-');
   const suffix = filtroLoja ? `_${filtroLoja.replace(/\s+/g, '_')}` : '';

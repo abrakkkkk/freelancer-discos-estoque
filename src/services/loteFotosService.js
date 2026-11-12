@@ -50,7 +50,6 @@ export const loteFotosService = {
    */
   async enriquecerComDiscogs(artistaGemini, tituloGemini, anoGemini) {
     let discogsMatch = null;
-    let seloDetectado = '';
     const termoBusca = [artistaGemini, tituloGemini].filter(Boolean).join(' ');
 
     if (termoBusca.trim()) {

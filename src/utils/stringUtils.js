@@ -7,6 +7,11 @@ export function removeAcentos(texto) {
     .toLowerCase();
 }
 
+export function normalizeVariousQuery(texto) {
+  if (!texto) return '';
+  return texto.replace(/\b(v[aá]rios(\s+artistas)?|trilha\s+sonora(\s+original)?)\b/gi, 'Various').trim();
+}
+
 export function normalizeCaixa(caixa, loja = '') {
   if (!caixa) return '';
   const str = String(caixa).trim();
@@ -47,17 +52,12 @@ export function formatCaixa(caixa, loja) {
   const str = String(caixa).trim();
   if (!str) return '—';
 
-  // Se for "5b", "19b", "5B", etc.
-  const matchB = str.match(/^(\d+)\s*b$/i);
+  const matchB = str.match(/^(?:caixa\s+)?(\d+)\s*b$/i);
   if (matchB) {
     return `Caixa ${matchB[1]}B`;
   }
 
   if (str.toLowerCase().startsWith('caixa ')) {
-    const matchCaixaB = str.match(/^caixa\s*(\d+)\s*b$/i);
-    if (matchCaixaB) {
-      return `Caixa ${matchCaixaB[1]}B`;
-    }
     return str;
   }
 
@@ -113,8 +113,7 @@ export function formatDiscogsQuery(artista, titulo) {
   return `${art} - ${tit}`;
 }
 
-
-export const MUSIC_STOP_WORDS = new Set([
+const MUSIC_STOP_WORDS = new Set([
   // Artigos e preposições (Inglês)
   'the', 'a', 'an', 'and', 'of',
   // Artigos e preposições (Português)
@@ -128,69 +127,98 @@ export const MUSIC_STOP_WORDS = new Set([
   'feat', 'ft', 'featuring', 'vs', 'part'
 ]);
 
-/**
- * Extrai tokens inteligentes de pesquisa fonográfica.
- * Remove pontuações ruidosas (como '-', ':', '()') e separa palavras de conteúdo de artigos/stop words.
- */
+const SEARCH_NOISE = /[-–—:()/\_\\*~!?[\]+"',.;&]/g;
+
+const ACCENT_CLASSES = {
+  a: '[aáàâãäÁÀÂÃÄ]',
+  e: '[eéèêëÉÈÊË]',
+  i: '[iíìîïÍÌÎÏ]',
+  o: '[oóòôõöÓÒÔÕÖ]',
+  u: '[uúùûüÚÙÛÜ]',
+  c: '[cçÇ]',
+  n: '[nñÑ]',
+  y: '[yýÿÝ]',
+};
+
+export function accentInsensitivePattern(palavra) {
+  return [...removeAcentos(palavra)]
+    .map((letra) => ACCENT_CLASSES[letra] || (/[a-z0-9]/.test(letra) ? letra : '.'))
+    .join('');
+}
+
+const normalizeForMatch = (texto) => removeAcentos(texto).replace(SEARCH_NOISE, ' ').replace(/\s+/g, ' ').trim();
+const escapeRegExp = (texto) => texto.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
 export function extractSearchTokens(queryStr) {
-  if (!queryStr) return { allWords: [], contentWords: [], effectiveWords: [] };
+  if (!queryStr) return { allWords: [], contentWords: [], effectiveWords: [], accentedWords: [] };
 
-  const clean = removeAcentos(queryStr)
-    .replace(/[-–—:()/\_\\*~!?[\]+"',.;&]/g, ' ')
-    .trim();
-
-  const allWords = clean.split(/\s+/).filter(Boolean);
+  const allWords = normalizeForMatch(queryStr).split(' ').filter(Boolean);
   const contentWords = allWords.filter(w => !MUSIC_STOP_WORDS.has(w) && w.length >= 2);
-
-  // Se houver palavras de conteúdo (ex: "jacksons", "victory"), elas guiam a busca.
-  // Se a busca for estritamente uma stop word (ex: "The", "Os"), usa allWords.
   const effectiveWords = contentWords.length > 0 ? contentWords : allWords;
+  const accentedWords = queryStr
+    .normalize('NFC')
+    .toLowerCase()
+    .replace(SEARCH_NOISE, ' ')
+    .split(/\s+/)
+    .filter((word) => word && word !== removeAcentos(word));
 
   return {
     allWords,
     contentWords,
-    effectiveWords
+    effectiveWords,
+    accentedWords
   };
 }
 
-/**
- * Calcula a pontuação de relevância de um item para a ordenação dos resultados de busca.
- */
-export function calculateItemRelevance(item, allWords = [], effectiveWords = [], isVideo = false) {
-  if (!item) return 0;
-  let score = 0;
+export function createRelevanceScorer({ allWords = [], effectiveWords = [], accentedWords = [] }, isVideo = false) {
+  const wordPatterns = effectiveWords.map((word) => ({
+    word,
+    wholeWord: new RegExp(`(^|[^a-z0-9])${escapeRegExp(word)}($|[^a-z0-9])`),
+  }));
+  const fullQuery = allWords.join(' ');
 
-  const itemTitulo = removeAcentos(item.titulo || '');
-  const itemArtista = isVideo ? '' : removeAcentos(item.artista || '');
-  const itemCaixa = removeAcentos(item.caixa || '');
-  const fullText = `${itemArtista} ${itemTitulo} ${itemCaixa}`.trim();
+  return (item) => {
+    if (!item) return 0;
+    let score = 0;
 
-  // 1. Bônus se contiver todas as palavras originais (inclusive "the", "os", etc.)
-  if (allWords.length > 0 && allWords.every(w => fullText.includes(w))) {
-    score += 100;
-  }
+    const itemTitulo = removeAcentos(item.titulo || '');
+    const itemArtista = isVideo ? '' : removeAcentos(item.artista || '');
+    const itemCaixa = removeAcentos(item.caixa || '');
+    const fullText = `${itemArtista} ${itemTitulo} ${itemCaixa}`.trim();
 
-  // 2. Pontuação por cada palavra efetiva encontrada
-  let matchedEffective = 0;
-  effectiveWords.forEach(w => {
-    if (fullText.includes(w)) {
+    if (allWords.length > 0 && allWords.every(w => fullText.includes(w))) {
+      score += 100;
+    }
+
+    let matchedEffective = 0;
+    wordPatterns.forEach(({ word, wholeWord }) => {
+      if (!fullText.includes(word)) return;
       matchedEffective++;
       score += 30;
-      if (!isVideo && itemArtista.includes(w)) score += 20;
-      if (itemTitulo.includes(w)) score += 20;
+      if (itemArtista.includes(word)) score += wholeWord.test(itemArtista) ? 60 : 20;
+      if (itemTitulo.includes(word)) score += wholeWord.test(itemTitulo) ? 50 : 20;
+    });
+
+    if (effectiveWords.length > 0 && matchedEffective === effectiveWords.length) {
+      score += 50;
     }
-  });
 
-  // 3. Bônus se todas as palavras efetivas estão presentes
-  if (effectiveWords.length > 0 && matchedEffective === effectiveWords.length) {
-    score += 50;
-  }
+    if (fullQuery && (normalizeForMatch(itemArtista) === fullQuery || normalizeForMatch(itemTitulo) === fullQuery)) {
+      score += 80;
+    }
 
-  // 4. Prioridade leve para item Ativo no chão de loja
-  if (item.ativo !== false) {
-    score += 10;
-  }
+    if (accentedWords.length > 0) {
+      const originalText = `${isVideo ? '' : item.artista || ''} ${item.titulo || ''}`.normalize('NFC').toLowerCase();
+      accentedWords.forEach((word) => {
+        if (originalText.includes(word)) score += 25;
+      });
+    }
 
-  return score;
+    if (item.ativo !== false) {
+      score += 10;
+    }
+
+    return score;
+  };
 }
 

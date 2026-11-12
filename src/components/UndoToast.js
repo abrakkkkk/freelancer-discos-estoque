@@ -40,7 +40,7 @@ export default function UndoToast() {
         backgroundColor: 'var(--bg-card)',
         border: '1px solid var(--border)',
         boxShadow: '0 8px 30px rgba(0,0,0,0.12)',
-        borderRadius: '12px',
+        borderRadius: 'var(--radius-lg)',
         padding: '12px 16px',
         display: 'flex',
         alignItems: 'center',
@@ -64,7 +64,7 @@ export default function UndoToast() {
             gap: '6px', 
             padding: '6px 12px', 
             fontSize: '13px',
-            borderRadius: '8px'
+            borderRadius: 'var(--radius-sm)'
           }} 
           onClick={performUndo}
           disabled={isUndoing}

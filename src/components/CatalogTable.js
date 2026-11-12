@@ -4,6 +4,7 @@ import { MdDelete } from "react-icons/md";
 import { FiCheck } from "react-icons/fi";
 import AlbumCover from '@/components/AlbumCover';
 import { useTouchGuardTap } from '@/hooks/useTouchGuardTap';
+import { getStoreBadgeColor } from '@/constants/config';
 
 function AudioCardRow({
   d,
@@ -29,6 +30,9 @@ function AudioCardRow({
     )
   );
   const isLoja1 = d.loja === 'Loja 1';
+  const meta = [edicaoTag, !edicaoTemAno && d.ano].filter(Boolean).join(' · ');
+  const mostrarLoja = showLoja && d.loja;
+  const corLoja = getStoreBadgeColor(d.loja);
 
   return (
     <tr 
@@ -66,30 +70,24 @@ function AudioCardRow({
           <span className="disco-titulo">{d.titulo || <span className="text-empty">—</span>}</span>
         </div>
         {d.artista && <span className="disco-artista">{d.artista}</span>}
+        {(meta || d.ativo === false) && (
+          <span className="disco-meta">
+            {meta && (
+              <span className="disco-meta-texto">
+                {edicaoTag && <span className="edicao-dot" aria-hidden="true" />}
+                {meta}
+              </span>
+            )}
+            {d.ativo === false && <span className="disco-status-inativo">Inativo</span>}
+          </span>
+        )}
         <div className="disco-valores-row">
           <span className="disco-valor-preco">R$ {Number(d.preco || 0).toFixed(2).replace('.', ',')}</span>
-          <span className="disco-valor-caixa">{getDisplayCaixa(d)}</span>
-          {edicaoTag && (
-            <span 
-              className="disco-edicao-tag"
-              title={`Edição: ${edicaoTag}`}
-            >
-              {edicaoTag}
+          {(d.caixa || mostrarLoja) && (
+            <span className="disco-local" style={corLoja ? { '--loja-cor': corLoja } : undefined}>
+              {[d.caixa && getDisplayCaixa(d), mostrarLoja && d.loja].filter(Boolean).join(' · ')}
             </span>
           )}
-          {d.ano && !edicaoTemAno && (
-            <span className="disco-valor-ano">{d.ano}</span>
-          )}
-          {showLoja && d.loja && (
-            <span 
-              className={`disco-valor-loja ${d.loja === 'Loja 1' ? 'loja-badge-1' : d.loja === 'Loja 2' ? 'loja-badge-2' : 'loja-badge-anexo'}`}
-            >
-              {d.loja}
-            </span>
-          )}
-          <span className={`disco-valor-status ${d.ativo ? 'status-ativo' : 'status-inativo'}`}>
-            {d.ativo ? 'Ativo' : 'Inativo'}
-          </span>
         </div>
       </td>
 
@@ -129,7 +127,7 @@ function AudioCardRow({
       )}
       <td data-label="Preço" className="desktop-only cell-desktop-col cell-desktop-preco">R$ {Number(d.preco || 0).toFixed(2).replace('.', ',')}</td>
       <td data-label="Status" className="desktop-only cell-desktop-col">
-        <span className={`badge ${d.ativo ? 'badge-entrada' : 'badge-estoque-superior'}`} style={{ borderRadius: '16px', padding: '4px 10px', fontSize: '12px' }}>
+        <span className={`badge ${d.ativo ? 'badge-entrada' : 'badge-estoque-superior'}`} style={{ borderRadius: 'var(--radius-xs)', padding: '4px 10px', fontSize: '12px' }}>
           {d.ativo ? 'Ativo' : 'Inativo'}
         </span>
       </td>
@@ -226,7 +224,7 @@ function StandardRow({
       )}
       <td data-label="Preço" className="cell-desktop-preco">R$ {Number(d.preco || 0).toFixed(2).replace('.', ',')}</td>
       <td data-label="Status">
-        <span className={`badge ${d.ativo ? 'badge-entrada' : 'badge-estoque-superior'}`} style={{ borderRadius: '16px', padding: '4px 10px', fontSize: '12px' }}>
+        <span className={`badge ${d.ativo ? 'badge-entrada' : 'badge-estoque-superior'}`} style={{ borderRadius: 'var(--radius-xs)', padding: '4px 10px', fontSize: '12px' }}>
           {d.ativo ? 'Ativo' : 'Inativo'}
         </span>
       </td>

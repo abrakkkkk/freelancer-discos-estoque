@@ -43,7 +43,7 @@ export default function SuccessModal({ isOpen, message, onClose }) {
         style={{
           background: 'var(--bg-card, #ffffff)',
           padding: '32px 40px',
-          borderRadius: '16px',
+          borderRadius: 'var(--radius-lg)',
           boxShadow: '0 20px 40px rgba(0,0,0,0.2)',
           display: 'flex',
           flexDirection: 'column',

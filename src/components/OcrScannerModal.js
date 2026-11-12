@@ -659,7 +659,7 @@ export default function OcrScannerModal({ isOpen, onClose, onScan }) {
             <div style={{ width: '100%', height: '100%', minHeight: '300px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: '#000', padding: '16px' }}>
               <span style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '6px' }}>Foto capturada:</span>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={fotoPreview} alt="Captura da câmera" style={{ maxWidth: '100%', maxHeight: '180px', objectFit: 'contain', border: '1px solid var(--border)', borderRadius: '6px' }} />
+              <img src={fotoPreview} alt="Captura da câmera" style={{ maxWidth: '100%', maxHeight: '180px', objectFit: 'contain', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)' }} />
             </div>
           )}
 

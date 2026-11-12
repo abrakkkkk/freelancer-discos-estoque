@@ -21,12 +21,15 @@ export const CATEGORY_IDS = {
 export const SEM_CAPA = '';
 
 export const STORE_OPTIONS = [
-  { value: 'Loja 1', label: 'Loja 1', color: '#c53030' },
-  { value: 'Loja 2', label: 'Loja 2', color: '#3182ce' },
-  { value: 'Anexo', label: 'Anexo', color: '#38a169' },
+  { value: 'Loja 1', label: 'Loja 1', color: '#c53030', badgeColor: '#7a1a1a' },
+  { value: 'Loja 2', label: 'Loja 2', color: '#3182ce', badgeColor: '#2768a5' },
+  { value: 'Anexo', label: 'Anexo', color: '#38a169', badgeColor: '#2d8154' },
 ];
 
 export const getStoreColor = (storeName) => {
   const store = STORE_OPTIONS.find(opt => opt.value === storeName);
   return store ? store.color : 'inherit';
 };
+
+export const getStoreBadgeColor = (storeName) =>
+  STORE_OPTIONS.find(opt => opt.value === storeName)?.badgeColor;

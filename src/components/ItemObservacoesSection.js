@@ -28,7 +28,7 @@ export default function ItemObservacoesSection({
             flex: 1,
             padding: '10px 14px',
             border: '1px solid rgba(255, 255, 255, 0.15)',
-            borderRadius: '4px',
+            borderRadius: 'var(--radius-sm)',
             background: 'var(--bg-card)',
             color: 'var(--text)',
           }}

@@ -51,7 +51,7 @@ export default function MobileHeader() {
           onChange={(e) => setActiveStore(e.target.value)}
           style={{
             padding: '4px 6px',
-            borderRadius: '6px',
+            borderRadius: 'var(--radius-sm)',
             border: '1px solid var(--border)',
             background: 'var(--bg-card)',
             color: 'var(--text)',

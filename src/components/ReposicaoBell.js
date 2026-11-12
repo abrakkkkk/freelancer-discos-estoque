@@ -100,7 +100,7 @@ export default function ReposicaoBell({ compact = false }) {
           position: 'relative',
           background: totalPendentes > 0 ? 'rgba(245, 158, 11, 0.12)' : 'rgba(255, 255, 255, 0.05)',
           border: totalPendentes > 0 ? '1px solid rgba(245, 158, 11, 0.35)' : '1px solid var(--border, rgba(255, 255, 255, 0.1))',
-          borderRadius: compact ? '6px' : '8px',
+          borderRadius: 'var(--radius-sm)',
           width: compact ? '26px' : '38px',
           height: compact ? '26px' : '38px',
           display: 'flex',
@@ -132,7 +132,7 @@ export default function ReposicaoBell({ compact = false }) {
               minWidth: compact ? '15px' : '18px',
               height: compact ? '15px' : '18px',
               padding: '0 3px',
-              borderRadius: '9px',
+              borderRadius: 'var(--radius-full)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -156,7 +156,7 @@ export default function ReposicaoBell({ compact = false }) {
             boxSizing: 'border-box',
             background: 'var(--bg-card, #18181b)',
             border: '1px solid rgba(255, 255, 255, 0.12)',
-            borderRadius: '12px',
+            borderRadius: 'var(--radius-lg)',
             boxShadow: '0 16px 36px rgba(0, 0, 0, 0.5), 0 0 16px rgba(0, 0, 0, 0.3)',
             zIndex: 99999,
             overflow: 'hidden',
@@ -186,7 +186,7 @@ export default function ReposicaoBell({ compact = false }) {
                     background: 'rgba(245, 158, 11, 0.16)',
                     color: '#f59e0b',
                     padding: '1px 6px',
-                    borderRadius: '10px',
+                    borderRadius: 'var(--radius-xs)',
                     border: '1px solid rgba(245, 158, 11, 0.3)',
                   }}
                 >
@@ -207,7 +207,7 @@ export default function ReposicaoBell({ compact = false }) {
                   fontWeight: 500,
                   cursor: 'pointer',
                   padding: '2px 6px',
-                  borderRadius: '4px',
+                  borderRadius: 'var(--radius-sm)',
                   transition: 'color 0.15s ease',
                 }}
               >
@@ -268,7 +268,7 @@ export default function ReposicaoBell({ compact = false }) {
                     style={{
                       background: 'rgba(255, 255, 255, 0.03)',
                       border: '1px solid rgba(255, 255, 255, 0.07)',
-                      borderRadius: '8px',
+                      borderRadius: 'var(--radius-md)',
                       padding: '10px 12px',
                       display: 'flex',
                       flexDirection: 'column',
@@ -301,7 +301,7 @@ export default function ReposicaoBell({ compact = false }) {
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          borderRadius: '4px',
+                          borderRadius: 'var(--radius-sm)',
                         }}
                       >
                         <MdClose size={16} />
@@ -318,7 +318,7 @@ export default function ReposicaoBell({ compact = false }) {
                         color: '#a1a1aa',
                         background: 'rgba(0, 0, 0, 0.2)',
                         padding: '6px 8px',
-                        borderRadius: '6px',
+                        borderRadius: 'var(--radius-sm)',
                       }}
                     >
                       <div>
@@ -346,7 +346,7 @@ export default function ReposicaoBell({ compact = false }) {
                         width: '100%',
                         minHeight: '36px',
                         padding: '6px 12px',
-                        borderRadius: '6px',
+                        borderRadius: 'var(--radius-sm)',
                         border: 'none',
                         background: '#10b981',
                         color: '#ffffff',

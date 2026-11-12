@@ -132,7 +132,7 @@ export default function AlbumCover({ artista, titulo, ano, id, size = 80, capaUr
     height: `${size}px`,
     minWidth: `${size}px`,
     minHeight: `${size}px`,
-    borderRadius: '8px',
+    borderRadius: 'var(--radius-sm)',
     overflow: 'hidden',
     background: '#121215',
     border: '1px solid #232328',

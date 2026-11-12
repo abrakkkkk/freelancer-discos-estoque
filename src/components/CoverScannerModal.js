@@ -418,7 +418,7 @@ export default function CoverScannerModal({ isOpen, onClose, onRecognized, onCov
           overflowY: 'auto',
           backgroundColor: '#18181b',
           border: '1px solid rgba(255, 255, 255, 0.16)',
-          borderRadius: '16px',
+          borderRadius: 'var(--radius-lg)',
           boxShadow: '0 20px 40px rgba(0, 0, 0, 0.6)',
           display: 'flex',
           flexDirection: 'column'
@@ -454,7 +454,7 @@ export default function CoverScannerModal({ isOpen, onClose, onRecognized, onCov
               alignItems: 'center',
               justifyContent: 'center',
               cursor: 'pointer',
-              borderRadius: '8px'
+              borderRadius: 'var(--radius-sm)'
             }}
             aria-label="Fechar modal"
           >
@@ -500,7 +500,7 @@ export default function CoverScannerModal({ isOpen, onClose, onRecognized, onCov
                 position: 'absolute',
                 inset: modoAmplo ? '8px' : '16px',
                 border: '2px dashed rgba(255, 255, 255, 0.55)',
-                borderRadius: '14px',
+                borderRadius: 'var(--radius-md)',
                 pointerEvents: 'none',
                 display: 'flex',
                 flexDirection: 'column',
@@ -524,7 +524,7 @@ export default function CoverScannerModal({ isOpen, onClose, onRecognized, onCov
                     fontSize: '11.5px',
                     fontWeight: 500,
                     padding: '3px 10px',
-                    borderRadius: '12px',
+                    borderRadius: 'var(--radius-xs)',
                     border: '1px solid rgba(255, 255, 255, 0.25)',
                     letterSpacing: '0.2px'
                   }}
@@ -692,7 +692,7 @@ export default function CoverScannerModal({ isOpen, onClose, onRecognized, onCov
                 onClick={() => applyZoom(zoomRange.min)}
                 style={{
                   padding: '3px 12px',
-                  borderRadius: '12px',
+                  borderRadius: 'var(--radius-sm)',
                   border: zoomLevel === zoomRange.min ? '1px solid #e53e3e' : '1px solid rgba(255, 255, 255, 0.15)',
                   background: zoomLevel === zoomRange.min ? 'rgba(229, 62, 62, 0.2)' : 'rgba(255, 255, 255, 0.05)',
                   color: '#fff',
@@ -709,7 +709,7 @@ export default function CoverScannerModal({ isOpen, onClose, onRecognized, onCov
               onClick={() => applyZoom(1)}
               style={{
                 padding: '3px 12px',
-                borderRadius: '12px',
+                borderRadius: 'var(--radius-sm)',
                 border: Math.abs(zoomLevel - 1) < 0.2 ? '1px solid #e53e3e' : '1px solid rgba(255, 255, 255, 0.15)',
                 background: Math.abs(zoomLevel - 1) < 0.2 ? 'rgba(229, 62, 62, 0.2)' : 'rgba(255, 255, 255, 0.05)',
                 color: '#fff',
@@ -726,7 +726,7 @@ export default function CoverScannerModal({ isOpen, onClose, onRecognized, onCov
                 onClick={() => applyZoom(2)}
                 style={{
                   padding: '3px 12px',
-                  borderRadius: '12px',
+                  borderRadius: 'var(--radius-sm)',
                   border: Math.abs(zoomLevel - 2) < 0.2 ? '1px solid #e53e3e' : '1px solid rgba(255, 255, 255, 0.15)',
                   background: Math.abs(zoomLevel - 2) < 0.2 ? 'rgba(229, 62, 62, 0.2)' : 'rgba(255, 255, 255, 0.05)',
                   color: '#fff',

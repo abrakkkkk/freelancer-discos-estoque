@@ -436,7 +436,7 @@ export default function BarcodeScannerModal({ isOpen, onClose, onScan }) {
 
               {/* Botões de Zoom rápido (se suportado pelo celular) */}
               {hasZoom && (
-                <div style={{ display: 'flex', gap: '2px', background: 'rgba(255,255,255,0.08)', borderRadius: '6px', padding: '2px' }}>
+                <div style={{ display: 'flex', gap: '2px', background: 'rgba(255,255,255,0.08)', borderRadius: 'var(--radius-sm)', padding: '2px' }}>
                   <button
                     type="button"
                     onClick={() => applyZoom(1)}
@@ -444,7 +444,7 @@ export default function BarcodeScannerModal({ isOpen, onClose, onScan }) {
                       padding: '3px 7px',
                       fontSize: '11px',
                       border: 'none',
-                      borderRadius: '4px',
+                      borderRadius: 'var(--radius-xs)',
                       cursor: 'pointer',
                       background: zoomLevel === 1 ? 'var(--accent)' : 'transparent',
                       color: zoomLevel === 1 ? '#000' : 'var(--text)',
@@ -461,7 +461,7 @@ export default function BarcodeScannerModal({ isOpen, onClose, onScan }) {
                         padding: '3px 7px',
                         fontSize: '11px',
                         border: 'none',
-                        borderRadius: '4px',
+                        borderRadius: 'var(--radius-xs)',
                         cursor: 'pointer',
                         background: Math.abs(zoomLevel - 1.4) < 0.1 ? 'var(--accent)' : 'transparent',
                         color: Math.abs(zoomLevel - 1.4) < 0.1 ? '#000' : 'var(--text)',
@@ -479,7 +479,7 @@ export default function BarcodeScannerModal({ isOpen, onClose, onScan }) {
                         padding: '3px 7px',
                         fontSize: '11px',
                         border: 'none',
-                        borderRadius: '4px',
+                        borderRadius: 'var(--radius-xs)',
                         cursor: 'pointer',
                         background: zoomLevel === 2 ? 'var(--accent)' : 'transparent',
                         color: zoomLevel === 2 ? '#000' : 'var(--text)',

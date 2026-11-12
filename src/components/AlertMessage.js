@@ -33,7 +33,7 @@ export default function AlertMessage({ message, type = 'error', onClose }) {
             display: 'inline-flex',
             alignItems: 'center',
             justifyContent: 'center',
-            borderRadius: '4px',
+            borderRadius: 'var(--radius-md)',
             opacity: 0.8,
             transition: 'opacity 0.15s'
           }}

@@ -11,7 +11,7 @@ import { supabase } from '@/lib/supabase';
 import CategoryTabs from '@/components/CategoryTabs';
 import AlertMessage from '@/components/AlertMessage';
 import ConfirmModal from '@/components/ConfirmModal';
-import { CATEGORY_IDS, STORE_OPTIONS, getStoreColor } from '@/constants/config';
+import { CATEGORY_IDS, STORE_OPTIONS, getStoreColor, getStoreBadgeColor } from '@/constants/config';
 import { removeAcentos, formatCaixa, normalizeCaixa } from '@/utils/stringUtils';
 import { useUndo } from '@/contexts/UndoContext';
 import SuccessModal from '@/components/SuccessModal';
@@ -71,6 +71,9 @@ function LoteCardRow({
       (item.ano && edicaoTag.includes(String(item.ano).trim()))
     )
   );
+  const metaLote = [edicaoTag, !edicaoTemAno && item.ano].filter(Boolean).join(' · ');
+  const mostrarLojaLote = !activeStore && item.loja;
+  const corLoja = getStoreBadgeColor(item.loja);
 
   return (
     <tr
@@ -104,29 +107,26 @@ function LoteCardRow({
         {!isVideo && item.artista && (
           <span className="disco-artista">{item.artista}</span>
         )}
+        {(metaLote || item.ativo === false) && (
+          <span className="disco-meta">
+            {metaLote && (
+              <span className="disco-meta-texto">
+                {edicaoTag && <span className="edicao-dot" aria-hidden="true" />}
+                {metaLote}
+              </span>
+            )}
+            {item.ativo === false && <span className="disco-status-inativo">Inativo</span>}
+          </span>
+        )}
         <div className="disco-valores-row lote-valores-row">
           <span className="disco-valor-preco">
             {item.preco ? `R$ ${Number(item.preco).toFixed(2).replace('.', ',')}` : <span className="text-empty">—</span>}
           </span>
-          {item.caixa && (
-            <span className="disco-valor-caixa">{formatCaixa(item.caixa, item.loja)}</span>
-          )}
-          {edicaoTag && (
-            <span className="disco-edicao-tag" title={`Edição: ${edicaoTag}`}>
-              {edicaoTag}
+          {(item.caixa || mostrarLojaLote) && (
+            <span className="disco-local" style={corLoja ? { '--loja-cor': corLoja } : undefined}>
+              {[item.caixa && formatCaixa(item.caixa, item.loja), mostrarLojaLote && item.loja].filter(Boolean).join(' · ')}
             </span>
           )}
-          {item.ano && !edicaoTemAno && (
-            <span className="disco-valor-ano">{item.ano}</span>
-          )}
-          {!activeStore && item.loja && (
-            <span className={`disco-valor-loja ${item.loja === 'Loja 1' ? 'loja-badge-1' : item.loja === 'Loja 2' ? 'loja-badge-2' : 'loja-badge-anexo'}`}>
-              {item.loja}
-            </span>
-          )}
-          <span className={`disco-valor-status ${item.ativo !== false ? 'status-ativo' : 'status-inativo'}`}>
-            {item.ativo !== false ? 'Ativo' : 'Inativo'}
-          </span>
         </div>
       </td>
 

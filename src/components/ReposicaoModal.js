@@ -66,7 +66,7 @@ export default function ReposicaoModal({
           background: 'var(--bg-card, #18181b)',
           border: '1px solid rgba(245, 158, 11, 0.35)',
           padding: '24px 20px',
-          borderRadius: '16px',
+          borderRadius: 'var(--radius-lg)',
           boxShadow: '0 24px 48px rgba(0, 0, 0, 0.6), 0 0 24px rgba(245, 158, 11, 0.08)',
           width: '100%',
           maxWidth: '440px',
@@ -83,7 +83,7 @@ export default function ReposicaoModal({
             style={{
               width: '44px',
               height: '44px',
-              borderRadius: '12px',
+              borderRadius: 'var(--radius-md)',
               background: 'rgba(245, 158, 11, 0.15)',
               border: '1px solid rgba(245, 158, 11, 0.3)',
               display: 'flex',
@@ -110,7 +110,7 @@ export default function ReposicaoModal({
           style={{
             background: 'rgba(255, 255, 255, 0.03)',
             border: '1px solid rgba(255, 255, 255, 0.08)',
-            borderRadius: '10px',
+            borderRadius: 'var(--radius-sm)',
             padding: '12px 14px',
             marginBottom: '16px',
             display: 'flex',
@@ -137,7 +137,7 @@ export default function ReposicaoModal({
                 background: 'rgba(245, 158, 11, 0.12)',
                 border: '1px solid rgba(245, 158, 11, 0.28)',
                 padding: '2px 8px',
-                borderRadius: '6px',
+                borderRadius: 'var(--radius-xs)',
                 whiteSpace: 'nowrap',
               }}
             >
@@ -182,7 +182,7 @@ export default function ReposicaoModal({
               width: '100%',
               minHeight: '46px',
               padding: '10px 16px',
-              borderRadius: '8px',
+              borderRadius: 'var(--radius-sm)',
               border: 'none',
               background: '#10b981',
               color: '#ffffff',
@@ -209,7 +209,7 @@ export default function ReposicaoModal({
               width: '100%',
               minHeight: '44px',
               padding: '8px 16px',
-              borderRadius: '8px',
+              borderRadius: 'var(--radius-sm)',
               border: '1px solid rgba(255, 255, 255, 0.12)',
               background: 'transparent',
               color: '#a1a1aa',

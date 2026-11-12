@@ -143,7 +143,7 @@ export default function DiscogsSearchSection({
                         width: '42px',
                         height: '42px',
                         objectFit: 'cover',
-                        borderRadius: '4px',
+                        borderRadius: 'var(--radius-sm)',
                         flexShrink: 0,
                         background: '#18181b',
                         border: '1px solid var(--border)',
@@ -155,7 +155,7 @@ export default function DiscogsSearchSection({
                       style={{
                         width: '42px',
                         height: '42px',
-                        borderRadius: '4px',
+                        borderRadius: 'var(--radius-sm)',
                         background: 'rgba(255,255,255,0.05)',
                         border: '1px solid var(--border)',
                         display: 'flex',

@@ -73,7 +73,7 @@ export default function SuccessModal({ isOpen, message, onClose }) {
           <MdCheckCircle size={40} />
         </div>
         
-        <h2 style={{ margin: 0, fontSize: '20px', fontWeight: 'bold', color: 'var(--text)' }}>
+        <h2 style={{ margin: 0, fontSize: '20px', fontWeight: '600', color: 'var(--text)' }}>
           Sucesso!
         </h2>
         

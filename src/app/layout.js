@@ -1,16 +1,16 @@
-import { Outfit, Figtree } from 'next/font/google';
+import { Rubik, Roboto } from 'next/font/google';
 import AppShell from '@/components/AppShell';
 import './globals.css';
 
-const outfit = Outfit({
+const rubik = Rubik({
   subsets: ['latin'],
-  variable: '--font-outfit',
+  variable: '--font-rubik',
   display: 'swap',
 });
 
-const figtree = Figtree({
+const roboto = Roboto({
   subsets: ['latin'],
-  variable: '--font-figtree',
+  variable: '--font-roboto',
   display: 'swap',
 });
 
@@ -29,7 +29,7 @@ export const viewport = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="pt-BR" className={`${outfit.variable} ${figtree.variable}`} data-theme="dark">
+    <html lang="pt-BR" className={`${rubik.variable} ${roboto.variable}`} data-theme="dark">
       <body>
         <AppShell>{children}</AppShell>
       </body>

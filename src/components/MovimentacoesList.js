@@ -60,7 +60,7 @@ export default function MovimentacoesList({
         }}
       >
         <MdHistory size={32} color="var(--text-muted)" style={{ opacity: 0.3 }} />
-        <div style={{ fontSize: '13.5px', fontWeight: 600, color: '#e4e4e7' }}>
+        <div style={{ fontSize: '13.5px', fontWeight: 500, color: '#e4e4e7' }}>
           Nenhuma movimentação encontrada
         </div>
         <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
@@ -143,7 +143,7 @@ export default function MovimentacoesList({
               return (
                 <tr key={movimentacao.id}>
                   <td>
-                    <div style={{ fontWeight: 600, color: '#ffffff', lineHeight: 1.3 }}>
+                    <div style={{ fontWeight: 500, color: '#ffffff', lineHeight: 1.3 }}>
                       {item.titulo}
                     </div>
                     {item.artista && item.artista !== '—' && (
@@ -153,14 +153,14 @@ export default function MovimentacoesList({
                     )}
                   </td>
                   <td>
-                    <span className={classeStatus} style={{ fontWeight: 600, fontSize: '12.5px' }}>
+                    <span className={classeStatus} style={{ fontWeight: 500, fontSize: '12.5px' }}>
                       {rotuloStatus}
                     </span>
                   </td>
                   <td style={{ color: 'var(--text-muted)', fontSize: '12.5px' }}>
                     {formatCaixa(item.caixa, item.loja)}
                     {!activeStore && item.loja && (
-                      <span style={{ marginLeft: '6px', color: 'var(--accent)', fontWeight: 600 }}>
+                      <span style={{ marginLeft: '6px', color: 'var(--accent)', fontWeight: 500 }}>
                         ({item.loja})
                       </span>
                     )}

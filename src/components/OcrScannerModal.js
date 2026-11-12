@@ -594,7 +594,7 @@ export default function OcrScannerModal({ isOpen, onClose, onScan }) {
         <div className="scanner-modal-header">
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <MdDocumentScanner size={22} color="var(--accent)" />
-            <h3 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 600 }}>Leitor de Catálogo (OCR)</h3>
+            <h3 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 500 }}>Leitor de Catálogo (OCR)</h3>
           </div>
           <button 
             type="button" 
@@ -666,7 +666,7 @@ export default function OcrScannerModal({ isOpen, onClose, onScan }) {
           {processando && (
             <div className="scanner-status-overlay">
               <div className="scanner-spinner" />
-              <span style={{ fontWeight: 600 }}>Lendo código de catálogo...</span>
+              <span style={{ fontWeight: 500 }}>Lendo código de catálogo...</span>
             </div>
           )}
 
@@ -684,7 +684,7 @@ export default function OcrScannerModal({ isOpen, onClose, onScan }) {
               {processando ? (
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', padding: '10px 0' }}>
                   <div className="scanner-spinner" style={{ width: '22px', height: '22px' }} />
-                  <span style={{ fontSize: '13.5px', fontWeight: 600, color: 'var(--text-header)' }}>
+                  <span style={{ fontSize: '13.5px', fontWeight: 500, color: 'var(--text-header)' }}>
                     Lendo caracteres no disco...
                   </span>
                 </div>
@@ -693,7 +693,7 @@ export default function OcrScannerModal({ isOpen, onClose, onScan }) {
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                       <IoSparkles color="var(--accent)" size={16} />
-                      <span style={{ fontSize: '13px', fontWeight: 700, color: textoDetectado ? 'var(--text-header)' : '#f6ad55' }}>
+                      <span style={{ fontSize: '13px', fontWeight: 600, color: textoDetectado ? 'var(--text-header)' : '#f6ad55' }}>
                         {textoDetectado ? 'Código detectado — confira antes de buscar:' : 'Nenhum código reconhecido com certeza:'}
                       </span>
                     </div>
@@ -705,7 +705,7 @@ export default function OcrScannerModal({ isOpen, onClose, onScan }) {
                       value={textoDetectado} 
                       onChange={(e) => setTextoDetectado(e.target.value)}
                       placeholder="Ex: 138250, 150 0006, OW 606"
-                      style={{ flex: 1, minHeight: '44px', fontSize: '15px', fontWeight: 'bold', letterSpacing: '0.5px', padding: '8px 12px' }}
+                      style={{ flex: 1, minHeight: '44px', fontSize: '15px', fontWeight: '600', letterSpacing: '0.5px', padding: '8px 12px' }}
                     />
                     <button 
                       type="button" 
@@ -724,7 +724,7 @@ export default function OcrScannerModal({ isOpen, onClose, onScan }) {
                       onClick={handleGirarFoto}
                       disabled={processando}
                       className="btn btn-secondary"
-                      style={{ minHeight: '44px', fontSize: '13px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', fontWeight: 600 }}
+                      style={{ minHeight: '44px', fontSize: '13px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', fontWeight: 500 }}
                       title="Girar foto em 90° para ler texto vertical de lombada"
                     >
                       <LuRotateCw size={17} /> Girar 90°
@@ -734,7 +734,7 @@ export default function OcrScannerModal({ isOpen, onClose, onScan }) {
                       onClick={handleTentarNovamente}
                       disabled={processando}
                       className="btn btn-secondary"
-                      style={{ minHeight: '44px', fontSize: '13px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', fontWeight: 600 }}
+                      style={{ minHeight: '44px', fontSize: '13px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', fontWeight: 500 }}
                     >
                       <IoRefresh size={17} /> Tirar outra foto
                     </button>
@@ -751,7 +751,7 @@ export default function OcrScannerModal({ isOpen, onClose, onScan }) {
                   onClick={capturarDoVideo} 
                   disabled={processando || !!erroCamera}
                   className="btn btn-primary" 
-                  style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', minHeight: '44px', fontWeight: 600 }}
+                  style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', minHeight: '44px', fontWeight: 500 }}
                 >
                   <IoCamera size={18} /> Capturar e Ler
                 </button>

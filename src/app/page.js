@@ -412,7 +412,7 @@ export default function CatalogoClone() {
               border: 'none',
               cursor: exportando ? 'not-allowed' : 'pointer',
               fontSize: '14px',
-              fontWeight: 600,
+              fontWeight: 500,
               opacity: exportando ? 0.7 : 1,
               transition: '0.2s',
             }}

@@ -737,7 +737,7 @@ export default function AcoesEmLote() {
                           {caixaDestino.label}
                         </option>
                       ))}
-                      <option value="__custom__" style={{ color: 'var(--accent)', fontWeight: 600 }}>
+                      <option value="__custom__" style={{ color: 'var(--accent)', fontWeight: 500 }}>
                         + Digitar...
                       </option>
                     </select>

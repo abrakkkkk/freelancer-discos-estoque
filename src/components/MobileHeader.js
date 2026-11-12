@@ -56,7 +56,7 @@ export default function MobileHeader() {
             background: 'var(--bg-card)',
             color: 'var(--text)',
             fontSize: '16px',
-            fontWeight: 600,
+            fontWeight: 500,
             cursor: 'pointer',
             maxWidth: '120px',
           }}

@@ -31,7 +31,7 @@ export default function Sidebar() {
       <div className="sidebar-title">Estoque Geral</div>
 
       <div style={{ padding: '0 12px', marginBottom: '20px' }}>
-        <label style={{ fontSize: '11px', fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '6px', display: 'block' }}>
+        <label style={{ fontSize: '11px', fontWeight: 500, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '6px', display: 'block' }}>
           Loja Ativa
         </label>
         <select
@@ -48,7 +48,7 @@ export default function Sidebar() {
             appearance: 'none',
             color: '#ffffff',
             fontSize: '13px',
-            fontWeight: 600,
+            fontWeight: 500,
             cursor: 'pointer',
             outline: 'none',
             transition: 'border-color 0.2s ease',

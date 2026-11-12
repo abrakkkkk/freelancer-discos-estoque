@@ -128,7 +128,7 @@ export default function ReposicaoBell({ compact = false }) {
               background: '#f59e0b',
               color: '#000000',
               fontSize: compact ? '9.5px' : '11px',
-              fontWeight: 800,
+              fontWeight: 600,
               minWidth: compact ? '15px' : '18px',
               height: compact ? '15px' : '18px',
               padding: '0 3px',
@@ -175,14 +175,14 @@ export default function ReposicaoBell({ compact = false }) {
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span style={{ fontSize: '13px', fontWeight: 700, color: '#f4f4f5' }}>
+              <span style={{ fontSize: '13px', fontWeight: 600, color: '#f4f4f5' }}>
                 Reposições Pendentes
               </span>
               {totalPendentes > 0 && (
                 <span
                   style={{
                     fontSize: '11px',
-                    fontWeight: 700,
+                    fontWeight: 600,
                     background: 'rgba(245, 158, 11, 0.16)',
                     color: '#f59e0b',
                     padding: '1px 6px',
@@ -204,7 +204,7 @@ export default function ReposicaoBell({ compact = false }) {
                   border: 'none',
                   color: 'var(--text-muted, #a1a1aa)',
                   fontSize: '11.5px',
-                  fontWeight: 600,
+                  fontWeight: 500,
                   cursor: 'pointer',
                   padding: '2px 6px',
                   borderRadius: '4px',
@@ -222,7 +222,7 @@ export default function ReposicaoBell({ compact = false }) {
               style={{
                 padding: '8px 12px',
                 fontSize: '12px',
-                fontWeight: 600,
+                fontWeight: 500,
                 background: feedback.tipo === 'success' ? 'rgba(16, 185, 129, 0.15)' : 'rgba(239, 68, 68, 0.15)',
                 color: feedback.tipo === 'success' ? '#34d399' : '#f87171',
                 borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
@@ -252,7 +252,7 @@ export default function ReposicaoBell({ compact = false }) {
                 <div style={{ marginBottom: '8px', opacity: 0.6 }}>
                   <MdNotificationsNone size={36} />
                 </div>
-                <div style={{ fontSize: '13px', fontWeight: 600, color: '#e4e4e7', marginBottom: '4px' }}>
+                <div style={{ fontSize: '13px', fontWeight: 500, color: '#e4e4e7', marginBottom: '4px' }}>
                   Nenhuma reposição pendente
                 </div>
                 <div style={{ fontSize: '11.5px', lineHeight: 1.4 }}>
@@ -278,7 +278,7 @@ export default function ReposicaoBell({ compact = false }) {
                     {/* Linha de Título e Fechar */}
                     <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '8px' }}>
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontSize: '13px', fontWeight: 700, color: '#ffffff', lineHeight: 1.25 }}>
+                        <div style={{ fontSize: '13px', fontWeight: 600, color: '#ffffff', lineHeight: 1.25 }}>
                           {t.reserva?.titulo || t.itemSaida?.titulo}
                         </div>
                         {t.reserva?.artista && (
@@ -351,7 +351,7 @@ export default function ReposicaoBell({ compact = false }) {
                         background: '#10b981',
                         color: '#ffffff',
                         fontSize: '12.5px',
-                        fontWeight: 700,
+                        fontWeight: 600,
                         cursor: isItemLoading ? 'not-allowed' : 'pointer',
                         display: 'flex',
                         alignItems: 'center',

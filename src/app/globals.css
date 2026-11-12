@@ -9,8 +9,8 @@
   --sidebar-width: 255px;
   --mobile-header-height: 58px;
   --bottom-nav-height: 62px;
-  --font-title: var(--font-outfit), 'Outfit', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-body: var(--font-figtree), 'Figtree', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-title: var(--font-rubik), 'Rubik', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: var(--font-roboto), 'Roboto', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   --bg-sidebar: #09090b;
   --text-sidebar: #cdd6f4;
   --accent: #8b1e1e; /* Deep Red */
@@ -27,6 +27,7 @@
   --bg: #09090b;
   --page-gradient: radial-gradient(120% 55% at 50% 0%, #2a0f12 0%, #0b0b0d 62%);
   --text: #e4e4e7;
+  --price: #ffffff;
   --text-muted: #a1a1aa;
   --border: #232328;
   --bg-card: #151518;
@@ -131,7 +132,7 @@ a {
 
 .sidebar-title {
   font-size: 17px;
-  font-weight: 600;
+  font-weight: 500;
   text-align: center;
   color: #ffffff;
   padding-bottom: 16px;
@@ -168,7 +169,7 @@ a {
   background: #8b1e1e;
   color: #ffffff;
   border: 1px solid #a82424;
-  font-weight: 600;
+  font-weight: 500;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
@@ -212,14 +213,14 @@ a {
 
 .mobile-header-title {
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 600;
   color: #ffffff;
   letter-spacing: -0.2px;
 }
 
 .mobile-header-subtitle {
   font-size: 9.5px;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--accent);
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -266,7 +267,7 @@ a {
 
 .page-title {
   font-size: 26px;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: -0.025em;
   line-height: 1.25;
   color: #fafafa;
@@ -324,7 +325,7 @@ a {
 .btn-danger {
   background: var(--danger);
   color: #1a1a2e;
-  font-weight: 600;
+  font-weight: 500;
 }
 .btn-danger:hover:not(:disabled) {
   background: #e27d99;
@@ -333,7 +334,7 @@ a {
 .btn-warning {
   background: var(--warning);
   color: #1a1a2e;
-  font-weight: 600;
+  font-weight: 500;
 }
 .btn-warning:hover:not(:disabled) {
   background: #e2c17d;
@@ -351,7 +352,7 @@ a {
 
 .form-group label {
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--text-muted);
 }
 
@@ -442,7 +443,7 @@ th, td {
 
 th {
   background: #0d0d0f;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 11.5px;
   text-transform: uppercase;
   color: #ffffff;
@@ -579,7 +580,7 @@ tbody tr:last-child td {
   padding: 3px 8px;
   border-radius: 6px;
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.3px;
   text-transform: uppercase;
 }
@@ -655,7 +656,7 @@ tbody tr:last-child td {
   color: var(--text-muted);
   font-family: var(--font-title);
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 500;
   padding: 6px 14px;
   cursor: pointer;
   border-radius: var(--radius-sm);
@@ -782,9 +783,9 @@ tbody tr:last-child td {
 }
 
 .lote-chips-count {
-  font-family: var(--font-title), var(--font-outfit), sans-serif;
+  font-family: var(--font-title);
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 500;
   color: #f4f4f5;
   display: inline-flex;
   align-items: center;
@@ -818,7 +819,7 @@ tbody tr:last-child td {
   padding: 4px 10px;
   border-radius: 999px;
   font-size: 12px;
-  font-family: var(--font-title), var(--font-outfit), sans-serif;
+  font-family: var(--font-title);
   background: #8b1e1e;
   border: 1px solid #a82424;
   color: #ffffff;
@@ -834,7 +835,7 @@ tbody tr:last-child td {
   padding: 0;
   font-size: 14px;
   line-height: 1;
-  font-weight: 700;
+  font-weight: 600;
   opacity: 0.85;
   transition: opacity 0.15s;
 }
@@ -847,8 +848,8 @@ tbody tr:last-child td {
   background: #18181c !important;
   border: 1px solid #282830 !important;
   color: #f4f4f5 !important;
-  font-family: var(--font-title), var(--font-outfit), sans-serif !important;
-  font-weight: 600 !important;
+  font-family: var(--font-title) !important;
+  font-weight: 500 !important;
   font-size: 12.5px !important;
   padding: 6px 14px !important;
   border-radius: 8px !important;
@@ -940,7 +941,7 @@ tr.lote-card.lote-card-selected {
   color: #ffffff;
   cursor: pointer;
   font-size: 13px;
-  font-weight: bold;
+  font-weight: 600;
   flex-shrink: 0;
   transition: background 0.15s;
 }
@@ -955,9 +956,9 @@ tr.lote-card.lote-card-selected {
 }
 
 .bulk-count {
-  font-family: var(--font-title), var(--font-outfit), sans-serif;
+  font-family: var(--font-title);
   font-size: 14.5px;
-  font-weight: 700;
+  font-weight: 600;
   color: #ffffff;
 }
 
@@ -1004,8 +1005,8 @@ tr.lote-card.lote-card-selected {
   box-shadow: none !important;
   background: #8b1e1e !important;
   color: #ffffff !important;
-  font-family: var(--font-title), var(--font-outfit), sans-serif !important;
-  font-weight: 600 !important;
+  font-family: var(--font-title) !important;
+  font-weight: 500 !important;
 }
 
 .bulk-desktop-divider {
@@ -1030,15 +1031,15 @@ tr.lote-card.lote-card-selected {
   padding: 0 8px;
   cursor: pointer;
   white-space: nowrap;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .lote-action-btn-secondary {
   background: #1e1e24 !important;
   border: 1px solid #2e2e38 !important;
   color: #f4f4f5 !important;
-  font-family: var(--font-title), var(--font-outfit), sans-serif !important;
-  font-weight: 600 !important;
+  font-family: var(--font-title) !important;
+  font-weight: 500 !important;
   font-size: 12.5px !important;
   padding: 6px 12px !important;
   border-radius: 8px !important;
@@ -1054,8 +1055,8 @@ tr.lote-card.lote-card-selected {
   background: #241416 !important;
   border: 1px solid #521c21 !important;
   color: #f87171 !important;
-  font-family: var(--font-title), var(--font-outfit), sans-serif !important;
-  font-weight: 600 !important;
+  font-family: var(--font-title) !important;
+  font-weight: 500 !important;
   font-size: 12.5px !important;
   padding: 6px 12px !important;
   border-radius: 8px !important;
@@ -1072,8 +1073,8 @@ tr.lote-card.lote-card-selected {
   background: #8b1e1e !important;
   border: 1px solid #a82424 !important;
   color: #ffffff !important;
-  font-family: var(--font-title), var(--font-outfit), sans-serif !important;
-  font-weight: 700 !important;
+  font-family: var(--font-title) !important;
+  font-weight: 600 !important;
   font-size: 12.5px !important;
   padding: 6px 12px !important;
   border-radius: 8px !important;
@@ -1083,8 +1084,8 @@ tr.lote-card.lote-card-selected {
   background: #4a1518 !important;
   border: 1px solid #6b1f24 !important;
   color: #fca5a5 !important;
-  font-family: var(--font-title), var(--font-outfit), sans-serif !important;
-  font-weight: 600 !important;
+  font-family: var(--font-title) !important;
+  font-weight: 500 !important;
   font-size: 12.5px !important;
   padding: 6px 12px !important;
   border-radius: 8px !important;
@@ -1109,8 +1110,8 @@ tr.lote-card.lote-card-selected {
   background: #18181c !important;
   border: 1px solid #282830 !important;
   color: #f4f4f5 !important;
-  font-family: var(--font-title), var(--font-outfit), sans-serif !important;
-  font-weight: 600 !important;
+  font-family: var(--font-title) !important;
+  font-weight: 500 !important;
   font-size: 12.5px !important;
   padding: 6px 14px !important;
   border-radius: 8px !important;
@@ -1208,9 +1209,9 @@ tr.lote-card.lote-card-selected {
 }
 
 .lote-fotos-dropzone-text {
-  font-family: var(--font-title), var(--font-outfit), sans-serif;
+  font-family: var(--font-title);
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   color: #ffffff;
 }
 
@@ -1248,8 +1249,8 @@ tr.lote-card.lote-card-selected {
   align-items: center;
   gap: 8px;
   cursor: pointer;
-  font-family: var(--font-title), var(--font-outfit), sans-serif;
-  font-weight: 600;
+  font-family: var(--font-title);
+  font-weight: 500;
   font-size: 13px;
   margin: 0;
   min-height: 36px;
@@ -1267,8 +1268,8 @@ tr.lote-card.lote-card-selected {
   background: #241e12 !important;
   border: 1px solid #524018 !important;
   color: #ecc94b !important;
-  font-family: var(--font-title), var(--font-outfit), sans-serif !important;
-  font-weight: 600 !important;
+  font-family: var(--font-title) !important;
+  font-weight: 500 !important;
   font-size: 12px !important;
   padding: 6px 12px !important;
   min-height: 36px !important;
@@ -1282,8 +1283,8 @@ tr.lote-card.lote-card-selected {
   background: #1e1e24 !important;
   border: 1px solid #2e2e38 !important;
   color: #f4f4f5 !important;
-  font-family: var(--font-title), var(--font-outfit), sans-serif !important;
-  font-weight: 600 !important;
+  font-family: var(--font-title) !important;
+  font-weight: 500 !important;
   font-size: 12.5px !important;
   padding: 6px 14px !important;
   min-height: 36px !important;
@@ -1294,8 +1295,8 @@ tr.lote-card.lote-card-selected {
   background: #8b1e1e !important;
   border: 1px solid #a82424 !important;
   color: #ffffff !important;
-  font-family: var(--font-title), var(--font-outfit), sans-serif !important;
-  font-weight: 700 !important;
+  font-family: var(--font-title) !important;
+  font-weight: 600 !important;
   font-size: 13px !important;
   padding: 6px 16px !important;
   min-height: 36px !important;
@@ -1342,9 +1343,9 @@ tr.lote-card.lote-card-selected {
 }
 
 .lote-fotos-card-idx {
-  font-family: var(--font-title), var(--font-outfit), sans-serif;
+  font-family: var(--font-title);
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 600;
   color: #a1a1aa;
 }
 
@@ -1352,7 +1353,7 @@ tr.lote-card.lote-card-selected {
   font-size: 10px;
   padding: 2px 7px;
   border-radius: 6px;
-  font-weight: 600;
+  font-weight: 500;
   background: #33230a;
   color: #f6c043;
   border: 1px solid #573c10;
@@ -1362,7 +1363,7 @@ tr.lote-card.lote-card-selected {
   font-size: 10px;
   padding: 2px 7px;
   border-radius: 6px;
-  font-weight: 600;
+  font-weight: 500;
   background: rgba(147, 51, 234, 0.45);
   color: #ffffff;
   border: 1px solid rgba(167, 139, 250, 0.3);
@@ -1378,7 +1379,7 @@ tr.lote-card.lote-card-selected {
   background: #241e12 !important;
   border: 1px solid #524018 !important;
   color: #ecc94b !important;
-  font-family: var(--font-title), var(--font-outfit), sans-serif !important;
+  font-family: var(--font-title) !important;
   font-size: 11px !important;
   padding: 4px 8px !important;
   min-height: 28px !important;
@@ -1392,8 +1393,8 @@ tr.lote-card.lote-card-selected {
   background: #1e1e24 !important;
   border: 1px solid #2e2e38 !important;
   color: #f4f4f5 !important;
-  font-family: var(--font-title), var(--font-outfit), sans-serif !important;
-  font-weight: 600 !important;
+  font-family: var(--font-title) !important;
+  font-weight: 500 !important;
   font-size: 11px !important;
   padding: 4px 10px !important;
   min-height: 28px !important;
@@ -1468,9 +1469,9 @@ tr.lote-card.lote-card-selected {
 
 .lote-fotos-input-titulo {
   width: 100%;
-  font-family: var(--font-title), var(--font-outfit), sans-serif !important;
+  font-family: var(--font-title) !important;
   font-size: 15px !important;
-  font-weight: 600 !important;
+  font-weight: 500 !important;
   padding: 6px 10px !important;
   height: 36px !important;
   background: #1a1a20 !important;
@@ -1544,9 +1545,9 @@ tr.lote-card.lote-card-selected {
 
 .lote-fotos-modal-title {
   margin: 0;
-  font-family: var(--font-title), var(--font-outfit), sans-serif;
+  font-family: var(--font-title);
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 600;
   color: #ffffff;
 }
 
@@ -1558,7 +1559,7 @@ tr.lote-card.lote-card-selected {
   height: 30px;
   color: #ffffff;
   font-size: 13px;
-  font-weight: bold;
+  font-weight: 600;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -1596,8 +1597,8 @@ tr.lote-card.lote-card-selected {
   background: #8b1e1e !important;
   border: 1px solid #a82424 !important;
   color: #ffffff !important;
-  font-family: var(--font-title), var(--font-outfit), sans-serif !important;
-  font-weight: 600 !important;
+  font-family: var(--font-title) !important;
+  font-weight: 500 !important;
   border-radius: 8px !important;
 }
 
@@ -1656,8 +1657,8 @@ tr.lote-card.lote-card-selected {
 }
 
 .lote-fotos-result-title {
-  font-family: var(--font-title), var(--font-outfit), sans-serif;
-  font-weight: 600;
+  font-family: var(--font-title);
+  font-weight: 500;
   font-size: 13.5px;
   color: #ffffff;
   overflow: hidden;
@@ -1703,13 +1704,13 @@ tr.lote-card.lote-card-selected {
   font-size: 11px;
   text-transform: uppercase;
   color: var(--text-muted);
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.5px;
 }
 
 .edit-info-value {
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--text);
   word-break: break-word;
 }
@@ -1869,7 +1870,7 @@ tr.lote-card.lote-card-selected {
     background: #0f0f12;
     color: #a1a1aa;
     font-size: 11.5px;
-    font-weight: 600;
+    font-weight: 500;
     letter-spacing: 0.05em;
     text-transform: uppercase;
     padding: 12px 14px;
@@ -1918,8 +1919,8 @@ tr.lote-card.lote-card-selected {
 
   /* Células refinadas para o Desktop */
   .cell-desktop-preco {
-    font-weight: 700;
-    color: #6EE7B7;
+    font-weight: 600;
+    color: var(--price);
     font-size: 16.5px;
     white-space: nowrap;
   }
@@ -1931,14 +1932,14 @@ tr.lote-card.lote-card-selected {
     padding: 2px 7px;
     border-radius: 5px;
     border: 1px solid #2e2e34;
-    font-weight: 600;
+    font-weight: 500;
     white-space: nowrap;
     display: inline-block;
   }
 
   .cell-desktop-loja {
     font-size: 11.5px;
-    font-weight: 600;
+    font-weight: 500;
     padding: 2px 8px;
     border-radius: 6px;
     background: #27272a;
@@ -1968,7 +1969,7 @@ tr.lote-card.lote-card-selected {
 
   .cell-desktop-edicao {
     font-size: 10px;
-    font-weight: 700;
+    font-weight: 600;
     letter-spacing: 0.03em;
     text-transform: uppercase;
     color: #ffffff !important;
@@ -2037,7 +2038,7 @@ tr.lote-card.lote-card-selected {
   .page-title {
     font-size: 23px;
     text-transform: none;
-    font-weight: 700;
+    font-weight: 600;
     letter-spacing: -0.025em;
     line-height: 1.25;
     color: #fafafa;
@@ -2045,7 +2046,7 @@ tr.lote-card.lote-card-selected {
 
   .mobile-header-subtitle {
     font-size: 9px;
-    font-weight: 700;
+    font-weight: 600;
     color: #fff;
     background: var(--accent);
     padding: 2px 6px;
@@ -2128,7 +2129,7 @@ tr.lote-card.lote-card-selected {
   .topHeader h1,
   .page-title {
     font-size: 23px !important;
-    font-weight: 700 !important;
+    font-weight: 600 !important;
     letter-spacing: -0.025em !important;
     line-height: 1.25 !important;
     color: #fafafa !important;
@@ -2216,7 +2217,7 @@ tr.lote-card.lote-card-selected {
 
   .bottom-nav-item.active .bottom-nav-label {
     color: #ef4444 !important;
-    font-weight: 700 !important;
+    font-weight: 600 !important;
   }
 
   .bottom-nav-item:active {
@@ -2284,7 +2285,7 @@ tr.lote-card.lote-card-selected {
 
   td::before {
     content: attr(data-label);
-    font-weight: 700;
+    font-weight: 600;
     font-size: 12px;
     text-transform: uppercase;
     color: var(--text-muted);
@@ -2296,7 +2297,7 @@ tr.lote-card.lote-card-selected {
   /* Título como cabeçalho do Card */
   td[data-label="Título"] {
     font-size: 14px;
-    font-weight: 700;
+    font-weight: 600;
     color: var(--text);
     padding: 0 0 2px 0;
     border-bottom: none;
@@ -2470,7 +2471,7 @@ tr.lote-card.lote-card-selected {
 
   .disco-titulo {
     font-size: 15px !important;
-    font-weight: 700 !important;
+    font-weight: 600 !important;
     color: #e5e5e5 !important;
     line-height: 1.22 !important;
     word-break: break-word !important;
@@ -2511,8 +2512,8 @@ tr.lote-card.lote-card-selected {
 
   .disco-valor-preco {
     font-size: 19px !important;
-    font-weight: 800 !important;
-    color: #6EE7B7 !important;
+    font-weight: 600 !important;
+    color: var(--price) !important;
     text-align: left !important;
     line-height: 1 !important;
     letter-spacing: -0.2px !important;
@@ -2521,7 +2522,7 @@ tr.lote-card.lote-card-selected {
 
   .disco-valor-caixa {
     font-size: 11px !important;
-    font-weight: 600 !important;
+    font-weight: 500 !important;
     color: #ffffff !important;
     background: #27272a !important;
     border: 1px solid #3f3f46 !important;
@@ -2538,14 +2539,14 @@ tr.lote-card.lote-card-selected {
     border: 1px solid #3f3f46 !important;
     padding: 2px 6px !important;
     border-radius: 6px !important;
-    font-weight: 600 !important;
+    font-weight: 500 !important;
     white-space: nowrap !important;
     line-height: 1.2 !important;
   }
 
   .disco-valor-status {
     font-size: 10px !important;
-    font-weight: 700 !important;
+    font-weight: 600 !important;
     padding: 2px 7px !important;
     border-radius: 6px !important;
     line-height: 1.2 !important;
@@ -2757,7 +2758,7 @@ tr.lote-card.lote-card-selected {
 
   tr.lote-card .disco-titulo {
     font-size: 15px !important;
-    font-weight: 700 !important;
+    font-weight: 600 !important;
     color: #e5e5e5 !important;
     line-height: 1.25 !important;
     word-break: break-word !important;
@@ -2966,7 +2967,7 @@ tr.lote-card.lote-card-selected {
 .sugestoes-dropdown li:not(.sugestoes-header):hover .sugestoes-title,
 .sugestoes-dropdown li:not(.sugestoes-header):active .sugestoes-title {
   color: #ffffff !important;
-  font-weight: 700 !important;
+  font-weight: 600 !important;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 .sugestoes-dropdown li:not(.sugestoes-header):hover .sugestoes-meta,
@@ -2986,7 +2987,7 @@ tr.lote-card.lote-card-selected {
   color: #ffffff !important; /* Fonte branca */
   border: 1px solid rgba(192, 132, 252, 0.6) !important;
   font-size: 10px !important;
-  font-weight: 700 !important;
+  font-weight: 600 !important;
   padding: 2px 7px !important;
   border-radius: 4px !important;
   letter-spacing: 0.03em !important;
@@ -3004,7 +3005,7 @@ tr.lote-card.lote-card-selected {
   color: #4ade80 !important;
   border: 1px solid #1f4a2d !important;
   font-size: 10px !important;
-  font-weight: 700 !important;
+  font-weight: 600 !important;
   padding: 2px 7px !important;
   border-radius: 4px !important;
   letter-spacing: 0.03em !important;
@@ -3041,7 +3042,7 @@ tr.lote-card.lote-card-selected {
 .topHeader h1,
 .page-title {
   font-size: 26px;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: -0.025em;
   line-height: 1.25;
   margin: 0;
@@ -3065,7 +3066,7 @@ tr.lote-card.lote-card-selected {
   background: rgba(255, 255, 255, 0.03);
   color: var(--text-muted);
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .mainCard {
@@ -3140,7 +3141,7 @@ tr.lote-card.lote-card-selected {
 .filterGroup label {
   font-size: 12px;
   color: var(--text-muted);
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .filterGroup select, .filterGroup input[type="text"] {
@@ -3273,7 +3274,7 @@ tr.lote-card.lote-card-selected {
     padding: 14px 16px;
     font-size: 11px;
     color: var(--text-muted);
-    font-weight: 600;
+    font-weight: 500;
     text-transform: uppercase;
     background-color: rgba(0, 0, 0, 0.2);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -3438,7 +3439,7 @@ tr.lote-card.lote-card-selected {
 
   .paginationMobileStatus strong {
     color: var(--text);
-    font-weight: 700;
+    font-weight: 600;
   }
 }
 
@@ -3621,7 +3622,7 @@ tr.lote-card.lote-card-selected {
   height: 42px;
   padding: 0 16px;
   font-size: 13.5px;
-  font-weight: 600;
+  font-weight: 500;
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.16);
@@ -3660,7 +3661,7 @@ tr.lote-card.lote-card-selected {
   min-height: 38px;
   padding: 0 8px;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 500;
   color: #ffffff;
   background: #8b1e1e;
   border: 1px solid #a82424;
@@ -3700,7 +3701,7 @@ tr.lote-card.lote-card-selected {
   height: 38px;
   padding: 0 12px;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 500;
   border-radius: 8px;
   color: #ffffff;
   background: #7f1d1d;
@@ -3768,7 +3769,7 @@ tr.lote-card.lote-card-selected {
 .form-section-title {
   font-family: var(--font-title);
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: #e4e4e7;
@@ -3820,7 +3821,7 @@ tr.lote-card.lote-card-selected {
   max-width: 380px;
   min-height: 48px;
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 500;
   border-radius: 10px;
   touch-action: manipulation;
 }
@@ -3914,7 +3915,7 @@ tr.lote-card.lote-card-selected {
   border: 1px solid rgba(192, 132, 252, 0.6) !important;
   font-family: var(--font-title) !important;
   font-size: 10px !important;
-  font-weight: 700 !important;
+  font-weight: 600 !important;
   text-transform: uppercase !important;
   letter-spacing: 0.03em !important;
   padding: 2px 7px !important;
@@ -4053,7 +4054,7 @@ tr.lote-card.lote-card-selected {
   border-radius: 20px;
   padding: 6px 12px;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -4085,7 +4086,7 @@ tr.lote-card.lote-card-selected {
 .mov-header-clean h1 {
   font-family: var(--font-title);
   font-size: 22px;
-  font-weight: 700;
+  font-weight: 600;
   color: #ffffff;
   letter-spacing: -0.025em;
   line-height: 1.25;
@@ -4191,7 +4192,7 @@ tr.lote-card.lote-card-selected {
   padding: 6px 14px;
   font-size: 12.5px;
   font-family: var(--font-title);
-  font-weight: 600;
+  font-weight: 500;
   border-radius: 6px;
   border: none;
   background: transparent;
@@ -4208,7 +4209,7 @@ tr.lote-card.lote-card-selected {
   background: #8b1e1e !important;
   color: #ffffff !important;
   border: 1px solid #a82424 !important;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .mov-selects-group {
@@ -4266,7 +4267,7 @@ tr.lote-card.lote-card-selected {
 .mov-item-title {
   font-family: var(--font-title);
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 600;
   color: #f4f4f5;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -4285,7 +4286,7 @@ tr.lote-card.lote-card-selected {
 
 .mov-item-status {
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 600;
   font-family: var(--font-title);
   white-space: nowrap;
   flex-shrink: 0;
@@ -4325,7 +4326,7 @@ tr.lote-card.lote-card-selected {
 .mov-table-desktop th {
   padding: 11px 16px;
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 600;
   font-family: var(--font-title);
   color: #a1a1aa;
   text-transform: uppercase;
@@ -4483,7 +4484,7 @@ tr.lote-card.lote-card-selected {
 
   .filterGroup label {
     font-size: 10.5px !important;
-    font-weight: 600 !important;
+    font-weight: 500 !important;
     color: #8e8e98 !important;
     font-family: var(--font-body) !important;
     line-height: 1.2 !important;
@@ -4559,7 +4560,7 @@ tr.lote-card.lote-card-selected {
   .disco-titulo {
     font-family: var(--font-title) !important;
     font-size: 16px !important;
-    font-weight: 700 !important;
+    font-weight: 600 !important;
     color: #e5e5e5 !important;
     letter-spacing: -0.015em !important;
     line-height: 1.25 !important;
@@ -4581,8 +4582,8 @@ tr.lote-card.lote-card-selected {
   .disco-valor-preco {
     font-family: var(--font-title) !important;
     font-size: 19px !important;
-    font-weight: 800 !important;
-    color: #6EE7B7 !important;
+    font-weight: 600 !important;
+    color: var(--price) !important;
     letter-spacing: -0.02em !important;
   }
 
@@ -4593,7 +4594,7 @@ tr.lote-card.lote-card-selected {
     color: #ffffff !important;
     border-radius: 6px !important;
     font-size: 11px !important;
-    font-weight: 600 !important;
+    font-weight: 500 !important;
     padding: 2px 7px !important;
   }
 
@@ -4603,7 +4604,7 @@ tr.lote-card.lote-card-selected {
     color: #ffffff !important;
     border-radius: 6px !important;
     font-size: 11px !important;
-    font-weight: 600 !important;
+    font-weight: 500 !important;
     padding: 2px 6px !important;
   }
 
@@ -4613,7 +4614,7 @@ tr.lote-card.lote-card-selected {
     color: #ffffff !important;
     border-radius: 6px !important;
     font-size: 10.5px !important;
-    font-weight: 700 !important;
+    font-weight: 600 !important;
     padding: 2px 7px !important;
     letter-spacing: 0.02em !important;
     text-transform: uppercase !important;
@@ -4626,7 +4627,7 @@ tr.lote-card.lote-card-selected {
     color: #ffffff !important;
     border-radius: 6px !important;
     font-size: 11px !important;
-    font-weight: 600 !important;
+    font-weight: 500 !important;
     padding: 2px 7px !important;
     line-height: 1.2 !important;
   }
@@ -4653,7 +4654,7 @@ tr.lote-card.lote-card-selected {
     color: #ffffff !important;
     border-radius: 6px !important;
     font-size: 10px !important;
-    font-weight: 700 !important;
+    font-weight: 600 !important;
     padding: 2px 7px !important;
     text-transform: uppercase !important;
   }
@@ -4716,7 +4717,7 @@ tr.lote-card.lote-card-selected {
   .form-group label {
     font-family: var(--font-body) !important;
     font-size: 12px !important;
-    font-weight: 600 !important;
+    font-weight: 500 !important;
     color: #94949e !important;
     margin-bottom: 6px !important;
   }
@@ -4749,7 +4750,7 @@ tr.lote-card.lote-card-selected {
     border: 1px solid #2b2b34 !important;
     color: #e4e4e7 !important;
     border-radius: 8px !important;
-    font-weight: 600 !important;
+    font-weight: 500 !important;
   }
 
   .discogs-scanners-row {
@@ -4770,7 +4771,7 @@ tr.lote-card.lote-card-selected {
 
   .discogs-scanner-chip {
     border-radius: 8px !important;
-    font-weight: 600 !important;
+    font-weight: 500 !important;
     background: #8b1e1e !important;
     border: 1px solid #a82424 !important;
     color: #ffffff !important;
@@ -4832,7 +4833,7 @@ tr.lote-card.lote-card-selected {
   .table-responsive td[data-label="Título"] {
     font-family: var(--font-title) !important;
     font-size: 14px !important;
-    font-weight: 700 !important;
+    font-weight: 600 !important;
     color: #f4f4f5 !important;
     padding-right: 74px !important;
   }
@@ -4850,7 +4851,7 @@ tr.lote-card.lote-card-selected {
     border: 1px solid #a82424 !important;
     color: #ffffff !important;
     font-family: var(--font-title) !important;
-    font-weight: 600 !important;
+    font-weight: 500 !important;
     font-size: 12px !important;
     padding: 5px 12px !important;
     border-radius: 6px !important;
@@ -4863,7 +4864,7 @@ tr.lote-card.lote-card-selected {
     color: #e4e4e7 !important;
     border-radius: 8px !important;
     font-family: var(--font-title) !important;
-    font-weight: 600 !important;
+    font-weight: 500 !important;
     font-size: 13px !important;
   }
 }
@@ -4974,9 +4975,9 @@ tr.catalog-row.catalog-row-selected {
 }
 
 .catalog-bulk-dock-count {
-  font-family: var(--font-title), var(--font-outfit), sans-serif;
+  font-family: var(--font-title);
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 600;
   color: #ffffff;
 }
 
@@ -4999,7 +5000,7 @@ tr.catalog-row.catalog-row-selected {
   border-radius: 8px;
   padding: 8px 14px;
   font-size: 13.5px;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
   min-height: 40px;
   display: flex;
@@ -5019,7 +5020,7 @@ tr.catalog-row.catalog-row-selected {
   border-radius: 8px;
   padding: 8px 20px;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 600;
   cursor: pointer;
   min-height: 40px;
   display: flex;
@@ -5116,7 +5117,7 @@ tr.catalog-row.catalog-row-selected {
   width: 100%;
   min-height: 46px;
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 500;
   border-radius: 10px;
   touch-action: manipulation;
 }
@@ -5170,7 +5171,7 @@ tr.catalog-row.catalog-row-selected {
   color: #a1a1aa;
   font: inherit;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
   transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
 }
@@ -5251,7 +5252,7 @@ tr.catalog-row.catalog-row-selected {
   font-family: var(--font-title);
   text-align: center;
   font-size: 22px;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.25;
   letter-spacing: -0.3px;
 }
@@ -5366,7 +5367,7 @@ tr.catalog-row.catalog-row-selected {
   background: #c21f2a !important;
   font-family: var(--font-body);
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.2px;
   box-shadow: none;
 }
@@ -5621,7 +5622,7 @@ tr.catalog-row.catalog-row-selected {
 
   .lote-filters-card .filterGroup label {
     font-size: 11.5px !important;
-    font-weight: 600 !important;
+    font-weight: 500 !important;
     color: #94949e !important;
     font-family: var(--font-body) !important;
   }

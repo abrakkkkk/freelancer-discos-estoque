@@ -437,7 +437,7 @@ export default function CoverScannerModal({ isOpen, onClose, onRecognized, onCov
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <IoCamera size={20} color="var(--accent, #e53e3e)" />
-            <h2 style={{ fontSize: '16px', fontWeight: 600, color: '#fff', margin: 0 }}>
+            <h2 style={{ fontSize: '16px', fontWeight: 500, color: '#fff', margin: 0 }}>
               {title}
             </h2>
           </div>
@@ -522,7 +522,7 @@ export default function CoverScannerModal({ isOpen, onClose, onRecognized, onCov
                     backdropFilter: 'blur(4px)',
                     color: '#fff',
                     fontSize: '11.5px',
-                    fontWeight: 600,
+                    fontWeight: 500,
                     padding: '3px 10px',
                     borderRadius: '12px',
                     border: '1px solid rgba(255, 255, 255, 0.25)',
@@ -663,7 +663,7 @@ export default function CoverScannerModal({ isOpen, onClose, onRecognized, onCov
                   animation: 'spin 0.8s linear infinite'
                 }}
               />
-              <span style={{ fontSize: '14px', fontWeight: 600, color: '#fff' }}>
+              <span style={{ fontSize: '14px', fontWeight: 500, color: '#fff' }}>
                 Reconhecendo arte visual...
               </span>
               <span style={{ fontSize: '11px', color: 'var(--text-muted, #a1a1aa)' }}>
@@ -697,7 +697,7 @@ export default function CoverScannerModal({ isOpen, onClose, onRecognized, onCov
                   background: zoomLevel === zoomRange.min ? 'rgba(229, 62, 62, 0.2)' : 'rgba(255, 255, 255, 0.05)',
                   color: '#fff',
                   fontSize: '11.5px',
-                  fontWeight: 600,
+                  fontWeight: 500,
                   cursor: 'pointer'
                 }}
               >
@@ -714,7 +714,7 @@ export default function CoverScannerModal({ isOpen, onClose, onRecognized, onCov
                 background: Math.abs(zoomLevel - 1) < 0.2 ? 'rgba(229, 62, 62, 0.2)' : 'rgba(255, 255, 255, 0.05)',
                 color: '#fff',
                 fontSize: '11.5px',
-                fontWeight: 600,
+                fontWeight: 500,
                 cursor: 'pointer'
               }}
             >
@@ -731,7 +731,7 @@ export default function CoverScannerModal({ isOpen, onClose, onRecognized, onCov
                   background: Math.abs(zoomLevel - 2) < 0.2 ? 'rgba(229, 62, 62, 0.2)' : 'rgba(255, 255, 255, 0.05)',
                   color: '#fff',
                   fontSize: '11.5px',
-                  fontWeight: 600,
+                  fontWeight: 500,
                   cursor: 'pointer'
                 }}
               >
@@ -757,7 +757,7 @@ export default function CoverScannerModal({ isOpen, onClose, onRecognized, onCov
               flexShrink: 0
             }}
           >
-            <span style={{ fontWeight: 600 }}>Atenção:</span>
+            <span style={{ fontWeight: 500 }}>Atenção:</span>
             <span>{erro}</span>
           </div>
         )}
@@ -789,7 +789,7 @@ export default function CoverScannerModal({ isOpen, onClose, onRecognized, onCov
                   justifyContent: 'center',
                   gap: '8px',
                   fontSize: '14px',
-                  fontWeight: 600
+                  fontWeight: 500
                 }}
               >
                 <IoRefresh size={18} /> Tirar outra foto

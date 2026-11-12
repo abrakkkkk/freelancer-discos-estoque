@@ -1137,7 +1137,7 @@ function EditarExcluirContent() {
                           </span>
                         ) : '—'}
                       </td>
-                      <td data-label="Preço" style={{ whiteSpace: 'nowrap', color: 'var(--price, #6EE7B7)', fontWeight: 600 }}>
+                      <td data-label="Preço" style={{ whiteSpace: 'nowrap', color: 'var(--price)', fontWeight: 500 }}>
                         R$ {Number(item.preco || 0).toFixed(2).replace('.', ',')}
                       </td>
                       <td data-label="Status">

@@ -442,7 +442,7 @@ export default function CadastroLoteFotos() {
       {sucessoFinal && (
         <div className="lote-fotos-success-alert">
           <MdCheckCircle size={20} />
-          <span style={{ fontWeight: 600, fontSize: '13px' }}>{sucessoFinal}</span>
+          <span style={{ fontWeight: 500, fontSize: '13px' }}>{sucessoFinal}</span>
         </div>
       )}
 

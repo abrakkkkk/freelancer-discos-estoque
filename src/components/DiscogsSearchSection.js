@@ -187,7 +187,7 @@ export default function DiscogsSearchSection({
                       <span
                         className="sugestoes-title"
                         style={{
-                          fontWeight: 'bold',
+                          fontWeight: '600',
                           overflow: 'hidden',
                           textOverflow: 'ellipsis',
                           whiteSpace: 'nowrap',

@@ -115,7 +115,7 @@ export default function ConfirmModal({
           style={{
             margin: 0,
             fontSize: '19px',
-            fontWeight: 700,
+            fontWeight: 600,
             color: 'var(--text, #ffffff)',
             letterSpacing: '-0.3px',
           }}
@@ -154,7 +154,7 @@ export default function ConfirmModal({
               minHeight: '44px',
               borderRadius: '10px',
               fontSize: '15px',
-              fontWeight: 600,
+              fontWeight: 500,
               cursor: isSubmitting ? 'not-allowed' : 'pointer',
               opacity: isSubmitting ? 0.6 : 1,
               touchAction: 'manipulation',
@@ -172,7 +172,7 @@ export default function ConfirmModal({
               minHeight: '44px',
               borderRadius: '10px',
               fontSize: '15px',
-              fontWeight: 600,
+              fontWeight: 500,
               background: isDanger ? 'var(--accent, #c53030)' : 'var(--accent-hover, #9b2c2c)',
               color: '#ffffff',
               border: 'none',

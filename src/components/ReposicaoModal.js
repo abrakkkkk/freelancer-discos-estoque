@@ -96,7 +96,7 @@ export default function ReposicaoModal({
             <MdLayers size={22} color="#f59e0b" />
           </div>
           <div style={{ flex: 1 }}>
-            <h2 style={{ fontSize: '17px', fontWeight: 700, margin: 0, color: '#f4f4f5' }}>
+            <h2 style={{ fontSize: '17px', fontWeight: 600, margin: 0, color: '#f4f4f5' }}>
               Reposição Disponível!
             </h2>
             <p style={{ fontSize: '12px', color: '#a1a1aa', margin: '2px 0 0 0' }}>
@@ -120,7 +120,7 @@ export default function ReposicaoModal({
         >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px' }}>
             <div>
-              <div style={{ fontSize: '14px', fontWeight: 700, color: '#fff' }}>
+              <div style={{ fontSize: '14px', fontWeight: 600, color: '#fff' }}>
                 {reserva?.titulo || itemSaida?.titulo}
               </div>
               {reserva?.artista && (
@@ -132,7 +132,7 @@ export default function ReposicaoModal({
             <span
               style={{
                 fontSize: '11px',
-                fontWeight: 700,
+                fontWeight: 600,
                 color: '#f59e0b',
                 background: 'rgba(245, 158, 11, 0.12)',
                 border: '1px solid rgba(245, 158, 11, 0.28)',
@@ -160,7 +160,7 @@ export default function ReposicaoModal({
               {reserva?.loja ? ` (${reserva.loja})` : ''}
             </span>
             {reserva?.preco && (
-              <span style={{ fontWeight: 700, color: '#6EE7B7' }}>
+              <span style={{ fontWeight: 600, color: 'var(--price)' }}>
                 R$ {Number(reserva.preco).toFixed(2).replace('.', ',')}
               </span>
             )}
@@ -187,7 +187,7 @@ export default function ReposicaoModal({
               background: '#10b981',
               color: '#ffffff',
               fontSize: '14px',
-              fontWeight: 700,
+              fontWeight: 600,
               cursor: isRepondo ? 'not-allowed' : 'pointer',
               display: 'flex',
               alignItems: 'center',
@@ -214,7 +214,7 @@ export default function ReposicaoModal({
               background: 'transparent',
               color: '#a1a1aa',
               fontSize: '13px',
-              fontWeight: 600,
+              fontWeight: 500,
               cursor: isRepondo ? 'not-allowed' : 'pointer',
               display: 'flex',
               alignItems: 'center',

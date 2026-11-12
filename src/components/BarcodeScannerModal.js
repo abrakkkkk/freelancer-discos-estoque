@@ -376,7 +376,7 @@ export default function BarcodeScannerModal({ isOpen, onClose, onScan }) {
         <div className="scanner-modal-header">
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <FaBarcode size={20} color="var(--accent)" />
-            <h3 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 600 }}>Leitor de Código de Barras</h3>
+            <h3 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 500 }}>Leitor de Código de Barras</h3>
           </div>
           <button 
             type="button" 
@@ -448,7 +448,7 @@ export default function BarcodeScannerModal({ isOpen, onClose, onScan }) {
                       cursor: 'pointer',
                       background: zoomLevel === 1 ? 'var(--accent)' : 'transparent',
                       color: zoomLevel === 1 ? '#000' : 'var(--text)',
-                      fontWeight: 600,
+                      fontWeight: 500,
                     }}
                   >
                     1x
@@ -465,7 +465,7 @@ export default function BarcodeScannerModal({ isOpen, onClose, onScan }) {
                         cursor: 'pointer',
                         background: Math.abs(zoomLevel - 1.4) < 0.1 ? 'var(--accent)' : 'transparent',
                         color: Math.abs(zoomLevel - 1.4) < 0.1 ? '#000' : 'var(--text)',
-                        fontWeight: 600,
+                        fontWeight: 500,
                       }}
                     >
                       1.4x
@@ -483,7 +483,7 @@ export default function BarcodeScannerModal({ isOpen, onClose, onScan }) {
                         cursor: 'pointer',
                         background: zoomLevel === 2 ? 'var(--accent)' : 'transparent',
                         color: zoomLevel === 2 ? '#000' : 'var(--text)',
-                        fontWeight: 600,
+                        fontWeight: 500,
                       }}
                     >
                       2x

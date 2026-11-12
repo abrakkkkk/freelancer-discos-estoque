@@ -121,11 +121,11 @@ export default function Movimentacoes() {
         {!loading && movimentacoes.length > 0 && (
           <div className="mov-header-counter">
             <span>
-              <strong style={{ color: '#34d399', fontWeight: 600 }}>{totalEntradas}</strong> entradas
+              <strong style={{ color: '#34d399', fontWeight: 500 }}>{totalEntradas}</strong> entradas
             </span>
             <span style={{ opacity: 0.35 }}>•</span>
             <span>
-              <strong style={{ color: '#f87171', fontWeight: 600 }}>{totalSaidas}</strong> saídas
+              <strong style={{ color: '#f87171', fontWeight: 500 }}>{totalSaidas}</strong> saídas
             </span>
           </div>
         )}

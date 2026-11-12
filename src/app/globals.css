@@ -30,6 +30,9 @@
   --page-gradient: radial-gradient(120% 55% at 50% 0%, #2a0f12 0%, #0b0b0d 62%);
   --text: #e4e4e7;
   --price: #ffffff;
+  --card-title: #ede6dc;
+  --card-muted: #a8a29e;
+  --card-action: #8a8a93;
   --text-muted: #a1a1aa;
   --border: #232328;
   --bg-card: #151518;
@@ -2713,7 +2716,7 @@ tr.lote-card.lote-card-selected {
   tr.lote-card .disco-titulo {
     font-size: 15px !important;
     font-weight: 600 !important;
-    color: #e5e5e5 !important;
+    color: var(--card-title) !important;
     line-height: 1.25 !important;
     word-break: break-word !important;
     display: -webkit-box !important;
@@ -2728,7 +2731,7 @@ tr.lote-card.lote-card-selected {
   tr.lote-card .disco-artista {
     font-size: 12px !important;
     font-weight: 500 !important;
-    color: #a1a1aa !important;
+    color: var(--card-muted) !important;
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
@@ -4515,7 +4518,7 @@ tr.lote-card.lote-card-selected {
     font-family: var(--font-title) !important;
     font-size: 16px !important;
     font-weight: 600 !important;
-    color: #e5e5e5 !important;
+    color: var(--card-title) !important;
     letter-spacing: -0.015em !important;
     line-height: 1.25 !important;
   }
@@ -4524,7 +4527,7 @@ tr.lote-card.lote-card-selected {
     font-family: var(--font-body) !important;
     font-size: 13px !important;
     font-weight: 500 !important;
-    color: #a1a1aa !important;
+    color: var(--card-muted) !important;
     margin-top: 1px !important;
   }
 
@@ -4548,7 +4551,7 @@ tr.lote-card.lote-card-selected {
     margin-top: 2px !important;
     max-width: 100% !important;
     font-size: 12px !important;
-    color: #a1a1aa !important;
+    color: var(--card-muted) !important;
   }
 
   .disco-meta-texto {
@@ -4627,7 +4630,7 @@ tr.lote-card.lote-card-selected {
     height: 36px !important;
     background: #202025 !important;
     border: 1px solid #2b2b34 !important;
-    color: #e4e4e7 !important;
+    color: var(--card-action) !important;
     border-radius: var(--radius-sm) !important;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
   }
@@ -4637,7 +4640,7 @@ tr.lote-card.lote-card-selected {
   tr.card-disco-loja2 .iconBtn.delete {
     background: transparent !important;
     border: 1px solid #2b2b34 !important;
-    color: #a1a1aa !important;
+    color: var(--card-action) !important;
     box-shadow: none !important;
   }
 
@@ -5246,6 +5249,11 @@ tr.catalog-row.catalog-row-selected {
   font-family: var(--font-body);
   font-size: 15px;
   appearance: none;
+}
+
+.login-form .login-input-wrap input::placeholder {
+  color: #8a8a93;
+  opacity: 1;
 }
 
 .login-form .login-input-wrap input:focus {

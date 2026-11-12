@@ -5196,14 +5196,6 @@ tr.catalog-row.catalog-row-selected {
   margin: 0;
 }
 
-.login-heading {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  text-align: center;
-}
-
 .login-panel h1 {
   margin: 0;
   color: #fff;
@@ -5213,14 +5205,6 @@ tr.catalog-row.catalog-row-selected {
   font-weight: 500;
   line-height: 1.25;
   letter-spacing: -0.3px;
-}
-
-.login-heading-rule {
-  display: block;
-  width: 36px;
-  height: 2px;
-  border-radius: 2px;
-  background: #c21f2a;
 }
 
 .login-form {
@@ -5262,11 +5246,6 @@ tr.catalog-row.catalog-row-selected {
   font-family: var(--font-body);
   font-size: 15px;
   appearance: none;
-}
-
-.login-form .login-input-wrap input::placeholder {
-  color: #8a8a93;
-  opacity: 1;
 }
 
 .login-form .login-input-wrap input:focus {
@@ -5322,7 +5301,7 @@ tr.catalog-row.catalog-row-selected {
   min-height: 54px;
   margin-top: 0;
   border-radius: var(--radius-sm) !important;
-  background: #c21f2a !important;
+  background: var(--accent) !important;
   font-family: var(--font-body);
   font-size: 16px;
   font-weight: 500;
@@ -5331,14 +5310,12 @@ tr.catalog-row.catalog-row-selected {
 }
 
 .login-submit:hover:not(:disabled) {
-  background: #a91a24 !important;
+  background: var(--accent-hover) !important;
 }
 
-.login-restricted {
-  margin: 0;
-  color: #8a8a93;
-  font-size: 12px;
-  text-align: center;
+.login-submit:disabled {
+  opacity: 1;
+  cursor: progress;
 }
 
 .login-error {
@@ -5349,7 +5326,7 @@ tr.catalog-row.catalog-row-selected {
 }
 
 .login-form :focus-visible {
-  outline: 2px solid #e76b6b;
+  outline: 2px solid #e5313b;
   outline-offset: 2px;
 }
 
@@ -5372,11 +5349,6 @@ tr.catalog-row.catalog-row-selected {
     font-size: 23px;
   }
 
-  .login-heading-rule {
-    width: 36px;
-    height: 2px;
-  }
-
   .login-form {
     gap: 16px;
   }
@@ -5397,10 +5369,6 @@ tr.catalog-row.catalog-row-selected {
     font-size: 15px;
   }
 
-  .login-restricted {
-    font-size: 13px;
-  }
-
   .catalog-camera-btn {
     display: none !important;
   }
@@ -5416,10 +5384,6 @@ tr.catalog-row.catalog-row-selected {
 
   .login-panel {
     min-height: 0;
-  }
-
-  .login-restricted {
-    flex: 0 0 auto;
   }
 }
 

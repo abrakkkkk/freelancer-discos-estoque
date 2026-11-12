@@ -96,10 +96,7 @@ export default function LoginForm() {
           height={548}
           priority
         />
-        <div className="login-heading">
-          <h1 id="login-title">Controle de Estoque</h1>
-          <span className="login-heading-rule" aria-hidden="true" />
-        </div>
+        <h1 id="login-title">Controle de Estoque</h1>
 
         <form onSubmit={handleSubmit} className="login-form">
           <div className="form-group">
@@ -111,7 +108,6 @@ export default function LoginForm() {
                 name="email"
                 type="email"
                 autoComplete="username"
-                placeholder="seu@email.com"
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
                 required
@@ -127,7 +123,6 @@ export default function LoginForm() {
                 name="password"
                 type={showPassword ? 'text' : 'password'}
                 autoComplete="current-password"
-                placeholder="Digite sua senha"
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
                 required
@@ -148,12 +143,11 @@ export default function LoginForm() {
             </div>
           </div>
           {error && <p className="login-error" role="alert">{error}</p>}
-          <button className="btn btn-primary login-submit" type="submit" disabled={loading}>
-            Entrar
+          <button className="btn btn-primary login-submit" type="submit" disabled={loading} aria-busy={loading}>
+            {loading ? 'Entrando…' : 'Entrar'}
           </button>
         </form>
       </section>
-      <p className="login-restricted">Acesso Restrito</p>
     </main>
   );
 }

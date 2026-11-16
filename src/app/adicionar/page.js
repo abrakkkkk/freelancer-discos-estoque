@@ -129,7 +129,7 @@ export default function AdicionarItem() {
     if (!isVideo && !form.artista?.trim()) return 'Preencha o artista.';
     if (!form.titulo?.trim()) return 'O Título é obrigatório.';
     if (form.ativo !== false && !form.loja) return 'Selecione uma loja.';
-    if (getUnmaskedPreco() < 0) return 'O preço não pode ser negativo.';
+    if (!(getUnmaskedPreco() > 0)) return 'Informe o preço.';
     return null;
   };
 
@@ -651,8 +651,8 @@ export default function AdicionarItem() {
 
             <div className="form-row">
               <div className="form-group">
-                <label>Preço (R$) (Opcional)</label>
-                <input name="preco" type="text" value={form.preco} onChange={handleChange} />
+                <label>Preço (R$) *</label>
+                <input name="preco" type="text" inputMode="decimal" value={form.preco} onChange={handleChange} aria-required="true" />
               </div>
               <div
                 className="form-group"

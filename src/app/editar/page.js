@@ -384,8 +384,8 @@ function EditarExcluirContent() {
     }
 
     const precoSemMascara = getUnmaskedPreco();
-    if (precoSemMascara < 0) {
-      return setMensagem({ tipo: 'error', texto: 'O preço não pode ser negativo.' });
+    if (!(precoSemMascara > 0)) {
+      return setMensagem({ tipo: 'error', texto: 'Informe o preço.' });
     }
 
     const caixaNormalizada = form.caixa?.trim()
@@ -925,8 +925,8 @@ function EditarExcluirContent() {
 
               <div className="form-row">
                 <div className="form-group">
-                  <label>Preço (R$)</label>
-                  <input name="preco" type="text" value={form.preco} onChange={handleChange} />
+                  <label>Preço (R$) *</label>
+                  <input name="preco" type="text" inputMode="decimal" value={form.preco} onChange={handleChange} aria-required="true" />
                 </div>
                 <div
                   className="form-group"

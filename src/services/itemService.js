@@ -3,9 +3,19 @@ import { removeAcentos, extractSearchTokens, createRelevanceScorer, accentInsens
 import { caixaService } from '@/services/caixaService';
 import { createStockWriteService } from '@/services/stockWriteService.mjs';
 
+function avisarVitrine({ category, ids }) {
+  fetch('/api/vitrine/revalidar', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ categoria: category, ids }),
+    keepalive: true,
+  }).catch(() => {});
+}
+
 const stockWriteService = createStockWriteService({
   rpc: (...args) => supabase.rpc(...args),
   invalidateCache: () => caixaService.invalidateCache(),
+  notifyChange: avisarVitrine,
 });
 
 const isVideoCategory = (category) => category === 'dvds' || category === 'vhs';
@@ -226,6 +236,7 @@ export const itemService = {
     if (updateData.caixa !== undefined || updateData.loja !== undefined) {
       caixaService.invalidateCache();
     }
+    avisarVitrine({ category, ids: [id] });
   },
 
   async bulkUpdate(category, ids, updateData) {

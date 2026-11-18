@@ -1,6 +1,16 @@
 const RPC_NAME = 'stock_write_transaction';
 
-export function createStockWriteService({ rpc, invalidateCache = () => {} }) {
+export function createStockWriteService({ rpc, invalidateCache = () => {}, notifyChange = () => {} }) {
+  function notify(category, ids) {
+    const validIds = ids.filter((id) => id !== undefined && id !== null);
+    if (validIds.length === 0) return;
+    try {
+      notifyChange({ category, ids: validIds });
+    } catch {
+      return;
+    }
+  }
+
   async function runTransaction(parameters) {
     const { data, error } = await rpc(RPC_NAME, parameters);
     if (error) throw error;
@@ -24,20 +34,23 @@ export function createStockWriteService({ rpc, invalidateCache = () => {} }) {
       });
 
       if (item.caixa) invalidateCache();
+      notify(category, [data?.id]);
       return data;
     },
 
     async bulkUpdate(category, ids, payload) {
       if (!ids || ids.length === 0) return;
+      const uniqueIds = [...new Set(ids)];
 
       await runTransaction({
         p_action: 'bulk_update',
         p_category: category,
-        p_ids: [...new Set(ids)],
+        p_ids: uniqueIds,
         p_payload: payload,
       });
 
       invalidateCacheWhenLocationChanges(payload);
+      notify(category, uniqueIds);
     },
 
     async deleteItemWithMovement(category, item, reason = 'Saída (Excluído)') {
@@ -47,17 +60,20 @@ export function createStockWriteService({ rpc, invalidateCache = () => {} }) {
         p_ids: [item.id],
         p_reason: reason,
       });
+      notify(category, [item.id]);
     },
 
     async bulkDeleteWithMovement(category, items, reason = 'Saída em Lote') {
       if (!items || items.length === 0) return;
 
+      const uniqueIds = [...new Set(items.map((item) => item.id))];
       await runTransaction({
         p_action: 'soft_delete',
         p_category: category,
-        p_ids: [...new Set(items.map((item) => item.id))],
+        p_ids: uniqueIds,
         p_reason: reason,
       });
+      notify(category, uniqueIds);
     },
 
     async promoteReplacement(category, replacementId, targetBox, targetStore, movement) {
@@ -74,6 +90,7 @@ export function createStockWriteService({ rpc, invalidateCache = () => {} }) {
       });
 
       if (targetBox || targetStore) invalidateCache();
+      notify(category, [replacementId]);
     },
   };
 }

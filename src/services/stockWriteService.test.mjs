@@ -95,6 +95,37 @@ describe('stock write service', () => {
     assert.equal(testService.invalidationCount, 1);
   });
 
+  it('notifies the storefront with the ids changed by each write', async () => {
+    const notifications = [];
+    const service = createStockWriteService({
+      rpc: async () => ({ data: { id: 42 }, error: null }),
+      notifyChange: (change) => notifications.push(change),
+    });
+
+    await service.addItem('discos', { titulo: 'Disco' });
+    await service.bulkUpdate('cds', [5, 5, 6], { preco: 10 });
+    await service.deleteItemWithMovement('vhs', { id: 7 });
+    await service.bulkDeleteWithMovement('dvds', [{ id: 3 }, { id: 3 }]);
+    await service.promoteReplacement('discos', 19, '4', 'Loja 1', {});
+
+    assert.deepEqual(notifications, [
+      { category: 'discos', ids: [42] },
+      { category: 'cds', ids: [5, 6] },
+      { category: 'vhs', ids: [7] },
+      { category: 'dvds', ids: [3] },
+      { category: 'discos', ids: [19] },
+    ]);
+  });
+
+  it('keeps the write successful when the storefront notification throws', async () => {
+    const service = createStockWriteService({
+      rpc: async () => ({ data: { id: 1 }, error: null }),
+      notifyChange: () => { throw new Error('offline'); },
+    });
+
+    await assert.doesNotReject(service.deleteItemWithMovement('discos', { id: 1 }));
+  });
+
   it('does not invalidate cache after a failed database transaction', async () => {
     const databaseError = new Error('transaction rejected');
     const { service, invalidationCount } = createTestService({ data: null, error: databaseError });

@@ -5677,3 +5677,167 @@ tr.catalog-row.catalog-row-selected {
     border-color: var(--accent) !important;
   }
 }
+
+/* ==========================================================================
+   Filtros do catálogo: botão "Filtros" no celular, como na vitrine
+   ========================================================================== */
+.catalog-filtros-btn,
+.catalog-filtros-ativos {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .catalog-filtros-btn {
+    flex-shrink: 0;
+    height: 38px;
+    padding: 0 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #1a1a20;
+    border: 1px solid #282832;
+    border-radius: var(--radius-sm);
+    color: #f4f4f5;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .catalog-filtros-btn-ativo,
+  .catalog-filtros-btn[aria-expanded='true'] {
+    border-color: var(--accent);
+  }
+
+  .catalog-filtros-btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .catalog-filtros-contagem {
+    min-width: 20px;
+    padding: 2px 6px;
+    border-radius: var(--radius-full);
+    background: var(--accent);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    text-align: center;
+  }
+
+  .catalog-filters-card .filtersRow:not(.filtersRow-aberto) > .filterGroup-opcao {
+    display: none !important;
+  }
+
+  /* Com a loja fixa, caixa e ordem dividem a linha. */
+  .catalog-filters-card .filtersRow-store-selected .filterGroup:nth-child(2) {
+    grid-column: auto !important;
+  }
+
+  /* Sem loja fixa: caixa, loja e ordem numa linha só (a ordem leva a coluna mais larga). */
+  .catalog-filters-card .filtersRow:not(.filtersRow-store-selected) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr) minmax(0, 1.2fr) !important;
+    column-gap: 6px !important;
+  }
+
+  .catalog-filters-card .filtersRow-store-selected {
+    column-gap: 6px !important;
+  }
+
+  .catalog-filters-card .filterGroup-opcao select {
+    height: 36px !important;
+    min-height: 36px !important;
+    /* A seta nativa já reserva o próprio espaço à direita. */
+    padding-left: 8px !important;
+    padding-right: 2px !important;
+  }
+
+  /* "Filtrar por" não cabe em três colunas: fica só o nome, com a primeira letra maiúscula. */
+  .catalog-filters-card .rotulo-filtrar-por {
+    display: none;
+  }
+
+  .catalog-filters-card .rotulo-nome {
+    display: inline-block;
+  }
+
+  .catalog-filters-card .rotulo-nome::first-letter {
+    text-transform: uppercase;
+  }
+
+  .catalog-filters-card .filterGroup-opcao > label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .catalog-filtros-ativos {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .catalog-filtros-ativos-aberto .catalog-filtro-chip {
+    display: none;
+  }
+
+  .catalog-filtro-chip {
+    position: relative;
+    max-width: 100%;
+    min-height: 32px;
+    padding: 0 8px 0 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    border: none;
+    border-radius: var(--radius-full);
+    background: var(--accent);
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  /* Área de toque de 40px sem aumentar o desenho da etiqueta. */
+  .catalog-filtro-chip::after {
+    content: '';
+    position: absolute;
+    inset: -4px 0;
+  }
+
+  .catalog-filtro-chip span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .catalog-filtros-limpar {
+    height: 32px;
+    margin-left: auto;
+    padding: 0 2px;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+  }
+}
+
+@media (min-width: 1200px) {
+  .catalog-filters-card .filtersRow {
+    grid-template-columns: minmax(260px, 1.7fr) minmax(140px, 0.85fr) minmax(130px, 0.8fr) minmax(140px, 0.85fr) max-content;
+  }
+
+  .catalog-filters-card .filtersRow-store-selected {
+    grid-template-columns: minmax(280px, 1.9fr) minmax(170px, 1fr) minmax(160px, 1fr) max-content;
+  }
+}

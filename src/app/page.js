@@ -447,7 +447,11 @@ export default function CatalogoClone() {
           onMostrarAtivosChange={catalog.setMostrarAtivos}
           mostrarInativos={catalog.mostrarInativos}
           onMostrarInativosChange={catalog.setMostrarInativos}
+          ordenarColuna={catalog.ordenarColuna}
+          ordenarDirecao={catalog.ordenarDirecao}
+          onOrdenacaoChange={catalog.definirOrdenacao}
           isVideo={isVideo}
+          isDiscos={catalog.activeTab === 'discos'}
           localLabel={localLabel}
         />
 

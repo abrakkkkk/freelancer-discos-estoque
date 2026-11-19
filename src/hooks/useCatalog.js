@@ -81,6 +81,13 @@ export function useCatalog(initialCategory = 'discos') {
     return () => clearTimeout(delay);
   }, [fetchCatalogItems]);
 
+  // Seletor "Ordenar" dos filtros: coluna e direção de uma vez (null volta à ordem padrão).
+  const definirOrdenacao = (coluna, direcao) => {
+    setOrdenarColuna(coluna || null);
+    setOrdenarDirecao(coluna ? direcao : null);
+    setPagina(1);
+  };
+
   const toggleOrdenacao = (coluna) => {
     if (ordenarColuna === coluna) {
       if (ordenarDirecao === 'asc') setOrdenarDirecao('desc');
@@ -154,6 +161,7 @@ export function useCatalog(initialCategory = 'discos') {
     ordenarColuna,
     ordenarDirecao,
     toggleOrdenacao,
+    definirOrdenacao,
     loading,
     error,
     refresh: fetchCatalogItems,

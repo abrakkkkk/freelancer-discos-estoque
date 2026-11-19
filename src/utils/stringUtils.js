@@ -170,6 +170,16 @@ export function extractSearchTokens(queryStr) {
   };
 }
 
+/** Palavra da busca que é um ano de lançamento ("roberto carlos 1980"). */
+export function ehAnoDaBusca(palavra) {
+  return /^(19|20)\d{2}$/.test(palavra);
+}
+
+/** Um ano na busca bate com o ano de lançamento do item. */
+export function bateAnoDoItem(palavra, item) {
+  return ehAnoDaBusca(palavra) && String(item?.ano ?? '').includes(palavra);
+}
+
 export function createRelevanceScorer({ allWords = [], effectiveWords = [], accentedWords = [] }, isVideo = false) {
   const wordPatterns = effectiveWords.map((word) => ({
     word,
@@ -184,7 +194,7 @@ export function createRelevanceScorer({ allWords = [], effectiveWords = [], acce
     const itemTitulo = removeAcentos(item.titulo || '');
     const itemArtista = isVideo ? '' : removeAcentos(item.artista || '');
     const itemCaixa = removeAcentos(item.caixa || '');
-    const fullText = `${itemArtista} ${itemTitulo} ${itemCaixa}`.trim();
+    const fullText = `${itemArtista} ${itemTitulo} ${itemCaixa} ${item.ano ?? ''}`.trim();
 
     if (allWords.length > 0 && allWords.every(w => fullText.includes(w))) {
       score += 100;

@@ -1,5 +1,12 @@
 import { supabase } from '@/lib/supabase';
-import { removeAcentos, extractSearchTokens, createRelevanceScorer, accentInsensitivePattern } from '@/utils/stringUtils';
+import {
+  removeAcentos,
+  extractSearchTokens,
+  createRelevanceScorer,
+  accentInsensitivePattern,
+  ehAnoDaBusca,
+  bateAnoDoItem,
+} from '@/utils/stringUtils';
 import { caixaService } from '@/services/caixaService';
 import { createStockWriteService } from '@/services/stockWriteService.mjs';
 
@@ -149,10 +156,12 @@ export const itemService = {
 
       effectiveWords.forEach((palavra) => {
         const padrao = accentInsensitivePattern(palavra);
+        // Um ano na busca ("roberto carlos 1980") também procura no ano de lançamento.
+        const noAno = ehAnoDaBusca(palavra) ? `,ano.imatch."${palavra}"` : '';
         if (isVideo) {
-          query = query.filter('titulo', 'imatch', padrao);
+          query = noAno ? query.or(`titulo.imatch."${padrao}"${noAno}`) : query.filter('titulo', 'imatch', padrao);
         } else {
-          query = query.or(`titulo.imatch."${padrao}",artista.imatch."${padrao}",caixa.imatch."${padrao}"`);
+          query = query.or(`titulo.imatch."${padrao}",artista.imatch."${padrao}",caixa.imatch."${padrao}"${noAno}`);
         }
       });
       query = query.limit(5000);
@@ -177,6 +186,7 @@ export const itemService = {
 
         return effectiveWords.every((palavra) => {
           const palavraSemEspaco = palavra.replace(/\s+/g, '');
+          if (bateAnoDoItem(palavra, item)) return true;
           if (isVideo) {
             return tituloSemAcento.includes(palavra);
           }

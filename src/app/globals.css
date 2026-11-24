@@ -2216,7 +2216,7 @@ tr.lote-card.lote-card-selected {
     color: #a1a1aa;
     text-decoration: none;
     -webkit-tap-highlight-color: transparent;
-    transition: color 0.15s ease, transform 0.1s ease;
+    transition: color 0.15s ease;
     padding: 4px 0;
   }
 
@@ -2227,7 +2227,8 @@ tr.lote-card.lote-card-selected {
     width: 38px;
     height: 28px;
     border-radius: var(--radius-md);
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid transparent;
+    transition: background-color 0.15s ease-out, border-color 0.15s ease-out, transform 0.12s ease-out;
   }
 
   .bottom-nav-label {
@@ -2244,12 +2245,11 @@ tr.lote-card.lote-card-selected {
 
   .bottom-nav-item.active .bottom-nav-label {
     color: var(--accent-text) !important;
-    font-weight: 600 !important;
   }
 
-  .bottom-nav-item:active {
-    transform: scale(0.94);
-    opacity: 0.85;
+  .bottom-nav-item:active .bottom-nav-icon-wrapper {
+    background: #1c1c22;
+    transform: scale(0.92);
   }
 
   /* Tabelas - Card Layout para Mobile */

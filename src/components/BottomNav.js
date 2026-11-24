@@ -19,6 +19,9 @@ export default function BottomNav() {
   const pathname = usePathname();
   const { activeStore } = useStore();
   const [exportando, setExportando] = useState(false);
+  const [toque, setToque] = useState(null);
+  if (toque && toque.origem !== pathname) setToque(null);
+  const hrefAtivo = toque?.origem === pathname ? toque.destino : pathname;
 
   async function handleExport() {
     setExportando(true);
@@ -36,12 +39,18 @@ export default function BottomNav() {
     <nav className="bottom-nav" aria-label="Navegação móvel inferior">
       <div className="bottom-nav-container">
         {links.map((link) => {
-          const isActive = pathname === link.href;
+          const isActive = hrefAtivo === link.href;
           return (
             <Link
               key={link.href}
               href={link.href}
               className={`bottom-nav-item ${isActive ? 'active' : ''}`}
+              aria-current={isActive ? 'page' : undefined}
+              onClick={(e) => {
+                if (!e.defaultPrevented && link.href !== pathname) {
+                  setToque({ origem: pathname, destino: link.href });
+                }
+              }}
             >
               <div className="bottom-nav-icon-wrapper">
                 {link.icon}

@@ -401,7 +401,6 @@ export default function CoverScannerModal({ isOpen, onClose, onRecognized, onCov
         position: 'fixed',
         inset: 0,
         backgroundColor: 'rgba(0, 0, 0, 0.88)',
-        backdropFilter: 'blur(4px)',
         zIndex: 9999,
         display: 'flex',
         alignItems: 'center',
@@ -519,7 +518,6 @@ export default function CoverScannerModal({ isOpen, onClose, onRecognized, onCov
                 <span
                   style={{
                     background: 'rgba(0, 0, 0, 0.72)',
-                    backdropFilter: 'blur(4px)',
                     color: '#fff',
                     fontSize: '11.5px',
                     fontWeight: 500,
@@ -644,7 +642,6 @@ export default function CoverScannerModal({ isOpen, onClose, onRecognized, onCov
                 position: 'absolute',
                 inset: 0,
                 backgroundColor: 'rgba(0, 0, 0, 0.82)',
-                backdropFilter: 'blur(3px)',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
@@ -749,7 +746,7 @@ export default function CoverScannerModal({ isOpen, onClose, onRecognized, onCov
               padding: '10px 16px',
               backgroundColor: 'rgba(229, 62, 62, 0.12)',
               borderBottom: '1px solid rgba(229, 62, 62, 0.3)',
-              color: '#fc8181',
+              color: 'var(--danger)',
               fontSize: '12.5px',
               display: 'flex',
               flexDirection: 'column',

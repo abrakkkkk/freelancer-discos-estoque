@@ -60,7 +60,6 @@ export default function ConfirmModal({
         right: 0,
         bottom: 0,
         backgroundColor: 'rgba(0, 0, 0, 0.65)',
-        backdropFilter: 'blur(5px)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',

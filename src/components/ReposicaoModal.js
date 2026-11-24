@@ -50,7 +50,6 @@ export default function ReposicaoModal({
         right: 0,
         bottom: 0,
         backgroundColor: 'rgba(0, 0, 0, 0.7)',
-        backdropFilter: 'blur(6px)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -133,7 +132,7 @@ export default function ReposicaoModal({
               style={{
                 fontSize: '11px',
                 fontWeight: 600,
-                color: '#f59e0b',
+                color: 'var(--warning)',
                 background: 'rgba(245, 158, 11, 0.12)',
                 border: '1px solid rgba(245, 158, 11, 0.28)',
                 padding: '2px 8px',

@@ -160,7 +160,7 @@ export default function MovimentacoesList({
                   <td style={{ color: 'var(--text-muted)', fontSize: '12.5px' }}>
                     {formatCaixa(item.caixa, item.loja)}
                     {!activeStore && item.loja && (
-                      <span style={{ marginLeft: '6px', color: 'var(--accent)', fontWeight: 500 }}>
+                      <span style={{ marginLeft: '6px', color: 'var(--accent-text)', fontWeight: 500 }}>
                         ({item.loja})
                       </span>
                     )}

@@ -375,7 +375,7 @@ export default function BarcodeScannerModal({ isOpen, onClose, onScan }) {
       <div className="scanner-modal-card" onClick={(e) => e.stopPropagation()}>
         <div className="scanner-modal-header">
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <FaBarcode size={20} color="var(--accent)" />
+            <FaBarcode size={20} color="var(--accent-text)" />
             <h3 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 500 }}>Leitor de Código de Barras</h3>
           </div>
           <button 
@@ -409,7 +409,7 @@ export default function BarcodeScannerModal({ isOpen, onClose, onScan }) {
 
           {erroCamera && (
             <div className="scanner-error-box">
-              <p style={{ margin: '0 0 8px 0', fontSize: '13px', color: '#fc8181' }}>{erroCamera}</p>
+              <p style={{ margin: '0 0 8px 0', fontSize: '13px', color: 'var(--danger)' }}>{erroCamera}</p>
             </div>
           )}
         </div>

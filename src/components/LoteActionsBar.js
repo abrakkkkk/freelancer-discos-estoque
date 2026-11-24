@@ -29,7 +29,7 @@ export default function LoteActionsBar({
           onChange={onToggleSelectAll}
           style={{ width: '18px', height: '18px', accentColor: 'var(--accent)', cursor: 'pointer' }}
         />
-        <FaCheckDouble size={13} color="var(--accent)" />
+        <FaCheckDouble size={13} color="var(--accent-text)" />
         Selecionar Tudo ({totalSelecionados}/{totalItens})
       </label>
 

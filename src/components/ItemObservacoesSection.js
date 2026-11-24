@@ -18,7 +18,7 @@ export default function ItemObservacoesSection({
   return (
     <div className="form-section-card" style={{ marginTop: '24px' }}>
       <div className="form-section-header">
-        <MdOutlineNotes size={18} color="var(--accent)" />
+        <MdOutlineNotes size={18} color="var(--accent-text)" />
         <h3 className="form-section-title">Observações do {tipoNome}</h3>
       </div>
 

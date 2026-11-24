@@ -526,7 +526,7 @@ export default function AcoesEmLote() {
     <div className="pageContainer">
       <div className="topHeader">
         <div className="titleGroup">
-          <MdLayers size={28} color="var(--accent)" />
+          <MdLayers size={28} color="var(--accent-text)" />
           <h1 className="page-title">Alteração em Lote</h1>
         </div>
       </div>
@@ -737,7 +737,7 @@ export default function AcoesEmLote() {
                           {caixaDestino.label}
                         </option>
                       ))}
-                      <option value="__custom__" style={{ color: 'var(--accent)', fontWeight: 500 }}>
+                      <option value="__custom__" style={{ color: 'var(--accent-text)', fontWeight: 500 }}>
                         + Digitar...
                       </option>
                     </select>

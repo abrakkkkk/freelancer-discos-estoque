@@ -681,7 +681,7 @@ function EditarExcluirContent() {
               {/* Bloco 1: Identificação da Obra */}
             <div className="form-section-card">
               <div className="form-section-header">
-                <PiMusicNotesSimple size={18} color="var(--accent)" />
+                <PiMusicNotesSimple size={18} color="var(--accent-text)" />
                 <h3 className="form-section-title">Identificação da Obra</h3>
               </div>
 
@@ -765,7 +765,7 @@ function EditarExcluirContent() {
                         style={{
                           background: 'none',
                           border: 'none',
-                          color: 'var(--accent)',
+                          color: 'var(--accent-text)',
                           cursor: 'pointer',
                           fontSize: '12px',
                         }}
@@ -829,7 +829,7 @@ function EditarExcluirContent() {
               {/* Bloco 2: Estoque & Localização */}
               <div className="form-section-card">
               <div className="form-section-header">
-                <MdInventory2 size={18} color="var(--accent)" />
+                <MdInventory2 size={18} color="var(--accent-text)" />
                 <h3 className="form-section-title">Estoque & Localização</h3>
               </div>
 
@@ -868,7 +868,7 @@ function EditarExcluirContent() {
                           style={{
                             background: 'none',
                             border: 'none',
-                            color: 'var(--accent)',
+                            color: 'var(--accent-text)',
                             cursor: 'pointer',
                             fontSize: '12px',
                             fontWeight: 500,
@@ -1030,7 +1030,7 @@ function EditarExcluirContent() {
     <div className="pageContainer">
       <div className="topHeader">
         <div className="titleGroup">
-          <TbTools size={28} color="var(--accent)" />
+          <TbTools size={28} color="var(--accent-text)" />
           <h1 className="page-title">Editar ou Excluir</h1>
         </div>
       </div>

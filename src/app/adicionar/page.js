@@ -385,7 +385,7 @@ export default function AdicionarItem() {
     <div className="pageContainer">
       <div className="topHeader">
         <div className="titleGroup">
-          <IoIosAddCircleOutline size={28} color="var(--accent)" />
+          <IoIosAddCircleOutline size={28} color="var(--accent-text)" />
           <h1 className="page-title">Adicionar Item</h1>
         </div>
       </div>
@@ -399,7 +399,7 @@ export default function AdicionarItem() {
             {/* Bloco 1: Identificação da Obra */}
           <div className="form-section-card">
             <div className="form-section-header">
-              <PiMusicNotesSimple size={18} color="var(--accent)" />
+              <PiMusicNotesSimple size={18} color="var(--accent-text)" />
               <h3 className="form-section-title">Identificação da Obra</h3>
             </div>
 
@@ -479,7 +479,7 @@ export default function AdicionarItem() {
                       style={{
                         background: 'none',
                         border: 'none',
-                        color: 'var(--accent)',
+                        color: 'var(--accent-text)',
                         cursor: 'pointer',
                         fontSize: '12px',
                       }}
@@ -549,7 +549,7 @@ export default function AdicionarItem() {
           {/* Bloco 2: Estoque & Localização */}
           <div className="form-section-card">
             <div className="form-section-header">
-              <MdInventory2 size={18} color="var(--accent)" />
+              <MdInventory2 size={18} color="var(--accent-text)" />
               <h3 className="form-section-title">Estoque & Localização</h3>
             </div>
 
@@ -593,7 +593,7 @@ export default function AdicionarItem() {
                       style={{
                         background: 'none',
                         border: 'none',
-                        color: 'var(--accent)',
+                        color: 'var(--accent-text)',
                         cursor: 'pointer',
                         fontSize: '12px',
                         fontWeight: 500,

@@ -593,7 +593,7 @@ export default function OcrScannerModal({ isOpen, onClose, onScan }) {
       <div className="scanner-modal-card" onClick={(e) => e.stopPropagation()}>
         <div className="scanner-modal-header">
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <MdDocumentScanner size={22} color="var(--accent)" />
+            <MdDocumentScanner size={22} color="var(--accent-text)" />
             <h3 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 500 }}>Leitor de Catálogo (OCR)</h3>
           </div>
           <button 
@@ -672,7 +672,7 @@ export default function OcrScannerModal({ isOpen, onClose, onScan }) {
 
           {erroCamera && !fotoPreview && (
             <div className="scanner-error-box">
-              <p style={{ margin: '0 0 8px 0', fontSize: '13px', color: '#fc8181' }}>{erroCamera}</p>
+              <p style={{ margin: '0 0 8px 0', fontSize: '13px', color: 'var(--danger)' }}>{erroCamera}</p>
             </div>
           )}
         </div>
@@ -692,7 +692,7 @@ export default function OcrScannerModal({ isOpen, onClose, onScan }) {
                 <>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                      <IoSparkles color="var(--accent)" size={16} />
+                      <IoSparkles color="var(--accent-text)" size={16} />
                       <span style={{ fontSize: '13px', fontWeight: 600, color: textoDetectado ? 'var(--text-header)' : '#f6ad55' }}>
                         {textoDetectado ? 'Código detectado — confira antes de buscar:' : 'Nenhum código reconhecido com certeza:'}
                       </span>

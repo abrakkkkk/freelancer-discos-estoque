@@ -12,12 +12,19 @@
   --font-title: var(--font-rubik), 'Rubik', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   --font-body: var(--font-roboto), 'Roboto', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   --bg-sidebar: #09090b;
-  --text-sidebar: #cdd6f4;
-  --accent: #8b1e1e; /* Deep Red */
+  --text-sidebar: #e4e4e7;
+  --accent: #8b1e1e;
   --accent-hover: #731717;
-  --success: #a6e3a1;
-  --danger: #f38ba8;
-  --warning: #f9e2af;
+  --accent-text: #e66a6a;
+  --success: #5ccf8e;
+  --success-bg: #11241a;
+  --success-border: #23513a;
+  --danger: #f07171;
+  --danger-bg: #2a1215;
+  --danger-border: #5e2329;
+  --warning: #e8b44c;
+  --warning-bg: #2a2010;
+  --warning-border: #5c4519;
   --radius-xs: 4px;
   --radius-sm: 8px;
   --radius-md: 10px;
@@ -27,7 +34,7 @@
   /* Global Colors (Dark Theme) */
   color-scheme: dark;
   --bg: #09090b;
-  --page-gradient: radial-gradient(120% 55% at 50% 0%, #2a0f12 0%, #0b0b0d 62%);
+  --page-bg: #0b0b0d;
   --text: #e4e4e7;
   --price: #ffffff;
   --card-title: #ede6dc;
@@ -52,11 +59,36 @@ html {
 html, body {
   min-height: 100%;
   font-family: var(--font-body);
-  background: var(--page-gradient) fixed;
-  background-color: #0b0b0d;
+  background: var(--page-bg);
   color: var(--text);
+  caret-color: var(--accent-text);
+  scrollbar-color: #2e2e36 var(--page-bg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-text);
+  outline-offset: 2px;
+}
+
+.disco-valor-preco,
+td,
+.price {
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }
 
 h1, h2, h3, h4, h5, h6,
@@ -71,7 +103,7 @@ h1, h2, h3, h4, h5, h6,
 }
 
 a {
-  color: var(--accent);
+  color: var(--accent-text);
   text-decoration: none;
 }
 
@@ -484,7 +516,7 @@ tbody tr:last-child td {
   transition: color 0.15s ease;
 }
 .th-sortable:hover {
-  color: var(--accent);
+  color: var(--accent-text);
 }
 .th-sortable-content {
   display: inline-flex;
@@ -536,7 +568,7 @@ tbody tr:last-child td {
 .iconBtn.delete {
   background: rgba(239, 68, 68, 0.08);
   border: 1px solid rgba(239, 68, 68, 0.2);
-  color: #f87171;
+  color: var(--danger);
 }
 
 .iconBtn.delete:hover {
@@ -622,21 +654,21 @@ tbody tr:last-child td {
   gap: 10px;
 }
 .alert-success {
-  background: rgba(166, 227, 161, 0.18);
-  color: #a6e3a1;
-  border: 1px solid rgba(166, 227, 161, 0.4);
+  background: var(--success-bg);
+  color: var(--success);
+  border: 1px solid var(--success-border);
 }
 
 .alert-error {
-  background: rgba(243, 139, 168, 0.18);
-  color: #f38ba8;
-  border: 1px solid rgba(243, 139, 168, 0.4);
+  background: var(--danger-bg);
+  color: var(--danger);
+  border: 1px solid var(--danger-border);
 }
 
 .alert-info {
-  background: rgba(197, 48, 48, 0.15);
-  color: var(--accent);
-  border: 1px solid rgba(197, 48, 48, 0.3);
+  background: #1f1416;
+  color: var(--accent-text);
+  border: 1px solid #4a2026;
 }
 
 /* ========== TABS ========== */
@@ -1031,7 +1063,7 @@ tr.lote-card.lote-card-selected {
 .bulk-custom-caixa-btn {
   background: none;
   border: none;
-  color: #f87171;
+  color: var(--danger);
   font-size: 11px;
   padding: 0 8px;
   cursor: pointer;
@@ -1059,7 +1091,7 @@ tr.lote-card.lote-card-selected {
 .lote-action-btn-danger {
   background: #241416 !important;
   border: 1px solid #521c21 !important;
-  color: #f87171 !important;
+  color: var(--danger) !important;
   font-family: var(--font-title) !important;
   font-weight: 500 !important;
   font-size: 12.5px !important;
@@ -1134,7 +1166,7 @@ tr.lote-card.lote-card-selected {
 .lote-fotos-success-alert {
   background: #143823;
   border: 1px solid #1e5433;
-  color: #34d399;
+  color: var(--success);
   padding: 12px 14px;
   border-radius: var(--radius-md);
   margin-bottom: 14px;
@@ -1429,7 +1461,7 @@ tr.lote-card.lote-card-selected {
 }
 
 .lote-fotos-item-btn-remove:hover {
-  color: #f87171;
+  color: var(--danger);
   background: rgba(239, 68, 68, 0.1);
 }
 
@@ -1519,7 +1551,6 @@ tr.lote-card.lote-card-selected {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.82);
-  backdrop-filter: blur(4px);
   z-index: 9999;
   display: flex;
   align-items: center;
@@ -1776,7 +1807,6 @@ tr.lote-card.lote-card-selected {
   align-items: center;
   justify-content: center;
   z-index: 9999;
-  backdrop-filter: blur(4px);
   padding: 16px;
 }
 
@@ -2050,7 +2080,7 @@ tr.lote-card.lote-card-selected {
   }
 
   .mobile-header-subtitle {
-    font-size: 9px;
+    font-size: 10.5px;
     font-weight: 600;
     color: #fff;
     background: var(--accent);
@@ -2158,9 +2188,7 @@ tr.lote-card.lote-card-selected {
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(18, 18, 22, 0.97) !important;
-    backdrop-filter: blur(16px) saturate(180%) !important;
-    -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+    background: var(--nav-bg) !important;
     border-top: 1px solid rgba(255, 255, 255, 0.09) !important;
     z-index: 9999;
     padding-bottom: max(env(safe-area-inset-bottom, 8px), 8px) !important;
@@ -2185,7 +2213,7 @@ tr.lote-card.lote-card-selected {
     gap: 2px;
     flex: 1;
     height: 100%;
-    color: #71717a;
+    color: #a1a1aa;
     text-decoration: none;
     -webkit-tap-highlight-color: transparent;
     transition: color 0.15s ease, transform 0.1s ease;
@@ -2203,7 +2231,7 @@ tr.lote-card.lote-card-selected {
   }
 
   .bottom-nav-label {
-    font-size: 10.5px;
+    font-size: 11px;
     font-weight: 500;
     letter-spacing: -0.1px;
     white-space: nowrap;
@@ -2214,14 +2242,8 @@ tr.lote-card.lote-card-selected {
     color: #ffffff !important;
   }
 
-  .bottom-nav-item.active .bottom-nav-icon-wrapper {
-    background: rgba(239, 68, 68, 0.18);
-    color: #ef4444;
-    transform: translateY(-1px);
-  }
-
   .bottom-nav-item.active .bottom-nav-label {
-    color: #ef4444 !important;
+    color: var(--accent-text) !important;
     font-weight: 600 !important;
   }
 
@@ -2575,7 +2597,7 @@ tr.lote-card.lote-card-selected {
   tr.card-disco-loja2 .iconBtn.delete {
     background: rgba(239, 68, 68, 0.08) !important;
     border: 1px solid rgba(239, 68, 68, 0.2) !important;
-    color: #f87171 !important;
+    color: var(--danger) !important;
   }
 
   /* Painel flutuante de lote no celular */
@@ -2854,10 +2876,6 @@ tr.lote-card.lote-card-selected {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .bottom-nav-label {
-    font-size: 9.5px;
-  }
-
   .modal {
     padding: 20px 16px;
   }
@@ -2959,7 +2977,7 @@ tr.lote-card.lote-card-selected {
 }
 .badge-match-discogs {
   background: #14281b !important;
-  color: #4ade80 !important;
+  color: var(--success) !important;
   border: 1px solid #1f4a2d !important;
   font-size: 10px !important;
   font-weight: 600 !important;
@@ -3005,6 +3023,58 @@ tr.lote-card.lote-card-selected {
   margin: 0;
   color: #fafafa;
   text-transform: none;
+}
+
+@media (max-width: 768px) {
+  .topHeader {
+    align-items: flex-start;
+  }
+}
+
+.catalog-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.catalog-skeleton-card {
+  display: flex;
+  gap: 14px;
+  padding: 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+.catalog-skeleton-cover {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
+  background: #1e1e24;
+}
+
+.catalog-skeleton-lines {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 4px;
+}
+
+.catalog-skeleton-line {
+  height: 10px;
+  width: 70%;
+  border-radius: var(--radius-xs);
+  background: #1e1e24;
+  animation: skeleton-pulse 1.4s ease-in-out infinite;
+}
+
+.catalog-skeleton-line:nth-child(2) { width: 45%; }
+.catalog-skeleton-line:nth-child(3) { width: 30%; }
+
+@keyframes skeleton-pulse {
+  50% { background: #26262d; }
 }
 
 .headerActions {
@@ -3251,7 +3321,7 @@ tr.lote-card.lote-card-selected {
 
 /* Red Loja */
 .lojaText {
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 /* Action Buttons */
@@ -3408,7 +3478,6 @@ tr.lote-card.lote-card-selected {
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.88);
-  backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -4005,7 +4074,6 @@ tr.lote-card.lote-card-selected {
 
 .ocr-floating-btn {
   background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(6px);
   border: 1px solid rgba(255, 255, 255, 0.25);
   color: #fff;
   border-radius: var(--radius-full);
@@ -4033,40 +4101,38 @@ tr.lote-card.lote-card-selected {
 .mov-header-clean {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+  align-items: flex-start;
   margin-bottom: 16px;
   gap: 6px;
 }
 
 .mov-header-clean h1 {
   font-family: var(--font-title);
-  font-size: 22px;
+  font-size: 26px;
   font-weight: 600;
-  color: #ffffff;
+  color: #fafafa;
   letter-spacing: -0.025em;
   line-height: 1.25;
   margin: 0;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .mov-header-clean h1 svg {
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
   flex-shrink: 0;
 }
 
 @media (max-width: 768px) {
   .mov-header-clean h1 {
-    font-size: 21px !important;
+    font-size: 23px !important;
+    gap: 10px;
   }
   .mov-header-clean h1 svg {
-    width: 22px !important;
-    height: 22px !important;
+    width: 26px !important;
+    height: 26px !important;
   }
 }
 
@@ -4255,13 +4321,13 @@ tr.lote-card.lote-card-selected {
 .mov-status-entrada {
   background: #14281b !important;
   border: 1px solid #1f4a2d !important;
-  color: #4ade80 !important;
+  color: var(--success) !important;
 }
 
 .mov-status-saida {
   background: #251618 !important;
   border: 1px solid #451d22 !important;
-  color: #f87171 !important;
+  color: var(--danger) !important;
 }
 
 .mov-status-exclusao {
@@ -4604,7 +4670,7 @@ tr.lote-card.lote-card-selected {
     flex: none !important;
     font-size: 12px !important;
     font-weight: 500 !important;
-    color: #fbbf24 !important;
+    color: var(--warning) !important;
     border: 1px solid #a16207 !important;
     border-radius: var(--radius-xs) !important;
     padding: 1px 6px !important;
@@ -4652,14 +4718,12 @@ tr.lote-card.lote-card-selected {
   tr.card-disco-loja2 .iconBtn.delete:focus-visible {
     background: #271416 !important;
     border-color: #421c21 !important;
-    color: #f87171 !important;
+    color: var(--danger) !important;
   }
 
   /* Barra de Navegação Inferior Sólida e Discreta */
   .bottom-nav {
-    background: #111114 !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
+    background: var(--nav-bg) !important;
     border-top: 1px solid #202026 !important;
     box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.4) !important;
   }
@@ -4667,7 +4731,7 @@ tr.lote-card.lote-card-selected {
   .bottom-nav-item.active .bottom-nav-icon-wrapper {
     background: #261617 !important;
     border: 1px solid #3d1c1e !important;
-    color: #ef4444 !important;
+    color: var(--accent-text) !important;
   }
 
   /* Formulário de Adicionar e Editar no Mobile */
@@ -5115,7 +5179,7 @@ tr.catalog-row.catalog-row-selected {
   place-items: center;
   padding: 24px;
   color: var(--text-muted);
-  background: var(--page-gradient) fixed;
+  background: var(--page-bg);
   font-size: 14px;
 }
 
@@ -5510,12 +5574,12 @@ tr.catalog-row.catalog-row-selected {
     font-size: 13px !important;
     border-radius: var(--radius-sm) !important;
     border: 1px solid #3f3f46 !important;
-    color: #ef4444 !important;
+    color: var(--danger) !important;
   }
 
   .btn-delete-item:hover {
     background: rgba(239, 68, 68, 0.1) !important;
-    border-color: #ef4444 !important;
+    border-color: var(--danger) !important;
   }
 
   /* Bloco de Busca e Filtros Desktop - Alteração em Lote */

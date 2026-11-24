@@ -115,17 +115,17 @@ export default function Movimentacoes() {
       {/* Cabeçalho minimalista */}
       <div className="mov-header-clean">
         <h1>
-          <MdHistory size={22} color="var(--accent)" />
+          <MdHistory size={22} color="var(--accent-text)" />
           Histórico de Movimentações
         </h1>
         {!loading && movimentacoes.length > 0 && (
           <div className="mov-header-counter">
             <span>
-              <strong style={{ color: '#34d399', fontWeight: 500 }}>{totalEntradas}</strong> entradas
+              <strong style={{ color: 'var(--success)', fontWeight: 500 }}>{totalEntradas}</strong> entradas
             </span>
             <span style={{ opacity: 0.35 }}>•</span>
             <span>
-              <strong style={{ color: '#f87171', fontWeight: 500 }}>{totalSaidas}</strong> saídas
+              <strong style={{ color: 'var(--danger)', fontWeight: 500 }}>{totalSaidas}</strong> saídas
             </span>
           </div>
         )}

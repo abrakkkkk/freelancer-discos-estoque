@@ -106,7 +106,7 @@ export default function ReposicaoBell({ compact = false }) {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          color: totalPendentes > 0 ? '#f59e0b' : 'var(--text-muted, #a1a1aa)',
+          color: totalPendentes > 0 ? 'var(--warning)' : 'var(--text-muted, #a1a1aa)',
           cursor: 'pointer',
           transition: 'all 0.2s ease',
           padding: 0,
@@ -125,7 +125,7 @@ export default function ReposicaoBell({ compact = false }) {
               position: 'absolute',
               top: compact ? '-3px' : '-4px',
               right: compact ? '-3px' : '-4px',
-              background: '#f59e0b',
+              background: 'var(--warning)',
               color: '#000000',
               fontSize: compact ? '9.5px' : '11px',
               fontWeight: 600,
@@ -184,7 +184,7 @@ export default function ReposicaoBell({ compact = false }) {
                     fontSize: '11px',
                     fontWeight: 600,
                     background: 'rgba(245, 158, 11, 0.16)',
-                    color: '#f59e0b',
+                    color: 'var(--warning)',
                     padding: '1px 6px',
                     borderRadius: 'var(--radius-xs)',
                     border: '1px solid rgba(245, 158, 11, 0.3)',
@@ -223,8 +223,8 @@ export default function ReposicaoBell({ compact = false }) {
                 padding: '8px 12px',
                 fontSize: '12px',
                 fontWeight: 500,
-                background: feedback.tipo === 'success' ? 'rgba(16, 185, 129, 0.15)' : 'rgba(239, 68, 68, 0.15)',
-                color: feedback.tipo === 'success' ? '#34d399' : '#f87171',
+                background: feedback.tipo === 'success' ? 'var(--success-bg)' : 'var(--danger-bg)',
+                color: feedback.tipo === 'success' ? 'var(--success)' : 'var(--danger)',
                 borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
                 display: 'flex',
                 alignItems: 'center',
@@ -330,7 +330,7 @@ export default function ReposicaoBell({ compact = false }) {
                       </div>
                       <div>
                         Reserva em:{' '}
-                        <strong style={{ color: '#fbbf24' }}>
+                        <strong style={{ color: 'var(--warning)' }}>
                           {t.reserva?.caixa ? `Caixa ${t.reserva.caixa}` : 'Inativo'}
                         </strong>
                         {t.reserva?.loja ? ` (${t.reserva.loja})` : ''}

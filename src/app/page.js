@@ -373,13 +373,13 @@ export default function CatalogoClone() {
   const renderIconeCabecalho = () => {
     switch (catalog.activeTab) {
       case CATEGORY_IDS.DISCOS:
-        return <PiVinylRecord size={34} color="var(--accent)" />;
+        return <PiVinylRecord size={34} color="var(--accent-text)" />;
       case CATEGORY_IDS.DVDS:
-        return <PiFilmStrip size={34} color="var(--accent)" />;
+        return <PiFilmStrip size={34} color="var(--accent-text)" />;
       case CATEGORY_IDS.VHS:
-        return <PiCassetteTape size={34} color="var(--accent)" />;
+        return <PiCassetteTape size={34} color="var(--accent-text)" />;
       default:
-        return <PiDisc size={34} color="var(--accent)" />;
+        return <PiDisc size={34} color="var(--accent-text)" />;
     }
   };
 
@@ -465,7 +465,18 @@ export default function CatalogoClone() {
             </button>
           </div>
         ) : catalog.loading ? (
-          <p style={{ color: 'var(--text-muted)' }}>Carregando...</p>
+          <div className="catalog-skeleton" role="status" aria-label="Carregando catálogo">
+            {Array.from({ length: 6 }, (_, i) => (
+              <div key={i} className="catalog-skeleton-card">
+                <div className="catalog-skeleton-cover" />
+                <div className="catalog-skeleton-lines">
+                  <div className="catalog-skeleton-line" />
+                  <div className="catalog-skeleton-line" />
+                  <div className="catalog-skeleton-line" />
+                </div>
+              </div>
+            ))}
+          </div>
         ) : (
           <>
             <div className="tableHeader">

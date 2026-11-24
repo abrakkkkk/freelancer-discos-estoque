@@ -269,8 +269,8 @@ export default function CatalogTable({
       return <FaSort size={12} style={{ marginLeft: '6px', opacity: 0.35 }} />;
     }
     return ordenarDirecao === 'asc' 
-      ? <FaSortUp size={12} style={{ marginLeft: '6px', color: 'var(--accent)' }} />
-      : <FaSortDown size={12} style={{ marginLeft: '6px', color: 'var(--accent)' }} />;
+      ? <FaSortUp size={12} style={{ marginLeft: '6px', color: 'var(--accent-text)' }} />
+      : <FaSortDown size={12} style={{ marginLeft: '6px', color: 'var(--accent-text)' }} />;
   };
 
   const getDisplayCaixa = (d) => {

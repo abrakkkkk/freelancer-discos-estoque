@@ -3029,6 +3029,11 @@ tr.lote-card.lote-card-selected {
   .topHeader {
     align-items: flex-start;
   }
+
+  .titleGroup svg,
+  .mov-header-clean h1 svg {
+    margin-left: 4px;
+  }
 }
 
 .catalog-skeleton {

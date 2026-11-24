@@ -4466,7 +4466,7 @@ tr.lote-card.lote-card-selected {
   }
 
   .tabsRow {
-    margin-bottom: 10px !important;
+    margin-bottom: 16px !important;
     padding-bottom: 0 !important;
     border-bottom: none !important;
   }
@@ -4845,7 +4845,7 @@ tr.lote-card.lote-card-selected {
     border-radius: var(--radius-lg) !important;
     padding: 14px 14px !important;
     margin-top: 0 !important;
-    margin-bottom: 22px !important;
+    margin-bottom: 26px !important;
   }
 
   .table-responsive tr {

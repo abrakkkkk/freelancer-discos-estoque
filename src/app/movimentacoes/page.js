@@ -115,7 +115,7 @@ export default function Movimentacoes() {
       {/* Cabeçalho minimalista */}
       <div className="mov-header-clean">
         <h1>
-          <MdHistory size={22} color="var(--accent-text)" />
+          <MdHistory size={22} color="var(--title-icon)" />
           Histórico de Movimentações
         </h1>
         {!loading && movimentacoes.length > 0 && (

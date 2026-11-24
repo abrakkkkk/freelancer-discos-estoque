@@ -526,7 +526,7 @@ export default function AcoesEmLote() {
     <div className="pageContainer">
       <div className="topHeader">
         <div className="titleGroup">
-          <MdLayers size={28} color="var(--accent-text)" />
+          <MdLayers size={28} color="var(--title-icon)" />
           <h1 className="page-title">Alteração em Lote</h1>
         </div>
       </div>

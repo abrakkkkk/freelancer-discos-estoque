@@ -373,13 +373,13 @@ export default function CatalogoClone() {
   const renderIconeCabecalho = () => {
     switch (catalog.activeTab) {
       case CATEGORY_IDS.DISCOS:
-        return <PiVinylRecord size={34} color="var(--accent-text)" />;
+        return <PiVinylRecord size={34} color="var(--title-icon)" />;
       case CATEGORY_IDS.DVDS:
-        return <PiFilmStrip size={34} color="var(--accent-text)" />;
+        return <PiFilmStrip size={34} color="var(--title-icon)" />;
       case CATEGORY_IDS.VHS:
-        return <PiCassetteTape size={34} color="var(--accent-text)" />;
+        return <PiCassetteTape size={34} color="var(--title-icon)" />;
       default:
-        return <PiDisc size={34} color="var(--accent-text)" />;
+        return <PiDisc size={34} color="var(--title-icon)" />;
     }
   };
 

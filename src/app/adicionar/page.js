@@ -385,7 +385,7 @@ export default function AdicionarItem() {
     <div className="pageContainer">
       <div className="topHeader">
         <div className="titleGroup">
-          <IoIosAddCircleOutline size={28} color="var(--accent-text)" />
+          <IoIosAddCircleOutline size={28} color="var(--title-icon)" />
           <h1 className="page-title">Adicionar Item</h1>
         </div>
       </div>

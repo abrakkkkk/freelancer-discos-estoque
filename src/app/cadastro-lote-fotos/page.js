@@ -425,7 +425,7 @@ export default function CadastroLoteFotos() {
       {/* Top Header */}
       <div className="lote-fotos-top-header">
         <div className="titleGroup" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <FaCamera size={22} color="var(--accent-text)" />
+          <FaCamera size={22} color="var(--title-icon)" />
           <h1 className="page-title" style={{ margin: 0, fontSize: '20px', letterSpacing: '-0.025em' }}>
             Cadastro por Fotos
           </h1>

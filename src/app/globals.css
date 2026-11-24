@@ -16,6 +16,7 @@
   --accent: #8b1e1e;
   --accent-hover: #731717;
   --accent-text: #e66a6a;
+  --title-icon: #dc2626;
   --success: #5ccf8e;
   --success-bg: #11241a;
   --success-border: #23513a;
@@ -1143,6 +1144,22 @@ tr.lote-card.lote-card-selected {
   width: 100%;
 }
 
+@media (min-width: 540px) {
+  .lote-fotos-top-header {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 12px;
+  }
+
+  .lote-fotos-top-header::before {
+    content: '';
+  }
+
+  .lote-fotos-back-btn {
+    justify-self: end;
+  }
+}
+
 .lote-fotos-back-btn {
   background: #18181c !important;
   border: 1px solid #282830 !important;
@@ -2143,7 +2160,7 @@ tr.lote-card.lote-card-selected {
 
   .topHeader {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: 16px;
     margin-bottom: 16px;
   }
@@ -2151,6 +2168,8 @@ tr.lote-card.lote-card-selected {
   .titleGroup {
     display: flex;
     align-items: center;
+    justify-content: center;
+    text-align: center;
     gap: 10px;
   }
 
@@ -2997,13 +3016,38 @@ tr.lote-card.lote-card-selected {
 .topHeader {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   margin-bottom: 24px;
+}
+
+@media (min-width: 1200px) {
+  .topHeader:has(.headerActions) {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 16px;
+  }
+
+  .topHeader:has(.headerActions)::before {
+    content: '';
+  }
+
+  .topHeader:has(.headerActions) .headerActions {
+    justify-self: end;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1199px) {
+  .topHeader:has(.headerActions) {
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
 }
 
 .titleGroup {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 12px;
 }
 
@@ -3011,6 +3055,7 @@ tr.lote-card.lote-card-selected {
   width: 30px;
   height: 30px;
   flex-shrink: 0;
+  color: var(--title-icon);
 }
 
 .titleGroup h1,
@@ -3027,12 +3072,7 @@ tr.lote-card.lote-card-selected {
 
 @media (max-width: 768px) {
   .topHeader {
-    align-items: flex-start;
-  }
-
-  .titleGroup svg,
-  .mov-header-clean h1 svg {
-    margin-left: 4px;
+    align-items: center;
   }
 }
 
@@ -4106,7 +4146,8 @@ tr.lote-card.lote-card-selected {
 .mov-header-clean {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  text-align: center;
   margin-bottom: 16px;
   gap: 6px;
 }
@@ -4121,6 +4162,7 @@ tr.lote-card.lote-card-selected {
   margin: 0;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 12px;
 }
 
@@ -4128,6 +4170,7 @@ tr.lote-card.lote-card-selected {
   width: 30px;
   height: 30px;
   flex-shrink: 0;
+  color: var(--title-icon);
 }
 
 @media (max-width: 768px) {

@@ -4466,7 +4466,7 @@ tr.lote-card.lote-card-selected {
   }
 
   .tabsRow {
-    margin-bottom: 14px !important;
+    margin-bottom: 6px !important;
     padding-bottom: 0 !important;
     border-bottom: none !important;
   }
@@ -4570,6 +4570,7 @@ tr.lote-card.lote-card-selected {
     font-weight: 500 !important;
     font-family: var(--font-body) !important;
     padding: 2px 4px 8px 4px !important;
+    margin-bottom: 0 !important;
   }
 
   /* Cards de Disco Sólidos e Opacos */
@@ -4843,7 +4844,8 @@ tr.lote-card.lote-card-selected {
     border: 1px solid #232328 !important;
     border-radius: var(--radius-lg) !important;
     padding: 14px 14px !important;
-    margin-bottom: 14px !important;
+    margin-top: 0 !important;
+    margin-bottom: 22px !important;
   }
 
   .table-responsive tr {

@@ -10,11 +10,15 @@ import {
   IoFlash,
   IoFlashOutline,
   IoExpandOutline,
-  IoContractOutline
+  IoContractOutline,
+  IoCheckmark
 } from 'react-icons/io5';
 
-export default function CoverScannerModal({ isOpen, onClose, onRecognized, onCoverRecognized, title = 'Reconhecer Capa' }) {
+export default function CoverScannerModal({ isOpen, onClose, onRecognized, onCoverRecognized, onOwnPhoto, title = 'Reconhecer Capa' }) {
   const handleRecognizedCallback = onRecognized || onCoverRecognized;
+  const modoPadrao = handleRecognizedCallback ? 'reconhecer' : 'propria';
+  const [modo, setModo] = useState(modoPadrao);
+  const fotoPropria = modo === 'propria';
   const [stream, setStream] = useState(null);
   const [erro, setErro] = useState(null);
   const [processando, setProcessando] = useState(false);
@@ -217,7 +221,7 @@ export default function CoverScannerModal({ isOpen, onClose, onRecognized, onCov
     const cropW = manterQuadroCompleto ? srcW : cropSize;
     const cropH = manterQuadroCompleto ? srcH : cropSize;
 
-    const maxDimension = manterQuadroCompleto ? 1024 : 768;
+    const maxDimension = fotoPropria ? 1200 : manterQuadroCompleto ? 1024 : 768;
     const scale = Math.min(1, maxDimension / Math.max(cropW, cropH));
     const targetWidth = Math.max(1, Math.round(cropW * scale));
     const targetHeight = Math.max(1, Math.round(cropH * scale));
@@ -321,7 +325,7 @@ export default function CoverScannerModal({ isOpen, onClose, onRecognized, onCov
       const base64 = res.base64;
 
       setFotoPreview(base64);
-      enviarParaReconhecimento(base64);
+      if (!fotoPropria) enviarParaReconhecimento(base64);
     } catch (err) {
       setErro('Erro ao capturar frame da câmera.');
     }
@@ -353,7 +357,8 @@ export default function CoverScannerModal({ isOpen, onClose, onRecognized, onCov
       try {
         const { base64 } = recortarEComprimir(img);
         setFotoPreview(base64);
-        void enviarParaReconhecimento(base64);
+        if (fotoPropria) setProcessando(false);
+        else void enviarParaReconhecimento(base64);
       } catch (err) {
         setProcessando(false);
         setErro('Não foi possível preparar essa imagem. Tente outro arquivo ou tire uma foto.');
@@ -367,6 +372,28 @@ export default function CoverScannerModal({ isOpen, onClose, onRecognized, onCov
     img.src = imageUrl;
   };
 
+  const usarFotoPropria = async () => {
+    if (!fotoPreview || processando) return;
+    setProcessando(true);
+    setErro(null);
+    try {
+      await onOwnPhoto(fotoPreview);
+      stopCamera();
+      fecharScanner();
+    } catch (err) {
+      setErro(err.message || 'Não foi possível salvar a foto. Tente novamente.');
+    } finally {
+      setProcessando(false);
+    }
+  };
+
+  const trocarModo = (novoModo) => {
+    if (processando) return;
+    setModo(novoModo);
+    setFotoPreview(null);
+    setErro(null);
+  };
+
   const tentarNovamente = () => {
     setFotoPreview(null);
     setErro(null);
@@ -375,6 +402,7 @@ export default function CoverScannerModal({ isOpen, onClose, onRecognized, onCov
 
   useEffect(() => {
     if (isOpen) {
+      setModo(modoPadrao);
       setFotoPreview(null);
       setErro(null);
       setProcessando(false);
@@ -437,7 +465,7 @@ export default function CoverScannerModal({ isOpen, onClose, onRecognized, onCov
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <IoCamera size={20} color="var(--accent, #e53e3e)" />
             <h2 style={{ fontSize: '16px', fontWeight: 500, color: '#fff', margin: 0 }}>
-              {title}
+              {fotoPropria ? 'Foto da capa' : title}
             </h2>
           </div>
           <button
@@ -460,6 +488,46 @@ export default function CoverScannerModal({ isOpen, onClose, onRecognized, onCov
             <IoClose size={24} />
           </button>
         </div>
+
+        {handleRecognizedCallback && onOwnPhoto && (
+          <div
+            role="tablist"
+            aria-label="Modo da câmera"
+            style={{
+              display: 'flex',
+              gap: '6px',
+              padding: '8px 16px',
+              borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
+            }}
+          >
+            {[
+              { id: 'reconhecer', rotulo: 'Reconhecer capa' },
+              { id: 'propria', rotulo: 'Foto própria' }
+            ].map(({ id, rotulo }) => (
+              <button
+                key={id}
+                type="button"
+                role="tab"
+                aria-selected={modo === id}
+                onClick={() => trocarModo(id)}
+                disabled={processando}
+                style={{
+                  flex: 1,
+                  minHeight: '36px',
+                  borderRadius: 'var(--radius-sm)',
+                  border: modo === id ? '1px solid #e53e3e' : '1px solid rgba(255, 255, 255, 0.15)',
+                  background: modo === id ? 'rgba(229, 62, 62, 0.2)' : 'rgba(255, 255, 255, 0.05)',
+                  color: '#fff',
+                  fontSize: '13px',
+                  fontWeight: 500,
+                  cursor: 'pointer'
+                }}
+              >
+                {rotulo}
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* Visor / Área da Câmera */}
         <div
@@ -661,11 +729,13 @@ export default function CoverScannerModal({ isOpen, onClose, onRecognized, onCov
                 }}
               />
               <span style={{ fontSize: '14px', fontWeight: 500, color: '#fff' }}>
-                Reconhecendo arte visual...
+                {fotoPropria ? 'Salvando foto...' : 'Reconhecendo arte visual...'}
               </span>
-              <span style={{ fontSize: '11px', color: 'var(--text-muted, #a1a1aa)' }}>
-                Identificando capa e obra fonográfica
-              </span>
+              {!fotoPropria && (
+                <span style={{ fontSize: '11px', color: 'var(--text-muted, #a1a1aa)' }}>
+                  Identificando capa e obra fonográfica
+                </span>
+              )}
             </div>
           )}
         </div>
@@ -774,6 +844,25 @@ export default function CoverScannerModal({ isOpen, onClose, onRecognized, onCov
         >
           {fotoPreview && !processando ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}>
+              {fotoPropria && (
+                <button
+                  type="button"
+                  onClick={usarFotoPropria}
+                  className="btn btn-primary"
+                  style={{
+                    width: '100%',
+                    minHeight: '46px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px',
+                    fontSize: '14px',
+                    fontWeight: 500
+                  }}
+                >
+                  <IoCheckmark size={18} /> Usar esta foto
+                </button>
+              )}
               <button
                 type="button"
                 onClick={tentarNovamente}

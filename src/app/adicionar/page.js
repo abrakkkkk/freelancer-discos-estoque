@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import { IoIosAddCircleOutline } from 'react-icons/io';
 import { MdInventory2 } from 'react-icons/md';
 import { PiMusicNotesSimple } from 'react-icons/pi';
+import { IoCamera } from 'react-icons/io5';
 
 import StatusSwitch from '@/components/StatusSwitch';
 import CategoryTabs from '@/components/CategoryTabs';
@@ -18,6 +19,7 @@ import { useItemForm } from '@/hooks/useItemForm';
 import { useDiscogsSearch } from '@/hooks/useDiscogsSearch';
 import { itemService } from '@/services/itemService';
 import { movimentacaoService } from '@/services/movimentacaoService';
+import { uploadCapaPropria } from '@/services/capaService';
 import { useStore } from '@/contexts/StoreContext';
 import { CATEGORY_IDS, STORE_OPTIONS, SEM_CAPA } from '@/constants/config';
 import { formatDiscogsQuery, normalizeCaixa } from '@/utils/stringUtils';
@@ -160,6 +162,12 @@ export default function AdicionarItem() {
 
     setShowDiscogsDropdown(false);
     setQueryDiscogs('');
+  };
+
+  const handleOwnPhoto = async (base64) => {
+    const url = await uploadCapaPropria(base64, activeTab);
+    setSelectedCover({ cover: url, thumb: url });
+    setMensagem({ tipo: 'success', texto: 'Foto da capa adicionada.' });
   };
 
   const handleCoverRecognized = async ({ artista, titulo, ano, preco, confianca }) => {
@@ -421,6 +429,14 @@ export default function AdicionarItem() {
                 onOpenBarcodeScanner={() => setIsScannerOpen(true)}
                 onOpenOcrScanner={() => setIsOcrOpen(true)}
               />
+            )}
+
+            {!suportaDiscogs && (
+              <div className="discogs-scanners-row">
+                <button type="button" onClick={() => setIsCoverScannerOpen(true)} className="discogs-scanner-chip">
+                  <IoCamera size={15} /> {selectedCover ? 'Trocar foto da capa' : 'Foto da capa'}
+                </button>
+              </div>
             )}
 
             <div
@@ -709,7 +725,8 @@ export default function AdicionarItem() {
       <CoverScannerModal
         isOpen={isCoverScannerOpen}
         onClose={() => setIsCoverScannerOpen(false)}
-        onRecognized={handleCoverRecognized}
+        onRecognized={suportaDiscogs ? handleCoverRecognized : undefined}
+        onOwnPhoto={handleOwnPhoto}
       />
 
       <BarcodeScannerModal

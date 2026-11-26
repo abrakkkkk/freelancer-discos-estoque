@@ -7,11 +7,13 @@ import { TbTools } from 'react-icons/tb';
 import { FaMagnifyingGlass, FaBarcode } from 'react-icons/fa6';
 import { MdDocumentScanner, MdInventory2 } from 'react-icons/md';
 import { PiMusicNotesSimple } from 'react-icons/pi';
+import { IoCamera } from 'react-icons/io5';
 
 import { supabase } from '@/lib/supabase';
 import { useCaixas } from '@/hooks/useCaixas';
 import { itemService } from '@/services/itemService';
 import { movimentacaoService } from '@/services/movimentacaoService';
+import { uploadCapaPropria } from '@/services/capaService';
 import { useItemForm } from '@/hooks/useItemForm';
 import { useDiscogsSearch } from '@/hooks/useDiscogsSearch';
 import { useUndo } from '@/contexts/UndoContext';
@@ -284,6 +286,12 @@ function EditarExcluirContent() {
         buscar(codigoTexto);
       }
     }
+  };
+
+  const handleOwnPhoto = async (base64) => {
+    const url = await uploadCapaPropria(base64, tipo);
+    setSelectedCover({ cover: url, thumb: url });
+    setMensagem({ tipo: 'success', texto: 'Foto da capa adicionada. Salve para gravar.' });
   };
 
   const handleCoverRecognized = ({ artista, titulo, ano, preco, coverUrl, confianca }) => {
@@ -649,7 +657,7 @@ function EditarExcluirContent() {
             className="titleGroup"
             style={{ flex: 1, minWidth: '200px', display: 'flex', alignItems: 'center', gap: '12px' }}
           >
-            {suportaDiscogs && (
+            {(suportaDiscogs || selectedCover || itemEditando?.capa_url) && (
               <AlbumCover
                 artista={form.artista}
                 titulo={form.titulo}
@@ -709,6 +717,14 @@ function EditarExcluirContent() {
                     setIsOcrOpen(true);
                   }}
                 />
+              )}
+
+              {!suportaDiscogs && (
+                <div className="discogs-scanners-row">
+                  <button type="button" onClick={() => setIsCoverScannerOpen(true)} className="discogs-scanner-chip">
+                    <IoCamera size={15} /> {selectedCover ? 'Trocar foto da capa' : 'Foto da capa'}
+                  </button>
+                </div>
               )}
 
               <div
@@ -1020,7 +1036,8 @@ function EditarExcluirContent() {
         <CoverScannerModal
           isOpen={isCoverScannerOpen}
           onClose={() => setIsCoverScannerOpen(false)}
-          onCoverRecognized={handleCoverRecognized}
+          onCoverRecognized={suportaDiscogs ? handleCoverRecognized : undefined}
+          onOwnPhoto={handleOwnPhoto}
         />
       </div>
     );

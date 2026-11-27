@@ -28,6 +28,7 @@ import ConfirmModal from '@/components/ConfirmModal';
 import AlbumCover, { setAlbumCoverCache, clearAlbumCoverCache } from '@/components/AlbumCover';
 import DiscogsSearchSection from '@/components/DiscogsSearchSection';
 import PrensagemSelector from '@/components/PrensagemSelector';
+import CondicaoSelector from '@/components/CondicaoSelector';
 import ItemObservacoesSection from '@/components/ItemObservacoesSection';
 
 import { CATEGORY_IDS, STORE_OPTIONS } from '@/constants/config';
@@ -356,6 +357,7 @@ function EditarExcluirContent() {
       preco: formatarMoeda(item.preco),
       loja: item.loja || '',
       ativo: item.ativo !== false,
+      condicoes: item.condicoes || [],
     });
     setMensagem(null);
     setTela('edicao');
@@ -411,6 +413,7 @@ function EditarExcluirContent() {
       ano: form.ano?.trim() || null,
       ativo: form.ativo !== false,
       capa_url: urlCapaEscolhida ?? null,
+      condicoes: form.condicoes?.length ? form.condicoes : null,
     };
 
     if (temArtista) {
@@ -840,6 +843,12 @@ function EditarExcluirContent() {
                   onAnoPrensagemChange={setAnoPrensagem}
                 />
               )}
+
+              <CondicaoSelector
+                condicoes={form.condicoes || []}
+                ehDisco={tipo === CATEGORY_IDS.DISCOS}
+                onChange={(condicoes) => setForm((prev) => ({ ...prev, condicoes }))}
+              />
             </div>
 
               {/* Bloco 2: Estoque & Localização */}

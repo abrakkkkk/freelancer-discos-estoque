@@ -124,7 +124,7 @@ export const itemService = {
   } = {}) {
     const isVideo = isVideoCategory(category);
 
-    let colunas = 'id, titulo, preco, ativo, loja, observacao, caixa, ano, capa_url';
+    let colunas = 'id, titulo, preco, ativo, loja, observacao, caixa, ano, capa_url, condicoes';
     if (!isVideo) colunas += ', artista';
 
     let query = supabase.from(category).select(colunas, { count: 'exact' }).eq('deletado', false);

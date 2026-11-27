@@ -12,6 +12,7 @@ import CategoryTabs from '@/components/CategoryTabs';
 import AlertMessage from '@/components/AlertMessage';
 import DiscogsSearchSection from '@/components/DiscogsSearchSection';
 import PrensagemSelector from '@/components/PrensagemSelector';
+import CondicaoSelector from '@/components/CondicaoSelector';
 
 import { useMobileLeaveConfirm } from '@/hooks/useMobileLeaveConfirm';
 import { useCaixas } from '@/hooks/useCaixas';
@@ -37,6 +38,7 @@ const FORMULARIO_INICIAL = {
   preco: '',
   observacao: '',
   ativo: true,
+  condicoes: [],
 };
 
 export default function AdicionarItem() {
@@ -287,6 +289,7 @@ export default function AdicionarItem() {
         ano: form.ano?.trim() || null,
         ativo: form.ativo !== false,
         capa_url: capaEscolhida,
+        condicoes: form.condicoes?.length ? form.condicoes : null,
       };
 
       if (!isVideo) {
@@ -560,6 +563,12 @@ export default function AdicionarItem() {
                 collapsible
               />
             )}
+
+            <CondicaoSelector
+              condicoes={form.condicoes}
+              ehDisco={activeTab === CATEGORY_IDS.DISCOS}
+              onChange={(condicoes) => setForm((prev) => ({ ...prev, condicoes }))}
+            />
           </div>
 
           {/* Bloco 2: Estoque & Localização */}
